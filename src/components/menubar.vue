@@ -30,7 +30,7 @@
       <div class="flex" style="width: 10vw">
         <div class="time_div flex_item flex">
           <div class="tools flex flex_item" style="">
-            <div class="flex_item">
+            <div class="flex_item flex_item_left">
               <div class="tool_item" @click="screen">
                 <el-icon>
                   <full-screen />
@@ -38,15 +38,15 @@
                 <span>{{ screenText }}</span>
               </div>
             </div>
-            <div class="flex_item">
+            <!-- <div class="flex_item">
               <div class="tool_item" @click="showSettingDialog">
                 <el-icon>
                   <setting />
                 </el-icon>
                 <span>配置</span>
               </div>
-            </div>
-            <div class="flex_item">
+            </div> -->
+            <div class="flex_item flex_item_left">
               <div class="tool_item" @click="exit">
                 <el-icon>
                   <switch-button />
