@@ -38,6 +38,9 @@ dependencies:
   vue3-seamless-scroll:
     specifier: ^1.2.0
     version: 1.2.0
+  vuex:
+    specifier: ^4.0.2
+    version: 4.0.2(vue@3.3.8)
 
 devDependencies:
   '@vitejs/plugin-vue':
@@ -815,6 +818,15 @@ packages:
       '@vue/runtime-dom': 3.3.8
       '@vue/server-renderer': 3.3.8(vue@3.3.8)
       '@vue/shared': 3.3.8
+    dev: false
+
+  /vuex@4.0.2(vue@3.3.8):
+    resolution: {integrity: sha512-M6r8uxELjZIK8kTKDGgZTYX/ahzblnzC4isU1tpmEuOIIKmV+TRdc+H4s8ds2NuZ7wpUTdGRzJRtoj+lI+pc0Q==}
+    peerDependencies:
+      vue: ^3.0.2
+    dependencies:
+      '@vue/devtools-api': 6.5.1
+      vue: 3.3.8
     dev: false
 
   /zrender@5.4.4:
