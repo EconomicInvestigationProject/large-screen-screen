@@ -126,42 +126,42 @@ const baseinfo = reactive({
 //实时数据
 const newsdatas = reactive([
   {
-    title: "北门口栅栏抬起",
+    title: "张三进入小区",
     date: "15:11",
     status: "已完成",
   },
   {
-    title: "临时车辆入住",
+    title: "李四临时出入",
     date: "15:11",
     status: "待处理",
   },
   {
-    title: "临时车辆离开",
+    title: "张三离开",
     date: "15:11",
     status: "待处理",
   },
   {
-    title: "南门口有车进人",
+    title: "南门口有异常人员进人",
     date: "15:11",
     status: "待处理",
   },
   {
-    title: "北门口栅栏抬起",
+    title: "李四离开小区",
     date: "15:11",
     status: "已完成",
   },
   {
-    title: "临时车辆入住",
+    title: "王佳乐重点人员进入小区",
     date: "15:11",
     status: "待处理",
   },
   {
-    title: "临时车辆离开",
+    title: "王五搬家",
     date: "15:11",
     status: "待处理",
   },
   {
-    title: "南门口有车进人",
+    title: "王佳乐重点人员离开小区",
     date: "15:11",
     status: "待处理",
   },
