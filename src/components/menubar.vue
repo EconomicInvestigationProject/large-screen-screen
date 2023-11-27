@@ -12,7 +12,7 @@
       <div class="menus flex_item flex">
         <div class="flex_item"></div>
         <div class="menus_div flex">
-          <div class="flex_item" v-for="(item, index) in menus">
+          <div class="flex_item" v-for="item in menus" :key="item.sid">
             <div
               v-if="item.isShow"
               :class="[
@@ -79,7 +79,7 @@ const menus = reactive([
   },
   {
     sid: "Device",
-    name: "设备监控",
+    name: "可视化数据",
     path: "/Device",
     isShow: true,
   },
@@ -93,6 +93,12 @@ const menus = reactive([
     sid: "Car",
     name: "人员信息",
     path: "/Car",
+    isShow: true,
+  },
+  {
+    sid: "FlylineDiagram",
+    name: "可视化地图数据",
+    path: "/FlylineDiagram",
     isShow: true,
   },
 ]);

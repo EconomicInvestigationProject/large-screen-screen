@@ -21,7 +21,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 9vw;
+  width: 12vw;
 }
 
 .dark .title .time {
@@ -52,7 +52,7 @@
 }
 .dark .title .menus_div {
   height: 6vh;
-  width: 20vw;
+  width: 35vw;
 }
 .dark .title .menus .menu_item {
   height: 3vh;

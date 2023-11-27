@@ -7,8 +7,10 @@ import * as ElIcons from "@element-plus/icons-vue";
 import zhCn from "element-plus/es/locale/lang/zh-cn";
 
 import App from "@/App.vue";
-// 引入网络请求
-import axios from "axios";
+
+import DataVVue3 from '@kjgl77/datav-vue3'
+
+
 // 引入echarts
 import * as echarts from "echarts";
 // 路由引入
@@ -49,5 +51,8 @@ for (const name in ElIcons) {
 app.use(ElementPlus, {
   locale: zhCn
 });
+
+//挂在dataV
+app.use(DataVVue3)
 
 app.mount("#app");

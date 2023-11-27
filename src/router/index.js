@@ -24,6 +24,11 @@ const routes = [
     name: "Car",
     path: "/Car",
     component: () => import("@/views/Car.vue")
+  },
+  {
+    name: "FlylineDiagram",
+    path: "/FlylineDiagram",
+    component: () => import("@/views/FlylineDiagram.vue")
   }
 ];
 const router = createRouter({
