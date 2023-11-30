@@ -10,7 +10,6 @@ import App from "@/App.vue";
 
 import DataVVue3 from '@kjgl77/datav-vue3'
 
-
 // 引入echarts
 import * as echarts from "echarts";
 // 路由引入
@@ -54,5 +53,6 @@ app.use(ElementPlus, {
 
 //挂在dataV
 app.use(DataVVue3)
+
 
 app.mount("#app");

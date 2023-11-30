@@ -1,5 +1,5 @@
 <template>
-  <div class="flex title">
+  <div class="flex title" style="z-index: 999999999">
     <div style="width: 30vw" class="flex">
       <div class="header">智慧社区监控平台</div>
       <div class="time_div">
@@ -38,14 +38,6 @@
                 <span>{{ screenText }}</span>
               </div>
             </div>
-            <!-- <div class="flex_item">
-              <div class="tool_item" @click="showSettingDialog">
-                <el-icon>
-                  <setting />
-                </el-icon>
-                <span>配置</span>
-              </div>
-            </div> -->
             <div class="flex_item flex_item_left">
               <div class="tool_item" @click="exit">
                 <el-icon>
@@ -63,10 +55,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, reactive, defineEmits } from "vue";
-import { onBeforeRouteUpdate, useRouter, useRoute } from "vue-router";
-
-import config from "@/config/index.js";
-import utils from "@/utils/utils.js";
+import { useRouter, useRoute } from "vue-router";
 
 const emit = defineEmits(["showSettingDialog"]);
 
@@ -81,24 +70,6 @@ const menus = reactive([
     sid: "Device",
     name: "可视化数据",
     path: "/Device",
-    isShow: true,
-  },
-  {
-    sid: "Video",
-    name: "视频监控",
-    path: "/Video",
-    isShow: true,
-  },
-  {
-    sid: "Car",
-    name: "人员信息",
-    path: "/Car",
-    isShow: true,
-  },
-  {
-    sid: "FlylineDiagram",
-    name: "可视化地图数据",
-    path: "/FlylineDiagram",
     isShow: true,
   },
 ]);

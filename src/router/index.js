@@ -15,21 +15,6 @@ const routes = [
     path: "/Device",
     component: () => import("@/views/Device.vue")
   },
-  {
-    name: "Video",
-    path: "/Video",
-    component: () => import("@/views/Video.vue")
-  },
-  {
-    name: "Car",
-    path: "/Car",
-    component: () => import("@/views/Car.vue")
-  },
-  {
-    name: "FlylineDiagram",
-    path: "/FlylineDiagram",
-    component: () => import("@/views/FlylineDiagram.vue")
-  }
 ];
 const router = createRouter({
   //内部提供了 history 模式的实现。为了简单起见，我们在这里使用 hash 模式。

@@ -1,15 +1,15 @@
 <template>
-  <div class="container" :class="curTheme">
-    <menubar @showSettingDialog="settingshow = true"></menubar>
+    <div class="container" :class="curTheme">
+      <menubar @showSettingDialog="settingshow = true"></menubar>
 
-    <router-view></router-view>
+      <router-view></router-view>
 
-    <settingdialog
-      v-if="settingshow"
-      @saved="refreshConfig"
-      @hideSetting="hideSetting"
-    ></settingdialog>
-  </div>
+      <settingdialog
+        v-if="settingshow"
+        @saved="refreshConfig"
+        @hideSetting="hideSetting"
+      ></settingdialog>
+    </div>
 </template>
 <script setup>
 import { ref, onMounted, onBeforeUnmount, reactive } from "vue";
