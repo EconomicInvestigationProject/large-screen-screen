@@ -44,7 +44,7 @@
       </div>
       <div class="flylineDiagram_content">
         <!-- <dv-flyline-chart :config="config4" style="width: 100%; height: 100%" /> -->
-        <v-chart-map></v-chart-map>
+        <!-- <v-chart-map></v-chart-map> -->
       </div>
       <div class="flylineDiagram_right">
         <dv-charts
@@ -65,8 +65,8 @@
 </template>
 
 <script  setup>
-import { reactive } from "vue";
-
+import { onMounted, reactive } from "vue";
+import { faceList } from "../api/face";
 const config1 = reactive({
   data: [
     {
@@ -131,6 +131,14 @@ const option2 = {
     },
   ],
 };
+
+const getList = async () => {
+  const list = await faceList();
+  console.log("list", list);
+};
+onMounted(() => {
+  getList();
+});
 </script>
 
 

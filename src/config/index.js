@@ -22,7 +22,7 @@ const EnvConfig = {
       "https://www.fastmock.site/mock/b6c70fa8747a78b3dfd8acdde935d3f3/api"
   }
 };
-
+const imgUrl = "http://218.56.104.54:9001/";
 export default {
   env, //开发环境
   mock: false, //是否启用mock
@@ -274,5 +274,6 @@ export default {
       config = JSON.parse(config);
     }
     return config;
-  }
+  },
+  imgUrl
 };

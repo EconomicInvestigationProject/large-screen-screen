@@ -53,8 +53,7 @@ export default {
           this.$api.login(this.user).then((res) => {
             // 保存数据
             this.$store.commit('saveUserInfo', res)
-            console.log('login res', res)
-            this.$router.push('/welcome')
+            this.$router.push('/index')
           })
         } else {
           return false
