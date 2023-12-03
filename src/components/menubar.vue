@@ -60,18 +60,18 @@ import { useRouter, useRoute } from "vue-router";
 const emit = defineEmits(["showSettingDialog"]);
 
 const menus = reactive([
-  {
-    sid: "Index",
-    name: "综合监控",
-    path: "/Index",
-    isShow: true,
-  },
-  {
-    sid: "Device",
-    name: "可视化数据",
-    path: "/Device",
-    isShow: true,
-  },
+  // {
+  //   sid: "Index",
+  //   name: "综合监控",
+  //   path: "/Index",
+  //   isShow: true,
+  // },
+  // {
+  //   sid: "Device",
+  //   name: "可视化数据",
+  //   path: "/Device",
+  //   isShow: true,
+  // },
 ]);
 
 const showSettingDialog = () => {

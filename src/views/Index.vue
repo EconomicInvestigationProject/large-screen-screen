@@ -1,72 +1,52 @@
 <template>
-  <el-row :gutter="20" style="margin: 0px; padding: 0; margin-top: 1vh">
-    <div class="flylineDiagram">
-      <div class="flylineDiagram_left">
-        <div style="width: 100%; height: 80%; flex: 1">
-          <dv-button
-            :border="Border3"
-            color="#fff"
-            font-color="#fff"
-            style="width: 100px"
-            >智慧水利</dv-button
-          >
-          <dv-capsule-chart
-            :config="config1"
-            style="width: 100%; height: 70%"
-          />
-        </div>
-        <div style="width: 100%; height: 80%; flex: 1">
-          <dv-button
-            :border="Border3"
-            color="#fff"
-            font-color="#fff"
-            style="width: 100px"
-            >智慧水利</dv-button
-          >
-          <dv-capsule-chart
-            :config="config1"
-            style="width: 100%; height: 70%"
-          />
-        </div>
-        <div style="width: 100%; height: 80%; flex: 1">
-          <dv-button
-            :border="Border3"
-            color="#fff"
-            font-color="#fff"
-            style="width: 100px"
-            >智慧水利</dv-button
-          >
-          <dv-capsule-chart
-            :config="config1"
-            style="width: 100%; height: 70%"
-          />
-        </div>
+  <div class="flylineDiagram">
+    <div class="flylineDiagram_left">
+      <div style="width: 100%; height: 80%; flex: 1">
+        <dv-button
+          :border="Border3"
+          color="#fff"
+          font-color="#fff"
+          style="width: 100px"
+          >智慧水利</dv-button
+        >
+        <dv-capsule-chart :config="config1" style="width: 100%; height: 70%" />
       </div>
-      <div class="flylineDiagram_content">
-        <!-- <dv-flyline-chart :config="config4" style="width: 100%; height: 100%" /> -->
-        <!-- <v-chart-map></v-chart-map> -->
+      <div style="width: 100%; height: 80%; flex: 1">
+        <dv-button
+          :border="Border3"
+          color="#fff"
+          font-color="#fff"
+          style="width: 100px"
+          >智慧水利</dv-button
+        >
+        <dv-capsule-chart :config="config1" style="width: 100%; height: 70%" />
       </div>
-      <div class="flylineDiagram_right">
-        <dv-charts
-          :option="option2"
-          style="width: 100%; height: 100%; flex: 1"
-        />
-        <dv-charts
-          :option="option2"
-          style="width: 100%; height: 100%; flex: 1"
-        />
-        <dv-charts
-          :option="option1"
-          style="width: 100%; height: 100%; flex: 1"
-        />
+      <div style="width: 100%; height: 80%; flex: 1">
+        <dv-button
+          :border="Border3"
+          color="#fff"
+          font-color="#fff"
+          style="width: 100px"
+          >智慧水利</dv-button
+        >
+        <dv-capsule-chart :config="config1" style="width: 100%; height: 70%" />
       </div>
     </div>
-  </el-row>
+    <div class="flylineDiagram_content">
+      <Map></Map>
+    </div>
+    <div class="flylineDiagram_right">
+      <v-chart :option="option1" class="flex-1"></v-chart>
+      <v-chart :option="option2" class="flex-1"></v-chart>
+      <v-chart :option="option3" class="flex-1"></v-chart>
+    </div>
+  </div>
 </template>
 
 <script  setup>
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { faceList } from "../api/face";
+import Map from "../views/Map.vue";
 const config1 = reactive({
   data: [
     {
@@ -92,38 +72,51 @@ const config1 = reactive({
   ],
 });
 
-const option1 = {
+const option1 = ref({
   title: {
-    text: "周销售额趋势",
+    text: "流动人口统计",
+    textStyle: {
+      color: "#fff",
+    },
+  },
+  textStyle: {
+    color: "#fff",
   },
   xAxis: {
-    name: "第一周",
-    data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
+    type: "category",
+    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
   },
   yAxis: {
-    name: "销售额",
-    data: "value",
+    type: "value",
   },
   series: [
     {
-      data: [1200, 2230, 1900, 2100, 3500, 4200, 3985],
-      type: "line",
+      data: [120, 200, 150, 80, 70, 110, 130],
+      type: "bar",
     },
   ],
-};
+});
 
 const option2 = {
   title: {
-    text: "畅销饮料占比饼状图",
+    text: "各类人口占比",
+    textStyle: {
+      color: "#fff",
+    },
   },
   series: [
     {
       type: "pie",
+      label: {
+        color: "#fff",
+        fontStyle: "normal",
+        fontWeight: "bolder",
+      },
       data: [
-        { name: "可口可乐", value: 93 },
-        { name: "百事可乐", value: 32 },
-        { name: "哇哈哈", value: 65 },
-        { name: "康师傅", value: 44 },
+        { name: "常住人口", value: 93 },
+        { name: "重点人口", value: 32 },
+        { name: "暂住人口", value: 65 },
+        { name: "异常人口", value: 44 },
       ],
       insideLabel: {
         show: true,
@@ -132,24 +125,61 @@ const option2 = {
   ],
 };
 
+let option3 = {
+  title: {
+    text: "常驻人口统计",
+    textStyle: {
+      color: "#fff",
+    },
+  },
+  xAxis: {
+    type: "category",
+    boundaryGap: false,
+    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  },
+  yAxis: {
+    type: "value",
+  },
+  series: [
+    {
+      data: [820, 932, 901, 934, 1290, 1330, 1320],
+      type: "line",
+      areaStyle: {},
+    },
+  ],
+};
+
 const getList = async () => {
-  const list = await faceList();
-  console.log("list", list);
+  // const list = await faceList();
+  // console.log("list", list);
+};
+
+const initWebsocket = () => {
+  var ws = new WebSocket("ws://127.0.0.1:8090"); //连接成功触发
+  ws.onopen = function () {
+    falert("连接成功");
+  };
+  //接收消息触发
+  ws.onmessage = function (data) {
+    console.log(data);
+  };
 };
 onMounted(() => {
   getList();
+  // initWebsocket();
 });
 </script>
 
 
 <style scoped>
 .flylineDiagram {
-  /* position: relative; */
   display: flex;
   flex-direction: row;
-  width: 100vw;
-  height: 100vh;
-  /* margin-top: 10vh; */
+  height: 92.5vh;
+  overflow: hidden;
+  margin: 0px;
+  padding: 0;
+  /* margin-top: 1vh; */
 }
 
 .flylineDiagram_left,
@@ -171,8 +201,15 @@ onMounted(() => {
 }
 
 .flylineDiagram_right {
-  justify-content: space-around;
+  display: flex;
+  height: 100%;
   width: 25%;
   padding: 5px;
+}
+
+.flex-1 {
+  flex: 1;
+  margin-top: 20px;
+  /* flex-direction: column; */
 }
 </style>

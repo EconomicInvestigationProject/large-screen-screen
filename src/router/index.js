@@ -16,12 +16,17 @@ const routes = [
     component: () => import("@/views/Device.vue")
   },
   {
-    path: '/login',
-    name: 'login',
+    name: "Map",
+    path: "/Map",
+    component: () => import("@/views/Map.vue")
+  },
+  {
+    path: "/login",
+    name: "login",
     meta: {
-      title: '登录页'
+      title: "登录页"
     },
-    component: () => import('@/views/Login.vue'),
+    component: () => import("@/views/Login.vue")
   }
 ];
 const router = createRouter({
