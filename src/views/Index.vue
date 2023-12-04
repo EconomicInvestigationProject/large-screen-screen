@@ -127,7 +127,7 @@ const option2 = {
 
 let option3 = {
   title: {
-    text: "常驻人口统计",
+    text: "常住人口统计",
     textStyle: {
       color: "#fff",
     },
