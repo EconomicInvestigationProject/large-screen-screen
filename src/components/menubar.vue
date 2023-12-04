@@ -1,16 +1,15 @@
 <template>
-  <div class="flex title" style="z-index: 999999999">
+  <div class="flex title top" style="z-index: 999999999">
     <div style="width: 30vw" class="flex">
-      <div class="header">智慧社区监控平台</div>
       <div class="time_div">
         <div class="time">
           <span>{{ time }}</span>
         </div>
       </div>
     </div>
+    <div class="flex_auto flex-title">智慧社区监控平台</div>
     <div class="flex_item flex">
-      <div class="menus flex_item flex">
-        <div class="flex_item"></div>
+      <div class="menus flex_item flex" style="width: 20vw">
         <div class="menus_div flex">
           <div class="flex_item" v-for="item in menus" :key="item.sid">
             <div
@@ -27,7 +26,7 @@
           </div>
         </div>
       </div>
-      <div class="flex" style="width: 10vw">
+      <div class="flex flex_item" style="width: 10vw">
         <div class="time_div flex_item flex">
           <div class="tools flex flex_item" style="">
             <div class="flex_item flex_item_left">
@@ -149,4 +148,10 @@ onBeforeUnmount(() => {
 </script>
 
 <style>
+.top {
+  background-image: url("../assets/images/top.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 </style>

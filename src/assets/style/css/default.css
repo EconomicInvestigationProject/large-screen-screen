@@ -25,6 +25,17 @@ html {
   flex: 1;
 }
 
+.flex-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+}
+
+.flex_auto {
+  flex: auto;
+}
+
 /* .flex_item_left {
   margin-left: 0.01rem;
 } */

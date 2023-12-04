@@ -1,36 +1,9 @@
 <template>
   <div class="flylineDiagram">
     <div class="flylineDiagram_left">
-      <div style="width: 100%; height: 80%; flex: 1">
-        <dv-button
-          :border="Border3"
-          color="#fff"
-          font-color="#fff"
-          style="width: 100px"
-          >智慧水利</dv-button
-        >
-        <dv-capsule-chart :config="config1" style="width: 100%; height: 70%" />
-      </div>
-      <div style="width: 100%; height: 80%; flex: 1">
-        <dv-button
-          :border="Border3"
-          color="#fff"
-          font-color="#fff"
-          style="width: 100px"
-          >智慧水利</dv-button
-        >
-        <dv-capsule-chart :config="config1" style="width: 100%; height: 70%" />
-      </div>
-      <div style="width: 100%; height: 80%; flex: 1">
-        <dv-button
-          :border="Border3"
-          color="#fff"
-          font-color="#fff"
-          style="width: 100px"
-          >智慧水利</dv-button
-        >
-        <dv-capsule-chart :config="config1" style="width: 100%; height: 70%" />
-      </div>
+      <v-chart :option="option1" class="flex-1"></v-chart>
+      <v-chart :option="option2" class="flex-1"></v-chart>
+      <v-chart :option="option3" class="flex-1"></v-chart>
     </div>
     <div class="flylineDiagram_content">
       <Map></Map>
@@ -193,7 +166,7 @@ onMounted(() => {
 .flylineDiagram_left {
   justify-content: space-around;
   width: 25%;
-  padding: 5px;
+  padding: 0 0 0 30px;
 }
 
 .flylineDiagram_content {
@@ -210,6 +183,5 @@ onMounted(() => {
 .flex-1 {
   flex: 1;
   margin-top: 20px;
-  /* flex-direction: column; */
 }
 </style>

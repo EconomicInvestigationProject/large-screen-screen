@@ -2,10 +2,6 @@
 
 .dark {
   background: #060e3f;
-  /* background-image: url("../../images/bg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; */
   color: #fff;
 }
 
@@ -25,7 +21,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 12vw;
+  width: 8vw;
+  min-width: 8vw;
 }
 
 .dark .title .time {
