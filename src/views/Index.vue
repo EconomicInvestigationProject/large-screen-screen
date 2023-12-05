@@ -9,9 +9,28 @@
       <Map></Map>
     </div>
     <div class="flylineDiagram_right">
-      <v-chart :option="option1" class="flex-1"></v-chart>
-      <v-chart :option="option2" class="flex-1"></v-chart>
-      <v-chart :option="option3" class="flex-1"></v-chart>
+      <chartpanel title="流动人口统计" class="flex-1 chart">
+        <v-chart :option="option1" style="width: 100%; height: 100%"></v-chart>
+      </chartpanel>
+
+      <chartpanel title="各类人口占比" class="flex-1 chart">
+        <v-chart :option="option2"></v-chart>
+      </chartpanel>
+      <div class="flex-1">
+        <chartpanel title="人员动态">
+          <vue3-seamless-scroll :list="newsdatas" class="indexscroll">
+            <div
+              class="item flex"
+              v-for="(item, index) in newsdatas"
+              :key="index"
+            >
+              <div class="flex_item">{{ item.title }}</div>
+              <div class="date">{{ item.date }}</div>
+              <div class="status">{{ item.status }}</div>
+            </div>
+          </vue3-seamless-scroll>
+        </chartpanel>
+      </div>
     </div>
   </div>
 </template>
@@ -20,6 +39,8 @@
 import { onMounted, reactive, ref } from "vue";
 import { faceList } from "../api/face";
 import Map from "../views/Map.vue";
+import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
+import chartpanel from "@/components/chartpanel.vue";
 const config1 = reactive({
   data: [
     {
@@ -51,6 +72,7 @@ const option1 = ref({
     textStyle: {
       color: "#fff",
     },
+    show: false,
   },
   textStyle: {
     color: "#fff",
@@ -76,6 +98,7 @@ const option2 = {
     textStyle: {
       color: "#fff",
     },
+    show: false,
   },
   series: [
     {
@@ -122,9 +145,12 @@ let option3 = {
   ],
 };
 
+//新闻资讯数据
+const newsdatas = reactive([]);
 const getList = async () => {
-  // const list = await faceList();
-  // console.log("list", list);
+  const list = await faceList();
+  newsdatas.value = [...list];
+  console.log("newsdatas", newsdatas.value);
 };
 
 const initWebsocket = () => {
@@ -137,9 +163,9 @@ const initWebsocket = () => {
     console.log(data);
   };
 };
+
 onMounted(() => {
   getList();
-  // initWebsocket();
 });
 </script>
 
@@ -183,5 +209,37 @@ onMounted(() => {
 .flex-1 {
   flex: 1;
   margin-top: 20px;
+}
+
+.indexscroll {
+  height: 20vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.indexscroll .item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1vh 0.8vh;
+  font-size: 1.4rem;
+  border-radius: 0.5vh;
+}
+
+.indexscroll .item:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.indexscroll .item .date {
+  width: 4vw;
+}
+
+.indexscroll .item .status {
+  width: 3vw;
+  color: #ff0157;
+}
+.titleStyle {
+  text-align: center;
+  color: antiquewhite;
 }
 </style>
