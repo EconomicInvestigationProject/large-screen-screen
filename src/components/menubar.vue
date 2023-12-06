@@ -7,7 +7,7 @@
         </div>
       </div>
     </div>
-    <div class="flex_auto flex-title">智慧社区监控平台</div>
+    <div class="flex_auto flex-title">城市可信身份平台</div>
     <div class="flex_item flex">
       <div class="menus flex_item flex" style="width: 20vw">
         <div class="menus_div flex">

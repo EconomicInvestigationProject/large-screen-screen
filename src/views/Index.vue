@@ -1,20 +1,26 @@
 <template>
   <div class="flylineDiagram">
     <div class="flylineDiagram_left">
-      <v-chart :option="option1" class="flex-1"></v-chart>
-      <v-chart :option="option2" class="flex-1"></v-chart>
-      <v-chart :option="option3" class="flex-1"></v-chart>
+      <chartpanel title="流动人口统计" class="flex-1 chart">
+        <v-chart :option="option1" style="height: 90%"></v-chart>
+      </chartpanel>
+      <chartpanel title="各类人员占比" class="flex-1 chart">
+        <v-chart :option="option2" style="height: 90%"></v-chart>
+      </chartpanel>
+      <chartpanel title="流动人口统计" class="flex-1 chart">
+        <v-chart :option="option3" style="height: 90%"></v-chart>
+      </chartpanel>
     </div>
     <div class="flylineDiagram_content">
       <Map></Map>
     </div>
     <div class="flylineDiagram_right">
       <chartpanel title="流动人口统计" class="flex-1 chart">
-        <v-chart :option="option1" style="width: 100%; height: 100%"></v-chart>
+        <v-chart :option="option1" style="height: 90%"></v-chart>
       </chartpanel>
 
       <chartpanel title="各类人口占比" class="flex-1 chart">
-        <v-chart :option="option2"></v-chart>
+        <v-chart :option="option2" style="height: 90%"></v-chart>
       </chartpanel>
       <div class="flex-1">
         <chartpanel title="人员动态">
@@ -127,6 +133,7 @@ let option3 = {
     textStyle: {
       color: "#fff",
     },
+    show: false,
   },
   xAxis: {
     type: "category",
@@ -190,9 +197,10 @@ onMounted(() => {
 }
 
 .flylineDiagram_left {
-  justify-content: space-around;
+  display: flex;
+  height: 100%;
   width: 25%;
-  padding: 0 0 0 30px;
+  padding: 5px;
 }
 
 .flylineDiagram_content {
@@ -208,7 +216,7 @@ onMounted(() => {
 
 .flex-1 {
   flex: 1;
-  margin-top: 20px;
+  margin: 5px 0;
 }
 
 .indexscroll {

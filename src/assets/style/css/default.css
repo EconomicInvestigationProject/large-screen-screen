@@ -49,8 +49,8 @@ html {
 .chart .chart_title {
   font-size: 1.8rem;
   font-weight: bold;
-  line-height: 4vh;
-  height: 4vh;
+  line-height: 3vh;
+  height: 3vh;
   background: linear-gradient(
     to left,
     #03a9f4,

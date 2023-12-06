@@ -3,23 +3,31 @@ import { createRouter, createWebHashHistory } from "vue-router";
 const routes = [
   {
     path: "/",
-    redirect: "/Index"
+    name: "home",
+    meta: {
+      title: "首页"
+    },
+    component: () => import("../views/Home.vue"),
+    redirect: "/Index",
+    children: [
+      {
+        name: "Index",
+        path: "/Index",
+        component: () => import("@/views/Index.vue")
+      },
+      {
+        name: "Device",
+        path: "/Device",
+        component: () => import("@/views/Device.vue")
+      },
+      {
+        name: "Map",
+        path: "/Map",
+        component: () => import("@/views/Map.vue")
+      }
+    ]
   },
-  {
-    name: "Index",
-    path: "/Index",
-    component: () => import("@/views/Index.vue")
-  },
-  {
-    name: "Device",
-    path: "/Device",
-    component: () => import("@/views/Device.vue")
-  },
-  {
-    name: "Map",
-    path: "/Map",
-    component: () => import("@/views/Map.vue")
-  },
+
   {
     path: "/login",
     name: "login",
