@@ -213,18 +213,18 @@ let option5 = reactive({
 
 //社区动态数据
 const newsdatas = ref([
-  { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-  { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-  { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-  { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-  { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-  { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-  { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-  { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-  { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-  { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-  { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-  { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
+  { title: "王佳乐", date: "2023-01-01", status: "进小区" },
+  { title: "李香琴", date: "2023-01-01", status: "进小区" },
+  { title: "王佳乐", date: "2023-01-01", status: "离开小区" },
+  { title: "-", date: "2023-01-01", status: "进小区" },
+  { title: "-", date: "2023-01-01", status: "离开小区" },
+  { title: "-", date: "2023-01-01", status: "进小区" },
+  { title: "刘佳", date: "2023-01-01", status: "进小区" },
+  { title: "张廷发", date: "2023-01-01", status: "离开小区" },
+  { title: "张慢", date: "2023-01-01", status: "进小区" },
+  { title: "-", date: "2023-01-01", status: "进小区" },
+  { title: "-", date: "2023-01-01", status: "离开小区" },
+  { title: "-", date: "2023-01-01", status: "进小区" },
 ]);
 
 const getList = async () => {};
@@ -254,18 +254,18 @@ const initialization = () => {
 
   //社区动态数据初始化
   newsdatas.value = [
-    { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-    { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-    { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-    { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-    { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-    { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-    { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-    { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-    { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-    { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-    { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
-    { title: "我王佳乐", date: "2023-01-01", status: "进小区" },
+    { title: "王佳乐", date: "2023-01-01", status: "离开小区" },
+    { title: "李香琴", date: "2023-01-01", status: "进小区" },
+    { title: "王佳乐", date: "2023-01-01", status: "离开小区" },
+    { title: "-", date: "2023-01-01", status: "进小区" },
+    { title: "-", date: "2023-01-01", status: "离开小区" },
+    { title: "-", date: "2023-01-01", status: "进小区" },
+    { title: "刘佳", date: "2023-01-01", status: "离开小区" },
+    { title: "张廷发", date: "2023-01-01", status: "进小区" },
+    { title: "张慢", date: "2023-01-01", status: "离开小区" },
+    { title: "-", date: "2023-01-01", status: "进小区" },
+    { title: "-", date: "2023-01-01", status: "离开小区" },
+    { title: "-", date: "2023-01-01", status: "进小区" },
   ];
 
   // 设备状态
@@ -307,18 +307,18 @@ const handleMessageFromChild = (message) => {
 
     //社区动态数据初始化
     newsdatas.value = [
-      { title: "李小龙", date: "2023-01-01", status: "进小区" },
-      { title: "李小龙", date: "2023-01-01", status: "进小区" },
-      { title: "李小龙", date: "2023-01-01", status: "进小区" },
-      { title: "李小龙", date: "2023-01-01", status: "进小区" },
-      { title: "李小龙", date: "2023-01-01", status: "进小区" },
-      { title: "李小龙", date: "2023-01-01", status: "进小区" },
-      { title: "李小龙", date: "2023-01-01", status: "进小区" },
-      { title: "李小龙", date: "2023-01-01", status: "进小区" },
-      { title: "李小龙", date: "2023-01-01", status: "进小区" },
-      { title: "李小龙", date: "2023-01-01", status: "进小区" },
-      { title: "李小龙", date: "2023-01-01", status: "进小区" },
-      { title: "李小龙", date: "2023-01-01", status: "进小区" },
+      { title: "郑光", date: "2023-01-01", status: "进小区" },
+      { title: "刘文", date: "2023-01-01", status: "进小区" },
+      { title: "王佳乐", date: "2023-01-01", status: "离开小区" },
+      { title: "-", date: "2023-01-01", status: "离开小区" },
+      { title: "-", date: "2023-01-01", status: "进小区" },
+      { title: "-", date: "2023-01-01", status: "离开小区" },
+      { title: "孙栋", date: "2023-01-01", status: "进小区" },
+      { title: "李倩倩", date: "2023-01-01", status: "离开小区" },
+      { title: "张慢", date: "2023-01-01", status: "进小区" },
+      { title: "-", date: "2023-01-01", status: "离开小区" },
+      { title: "-", date: "2023-01-01", status: "离开小区" },
+      { title: "-", date: "2023-01-01", status: "进小区" },
     ];
   } else if (message === "全国") {
     initialization();
