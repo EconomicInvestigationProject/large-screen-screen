@@ -29,14 +29,37 @@ const maplat = ref(0);
 //直辖市和特别行政区-只有二级地图，没有三级地图
 const special = ["北京", "天津", "上海", "重庆", "香港", "澳门"];
 // 地图数据
-let mapdata = [];
+var mapdata = [];
+var chinaName = "china";
+
+//记录父级ID、Name
+var mapStack = [];
+var parentName = null;
 
 // 定义一个echarts对象
 var myChart = ref(null);
 
 const back = () => {
-  changedata('全国')
-  renderMap("china", mapdata);
+  if (mapStack.length != 0) {
+    //如果有上级目录则执行
+    var map = mapStack.pop();
+    if (map.mapName == "china") {
+      initChart();
+      //返回上一级后，父级的ID、Name随之改变
+      mapStack = [];
+      parentName = null;
+      changedata("全国");
+    } else {
+      axios
+        .get("/map/province/" + map.mapName + ".json", {})
+        .then((response) => {
+          const mapJson = response.data;
+          renderMap(map.mapName, mapJson, false);
+          //返回上一级后，父级的ID、Name随之改变
+          parentName = map.mapName;
+        });
+    }
+  }
 };
 
 // 控制全局数据变化
@@ -101,7 +124,7 @@ const markers = [
 ];
 
 //绘制地图的方法
-const renderMap = (map, data) => {
+const renderMap = (map, data, parentName, flag) => {
   option.title.subtext = map;
   option.series = [
     {
@@ -159,6 +182,14 @@ const renderMap = (map, data) => {
   ];
   //渲染地图
   myChart.value.setOption(option);
+
+  if (flag) {
+    //往mapStack里添加parentId，parentName,返回上一级使用
+    mapStack.push({
+      mapName: parentName,
+    });
+    parentName = parentName;
+  }
 };
 
 // 初始化地图
@@ -204,7 +235,8 @@ onMounted(() => {
         });
       }
       // 重新绘制地图
-      renderMap(params.name, d);
+      renderMap(params.name, d, chinaName, true);
+      parentName = "china";
     } else if (params.seriesName in provinces) {
       // 判断点击的是不是城市
       // 如果是【直辖市/特别行政区】只有二级下钻
@@ -232,7 +264,7 @@ onMounted(() => {
           "/map/city/" + cityMap[params.name] + ".json"
         );
         // 注册城市地图数据
-        echarts.registerMap(params.name, data);
+        echarts.registerMap(params.name, data, false);
         // 添加城市对应的区县数据
         var d = [];
         for (var i = 0; i < data.features.length; i++) {
@@ -240,9 +272,8 @@ onMounted(() => {
             name: data.features[i].properties.name,
           });
         }
-        // 重新绘制地图
-        renderMap(params.name, d);
       }
+      renderMap(params.name, d, params.name, false);
     } else {
       // 打开百度地图
       // let {

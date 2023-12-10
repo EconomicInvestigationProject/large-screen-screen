@@ -5,6 +5,7 @@ import { resolve } from "path"; // 主要用于alias文件路径别名
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: "./",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src")
@@ -13,6 +14,8 @@ export default defineConfig({
   server: {
     host: "localhost", //配置主机名
     port: 8085, //配置端口号
+    // 热更新
+    hmr: true,
     proxy: {
       //代理
       "/api": {
@@ -20,5 +23,15 @@ export default defineConfig({
       }
     }
   },
-  plugins: [vue()]
+  plugins: [vue()],
+  build: {
+    minify: "esbuild",
+    terserOptions: {
+      compress: {
+        //生产环境时移除console
+        drop_console: true,
+        drop_debugger: true
+      }
+    }
+  }
 });
