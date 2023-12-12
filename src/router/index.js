@@ -24,10 +24,14 @@ const routes = [
         name: "Map",
         path: "/Map",
         component: () => import("@/views/Map.vue")
+      },
+      {
+        name: "WebSocketService",
+        path: "/WebSocketService",
+        component: () => import("@/views/WebSocketService.vue")
       }
     ]
   },
-
   {
     path: "/login",
     name: "login",
