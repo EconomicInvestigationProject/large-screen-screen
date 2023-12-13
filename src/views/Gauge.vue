@@ -18,24 +18,6 @@ const gaugeChart = ref(null);
 let gaugeData = ref([
   {
     value: 0,
-    name: "离线",
-    title: {
-      offsetCenter: ["0%", "0%"],
-      show: false,
-    },
-    detail: {
-      valueAnimation: true,
-      offsetCenter: ["0%", "2%"],
-      color: "#1c65a1",
-      borderColor: "#1c65a1",
-    },
-    itemStyle: {
-      color: "#1c65a1",
-      borderColor: "#1c65a1",
-    },
-  },
-  {
-    value: 0,
     name: "正常",
     title: {
       offsetCenter: ["0%", "-20%"],
@@ -52,6 +34,25 @@ let gaugeData = ref([
       borderColor: "#187ae4",
     },
   },
+  {
+    value: 0,
+    name: "离线",
+    title: {
+      offsetCenter: ["0%", "0%"],
+      show: false,
+    },
+    detail: {
+      valueAnimation: true,
+      offsetCenter: ["0%", "2%"],
+      color: "#1c65a1",
+      borderColor: "#1c65a1",
+    },
+    itemStyle: {
+      color: "#1c65a1",
+      borderColor: "#1c65a1",
+    },
+  },
+
   {
     value: 0,
     name: "损坏",
