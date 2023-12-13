@@ -46,7 +46,7 @@ let option = reactive({
           color: "white", // 设置字体颜色为白色
         },
       },
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      data: ["周一", "周二", "周三", "周四", "周五", "周六", "周天"],
     },
   ],
   yAxis: [
@@ -124,7 +124,7 @@ const getList = async () => {
 
 const init = () => {
   dscountChart.value = echarts.init(document.getElementById("dscount"));
-  option && dscountChart.value.setOption(option);
+  dscountChart.value.setOption(option);
 };
 
 onMounted(() => {
