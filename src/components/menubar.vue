@@ -55,8 +55,10 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, reactive, defineEmits } from "vue";
 import { useRouter, useRoute } from "vue-router";
-
+import { useStore } from 'vuex';
 const emit = defineEmits(["showSettingDialog"]);
+const router = useRouter();
+const store = useStore();
 
 const menus = reactive([
   // {
@@ -110,20 +112,13 @@ const screen = () => {
 
 //退出
 const exit = () => {
-  // utils.showconfirm('确定要退出吗？');
-};
-
-const handleLogout = (key) => {
-  // if (key == "email") return;
   // 设置localStorage数据为空
-  this.$store.commit("saveUserInfo", "");
+  store.commit("saveUserInfo", "");
   // 清空当前数据
-  // this.userInfo = {};
-  this.$router.push("/login");
+  router.push("/login");
 };
 
-const router = useRouter();
-const route = useRoute();
+
 
 const curpage = ref("index");
 const turnPage = (path) => {
