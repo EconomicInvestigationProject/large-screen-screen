@@ -31,10 +31,10 @@
         <Gauge></Gauge>
       </chartpanel>
       <chartpanel title="流动人口统计" class="flex-1 chart">
-        <v-chart :option="option5" style="height: 90%"></v-chart>
+        <Histogram style="height: 90%"></Histogram>
       </chartpanel>
       <chartpanel class="flex-1 chart" title="搬入搬出人口统计">
-        <Discount  style="height: 90%"></Discount>
+        <Discount style="height: 90%"></Discount>
       </chartpanel>
     </div>
   </div>
@@ -45,6 +45,7 @@ import { onMounted, reactive, ref } from "vue";
 import Map from "../views/Map.vue";
 import Gauge from "../views/Gauge.vue";
 import Discount from "../views/Discount.vue";
+import Histogram from "../views/Histogram.vue";
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 import chartpanel from "@/components/chartpanel.vue";
 import { ElMessage } from "element-plus";
@@ -160,32 +161,6 @@ let option3 = reactive({
   ],
 });
 
-let option5 = reactive({
-  title: {
-    text: "流动人口统计",
-    textStyle: {
-      color: "#fff",
-    },
-    show: false,
-  },
-  textStyle: {
-    color: "#fff",
-  },
-  xAxis: {
-    type: "category",
-    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  },
-  yAxis: {
-    type: "value",
-  },
-  series: [
-    {
-      data: [120, 200, 150, 80, 70, 110, 130],
-      type: "bar",
-    },
-  ],
-});
-
 //社区动态数据
 const newsdatas = ref([
   { title: "王佳乐", date: "2023-01-01", status: "进小区" },
@@ -223,7 +198,6 @@ const initialization = () => {
   option3.series[0].data = [820, 932, 901, 934, 1290, 1330, 1320];
 
   // 流动人口统计初始化
-  option5.series[0].data = [120, 200, 150, 80, 70, 110, 130];
 
   //社区动态数据初始化
   newsdatas.value = [
@@ -266,7 +240,6 @@ const handleMessageFromChild = (message) => {
     // 设备状态
 
     // 流动人口统计初始化
-    option5.series[0].data = [200, 200, 200, 200, 200, 200, 200];
 
     //社区动态数据初始化
     newsdatas.value = [

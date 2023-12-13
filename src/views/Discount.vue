@@ -41,12 +41,22 @@ let option = reactive({
     {
       type: "category",
       boundaryGap: false,
+      axisLabel: {
+        textStyle: {
+          color: "white", // 设置字体颜色为白色
+        },
+      },
       data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
     },
   ],
   yAxis: [
     {
       type: "value",
+      axisLabel: {
+        textStyle: {
+          color: "white", // 设置字体颜色为白色
+        },
+      },
     },
   ],
   series: [

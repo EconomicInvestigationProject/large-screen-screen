@@ -18,24 +18,38 @@ const gaugeChart = ref(null);
 let gaugeData = ref([
   {
     value: 0,
-    name: "正常",
-    title: {
-      offsetCenter: ["0%", "-20%"],
-    },
-    detail: {
-      valueAnimation: true,
-      offsetCenter: ["0%", "-30%"],
-    },
-  },
-  {
-    value: 0,
     name: "离线",
     title: {
       offsetCenter: ["0%", "0%"],
+      show: false,
     },
     detail: {
       valueAnimation: true,
       offsetCenter: ["0%", "2%"],
+      color: "#1c65a1",
+      borderColor: "#1c65a1",
+    },
+    itemStyle: {
+      color: "#1c65a1",
+      borderColor: "#1c65a1",
+    },
+  },
+  {
+    value: 0,
+    name: "正常",
+    title: {
+      offsetCenter: ["0%", "-20%"],
+      show: false,
+    },
+    detail: {
+      valueAnimation: true,
+      offsetCenter: ["0%", "-30%"],
+      color: "#187ae4",
+      borderColor: "#187ae4",
+    },
+    itemStyle: {
+      color: "#187ae4",
+      borderColor: "#187ae4",
     },
   },
   {
@@ -43,10 +57,17 @@ let gaugeData = ref([
     name: "损坏",
     title: {
       offsetCenter: ["0%", "30%"],
+      show: false,
     },
     detail: {
       valueAnimation: true,
       offsetCenter: ["0%", "35%"],
+      color: "#1e3a56",
+      borderColor: "#1e3a56",
+    },
+    itemStyle: {
+      color: "#1e3a56",
+      borderColor: "#1e3a56",
     },
   },
 ]);
@@ -73,6 +94,21 @@ let option = reactive({
       axisLine: {
         lineStyle: {
           width: 40,
+          color: [
+            [
+              1,
+              new echarts.graphic.RadialGradient(0.5, 1, 1, [
+                {
+                  offset: 0.8,
+                  color: "rgba(106, 205, 255, 0.2600)",
+                },
+                {
+                  offset: 0.8,
+                  color: "rgba(106, 205, 255, 0.2600)",
+                },
+              ]),
+            ],
+          ], // 颜色
         },
       },
       splitLine: {
@@ -168,15 +204,15 @@ onMounted(() => {
   border-radius: 20%;
 }
 .gauge_top_green {
-  background-color: #91cc75;
+  background-color: #187ae4;
 }
 
 .gauge_top_yellow {
-  background-color: #fac858;
+  background-color: #1c65a1;
 }
 
-.gauge_top_block{
-  background-color: #5470c6;
+.gauge_top_block {
+  background-color: #1e3a56;
 }
 
 .gauge_chart {
