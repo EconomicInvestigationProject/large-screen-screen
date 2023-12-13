@@ -2,11 +2,11 @@ import request from "../utils/request.js";
 
 
 /*
-**人脸数据
+**设备数据数据
 */
-export const faceList = () => {
+export const deviceList = () => {
   return request({
-    url: "/face/list",
+    url: "/device/list",
     method: "get",
     data: {},
     mock: false

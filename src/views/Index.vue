@@ -28,14 +28,7 @@
     </div>
     <div class="flylineDiagram_right">
       <chartpanel class="flex-1 chart" title="设备状态">
-        <div class="device">
-          <div class="device-item" v-for="item in device" :key="item.name">
-            <div class="device-item-name">{{ item.name }}</div>
-            <div class="device-item-ok">正常：{{ item.ok }}</div>
-            <div class="device-item-bad">损坏：{{ item.bad }}</div>
-            <div class="device-item-red">离线：{{ item.red }}</div>
-          </div>
-        </div>
+        <Gauge :gaugeChart="device"></Gauge>
       </chartpanel>
       <chartpanel title="流动人口统计" class="flex-1 chart">
         <v-chart :option="option5" style="height: 90%"></v-chart>
@@ -61,8 +54,8 @@
 
 <script  setup>
 import { onMounted, reactive, ref } from "vue";
-import { faceList } from "../api/face";
 import Map from "../views/Map.vue";
+import Gauge from "../views/Gauge.vue";
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 import chartpanel from "@/components/chartpanel.vue";
 import { ElMessage } from "element-plus";
@@ -178,12 +171,6 @@ let option3 = reactive({
   ],
 });
 
-// 设备状态
-let device = ref([
-  { name: "摄像机", ok: "1000", bad: "0", red: "0" },
-  { name: "传感器", ok: "2000", bad: "0", red: "0" },
-  { name: "路由器", ok: "123", bad: "0", red: "0" },
-]);
 
 let option5 = reactive({
   title: {
@@ -227,7 +214,6 @@ const newsdatas = ref([
   { title: "-", date: "2023-01-01", status: "进小区" },
 ]);
 
-const getList = async () => {};
 
 // 数据初始化全国数据
 const initialization = () => {
@@ -269,11 +255,6 @@ const initialization = () => {
   ];
 
   // 设备状态
-  device.value = [
-    { name: "摄像机", ok: "1000", bad: "0", red: "0" },
-    { name: "传感器", ok: "2000", bad: "0", red: "0" },
-    { name: "路由器", ok: "123", bad: "0", red: "0" },
-  ];
 };
 
 // 控制根据地图数据进行改变图标信息
@@ -296,11 +277,6 @@ const handleMessageFromChild = (message) => {
     option3.series[0].data = [1330, 1330, 1330, 1330, 1330, 1330, 1320];
 
     // 设备状态
-    device.value = [
-      { name: "摄像机", ok: "100", bad: "0", red: "0" },
-      { name: "传感器", ok: "200", bad: "0", red: "0" },
-      { name: "路由器", ok: "50", bad: "0", red: "0" },
-    ];
 
     // 流动人口统计初始化
     option5.series[0].data = [200, 200, 200, 200, 200, 200, 200];
@@ -414,24 +390,5 @@ onMounted(() => {
   font-size: 20px;
   width: 100%;
   height: 90%;
-}
-
-.device-item {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  font-size: 1.3rem;
-}
-
-.device-item-ok {
-  color: green;
-}
-
-.device-item-bad {
-  color: yellow;
-}
-
-.device-item-red {
-  color: red;
 }
 </style>

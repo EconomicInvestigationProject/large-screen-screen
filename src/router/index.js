@@ -26,9 +26,9 @@ const routes = [
         component: () => import("@/views/Map.vue")
       },
       {
-        name: "WebSocketService",
-        path: "/WebSocketService",
-        component: () => import("@/views/WebSocketService.vue")
+        name: "Gauge",
+        path: "/Gauge",
+        component: () => import("@/views/Gauge.vue")
       }
     ]
   },
