@@ -26,9 +26,9 @@ const routes = [
         component: () => import("@/views/Map.vue")
       },
       {
-        name: "Gauge",
-        path: "/Gauge",
-        component: () => import("@/views/Gauge.vue")
+        name: "Discount",
+        path: "/Discount",
+        component: () => import("@/views/Discount.vue")
       }
     ]
   },

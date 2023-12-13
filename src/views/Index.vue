@@ -28,26 +28,14 @@
     </div>
     <div class="flylineDiagram_right">
       <chartpanel class="flex-1 chart" title="设备状态">
-        <Gauge :gaugeChart="device"></Gauge>
+        <Gauge></Gauge>
       </chartpanel>
       <chartpanel title="流动人口统计" class="flex-1 chart">
         <v-chart :option="option5" style="height: 90%"></v-chart>
       </chartpanel>
-      <div class="flex-1">
-        <chartpanel title="搬离人员">
-          <vue3-seamless-scroll :list="newsdatas" class="indexscroll">
-            <div
-              class="item flex"
-              v-for="(item, index) in newsdatas"
-              :key="index"
-            >
-              <div class="flex_item">{{ item.title }}</div>
-              <div class="date">{{ item.date }}</div>
-              <div class="status">{{ item.status }}</div>
-            </div>
-          </vue3-seamless-scroll>
-        </chartpanel>
-      </div>
+      <chartpanel class="flex-1 chart" title="搬入搬出人口统计">
+        <Discount  style="height: 90%"></Discount>
+      </chartpanel>
     </div>
   </div>
 </template>
@@ -56,6 +44,7 @@
 import { onMounted, reactive, ref } from "vue";
 import Map from "../views/Map.vue";
 import Gauge from "../views/Gauge.vue";
+import Discount from "../views/Discount.vue";
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 import chartpanel from "@/components/chartpanel.vue";
 import { ElMessage } from "element-plus";
@@ -171,7 +160,6 @@ let option3 = reactive({
   ],
 });
 
-
 let option5 = reactive({
   title: {
     text: "流动人口统计",
@@ -213,7 +201,6 @@ const newsdatas = ref([
   { title: "-", date: "2023-01-01", status: "离开小区" },
   { title: "-", date: "2023-01-01", status: "进小区" },
 ]);
-
 
 // 数据初始化全国数据
 const initialization = () => {

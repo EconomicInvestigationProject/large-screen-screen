@@ -1,19 +1,18 @@
 <template>
   <div class="dscount" id="dscount"></div>
 </template>
-  <script setup>
+<script setup>
 import * as echarts from "echarts";
 import { onMounted, reactive, ref, defineProps, watch } from "vue";
 import { deviceList } from "../api/device";
 
 const dscountChart = ref(null);
 
-
-
 let option = reactive({
-  color: ["#80FFA5", "#00DDFF", "#37A2FF", "#FF0087", "#FFBF00"],
+  color: ["#80FFA5", "#00DDFF"],
   title: {
-    text: "Gradient Stacked Area Chart",
+    text: "搬入搬出人口统计",
+    show: false,
   },
   tooltip: {
     trigger: "axis",
@@ -25,7 +24,7 @@ let option = reactive({
     },
   },
   legend: {
-    data: ["Line 1", "Line 2", "Line 3", "Line 4", "Line 5"],
+    data: ["实有人口总数", "上周实有人口"],
   },
   toolbox: {
     feature: {
@@ -52,7 +51,7 @@ let option = reactive({
   ],
   series: [
     {
-      name: "Line 1",
+      name: "实有人口总数",
       type: "line",
       stack: "Total",
       smooth: true,
@@ -76,10 +75,10 @@ let option = reactive({
       emphasis: {
         focus: "series",
       },
-      data: [140, 232, 101, 264, 90, 340, 250],
+      data: [140, 232],
     },
     {
-      name: "Line 2",
+      name: "上周实有人口",
       type: "line",
       stack: "Total",
       smooth: true,
@@ -103,98 +102,10 @@ let option = reactive({
       emphasis: {
         focus: "series",
       },
-      data: [120, 282, 111, 234, 220, 340, 310],
-    },
-    {
-      name: "Line 3",
-      type: "line",
-      stack: "Total",
-      smooth: true,
-      lineStyle: {
-        width: 0,
-      },
-      showSymbol: false,
-      areaStyle: {
-        opacity: 0.8,
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: "rgb(55, 162, 255)",
-          },
-          {
-            offset: 1,
-            color: "rgb(116, 21, 219)",
-          },
-        ]),
-      },
-      emphasis: {
-        focus: "series",
-      },
-      data: [320, 132, 201, 334, 190, 130, 220],
-    },
-    {
-      name: "Line 4",
-      type: "line",
-      stack: "Total",
-      smooth: true,
-      lineStyle: {
-        width: 0,
-      },
-      showSymbol: false,
-      areaStyle: {
-        opacity: 0.8,
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: "rgb(255, 0, 135)",
-          },
-          {
-            offset: 1,
-            color: "rgb(135, 0, 157)",
-          },
-        ]),
-      },
-      emphasis: {
-        focus: "series",
-      },
-      data: [220, 402, 231, 134, 190, 230, 120],
-    },
-    {
-      name: "Line 5",
-      type: "line",
-      stack: "Total",
-      smooth: true,
-      lineStyle: {
-        width: 0,
-      },
-      showSymbol: false,
-      label: {
-        show: true,
-        position: "top",
-      },
-      areaStyle: {
-        opacity: 0.8,
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: "rgb(255, 191, 0)",
-          },
-          {
-            offset: 1,
-            color: "rgb(224, 62, 76)",
-          },
-        ]),
-      },
-      emphasis: {
-        focus: "series",
-      },
-      data: [220, 302, 181, 234, 210, 290, 150],
+      data: [120, 282],
     },
   ],
-})
-
-
-option && myChart.setOption(option);
+});
 
 // 设备状态
 const getList = async () => {
@@ -203,51 +114,16 @@ const getList = async () => {
 
 const init = () => {
   dscountChart.value = echarts.init(document.getElementById("dscount"));
-  option && gaugeChart.value.setOption(option);
+  option && dscountChart.value.setOption(option);
 };
 
 onMounted(() => {
   getList();
-  init()
+  init();
 });
 </script>
-  <style scoped>
-.gauge {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-}
-.gauge_top {
-  display: flex;
-  flex-direction: column;
-  height: 90%;
-  width: 30%;
-  justify-content: space-around;
-  align-items: center;
-}
-.gauge_top_item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 10%;
-  width: 50%;
-  border-radius: 20%;
-}
-.gauge_top_green {
-  background-color: #91cc75;
-}
-
-.gauge_top_yellow {
-  background-color: #fac858;
-}
-
-.gauge_top_block {
-  background-color: #5470c6;
-}
-
-.gauge_chart {
+<style scoped>
+.dscount {
   width: 100%;
   height: 100%;
 }
