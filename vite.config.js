@@ -23,15 +23,9 @@ export default defineConfig({
       }
     }
   },
-  plugins: [vue()],
-  build: {
-    minify: "esbuild",
-    terserOptions: {
-      compress: {
-        //生产环境时移除console
-        drop_console: true,
-        drop_debugger: true
-      }
-    }
-  }
+  axios: {
+    //是否开启跨域
+    proxy: true
+  },
+  plugins: [vue()]
 });

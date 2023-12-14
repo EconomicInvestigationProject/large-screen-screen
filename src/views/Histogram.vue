@@ -49,9 +49,10 @@ let option = reactive({
     {
       name: "Direct",
       type: "bar",
-      barWidth: "60%",
+      barWidth: "50%",
       // 设置柱子的样式
       itemStyle: {
+        color:'#187AE4',
         // 设置圆角
         barBorderRadius: [20, 20, 0, 0], // 从左上角开始，顺时针设置四个角的圆角半径
       },

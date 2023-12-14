@@ -26,9 +26,9 @@ const routes = [
         component: () => import("@/views/Map.vue")
       },
       {
-        name: "Discount",
-        path: "/Discount",
-        component: () => import("@/views/Discount.vue")
+        name: "VariousPeople",
+        path: "/VariousPeople",
+        component: () => import("@/views/VariousPeople.vue")
       }
     ]
   },

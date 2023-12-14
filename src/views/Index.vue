@@ -2,13 +2,13 @@
   <div class="flylineDiagram">
     <div class="flylineDiagram_left">
       <chartpanel title="各类人员占比" class="flex-1 chart">
-        <v-chart :option="option1" style="height: 90%"></v-chart>
+        <VariousPeople style="height: 90%"></VariousPeople>
       </chartpanel>
-      <chartpanel title="流动人员占比" class="flex-1 chart">
+      <chartpanel title="搬入搬出人员出占比" class="flex-1 chart">
         <v-chart :option="option2" style="height: 90%"></v-chart>
       </chartpanel>
       <div class="flex-1">
-        <chartpanel title="小区人员动态">
+        <chartpanel title="小区重点人员动态">
           <vue3-seamless-scroll :list="newsdatas" class="indexscroll">
             <div
               class="item flex"
@@ -30,10 +30,10 @@
       <chartpanel class="flex-1 chart" title="设备状态">
         <Gauge></Gauge>
       </chartpanel>
-      <chartpanel title="流动人口统计" class="flex-1 chart">
+      <chartpanel title="人口密集度" class="flex-1 chart">
         <Histogram style="height: 90%"></Histogram>
       </chartpanel>
-      <chartpanel class="flex-1 chart" title="搬入搬出人口统计">
+      <chartpanel class="flex-1 chart" title="异常人员">
         <Discount style="height: 90%"></Discount>
       </chartpanel>
     </div>
@@ -46,68 +46,10 @@ import Map from "../views/Map.vue";
 import Gauge from "../views/Gauge.vue";
 import Discount from "../views/Discount.vue";
 import Histogram from "../views/Histogram.vue";
+import VariousPeople from "../views/VariousPeople.vue";
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 import chartpanel from "@/components/chartpanel.vue";
 import { ElMessage } from "element-plus";
-
-let option1 = reactive({
-  title: {
-    text: "人口占比比例",
-    textStyle: {
-      color: "#fff",
-    },
-    show: false,
-  },
-  tooltip: {
-    trigger: "item",
-  },
-  legend: {
-    top: "5%",
-    left: "center",
-    textStyle: {
-      color: "#fff", // 设置标题文字颜色为白色
-    },
-  },
-  textStyle: {
-    color: "#fff",
-  },
-  series: [
-    {
-      type: "pie",
-      radius: ["40%", "70%"],
-      avoidLabelOverlap: false,
-      itemStyle: {
-        borderRadius: 10,
-        borderColor: "#060E3F",
-        borderWidth: 2,
-      },
-      label: {
-        show: false,
-        position: "center",
-        textStyle: {
-          // 设置字体样式
-          color: "#fff", // 设置字体颜色为白色
-        },
-      },
-      emphasis: {
-        label: {
-          show: true,
-          fontSize: 40,
-          fontWeight: "bold",
-        },
-      },
-      labelLine: {
-        show: false,
-      },
-      data: [
-        { value: 12000, name: "常住人口" },
-        { value: 800, name: "流出人口" },
-        { value: 900, name: "重点人员" },
-        { value: 8000, name: "流入人口" },
-      ],
-    },
-  ],
-});
 
 let option2 = reactive({
   title: {
@@ -181,13 +123,6 @@ const newsdatas = ref([
 const initialization = () => {
   // 如果消息不是 "历下区"，则恢复 option2 到默认值
 
-  option1.series[0].data = [
-    { value: 12000, name: "常住人口" },
-    { value: 800, name: "流出人口" },
-    { value: 900, name: "重点人员" },
-    { value: 8000, name: "流入人口" },
-  ];
-
   // 各类人口占比
   option2.series[0].data = [
     { name: "流入人口", value: 2000 },
@@ -221,13 +156,6 @@ const initialization = () => {
 // 控制根据地图数据进行改变图标信息
 const handleMessageFromChild = (message) => {
   if (message === "历下区") {
-    option1.series[0].data = [
-      { value: 1048, name: "常住人口" },
-      { value: 735, name: "流出人口" },
-      { value: 484, name: "重点人员" },
-      { value: 300, name: "流入人口" },
-    ];
-
     // 人口比例
     option2.title.text = "各类人口占比1";
     option2.series[0].data = [

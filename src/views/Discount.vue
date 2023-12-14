@@ -85,35 +85,8 @@ let option = reactive({
       emphasis: {
         focus: "series",
       },
-      data: [140, 232],
-    },
-    {
-      name: "上周实有人口",
-      type: "line",
-      stack: "Total",
-      smooth: true,
-      lineStyle: {
-        width: 0,
-      },
-      showSymbol: false,
-      areaStyle: {
-        opacity: 0.8,
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: "rgb(0, 221, 255)",
-          },
-          {
-            offset: 1,
-            color: "rgb(77, 119, 255)",
-          },
-        ]),
-      },
-      emphasis: {
-        focus: "series",
-      },
-      data: [120, 282],
-    },
+      data: [10, 28,30,20,10,5],
+    }
   ],
 });
 
