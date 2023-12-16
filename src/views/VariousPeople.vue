@@ -83,7 +83,7 @@ const init = () => {
 };
 
 onMounted(() => {
-  getList();
+  // getList();
   init();
 });
 </script>

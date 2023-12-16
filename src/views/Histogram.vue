@@ -4,16 +4,20 @@
 <script setup>
 import * as echarts from "echarts";
 import { onMounted, reactive, ref, defineProps, watch } from "vue";
-import { deviceList } from "../api/device";
+import { elevatorpersonneldensityStatistics } from "../api/elevatorpersonneldensity";
 
-const dscountChart = ref(null);
+const histogramChart = ref(null);
 
 let option = reactive({
   tooltip: {
     trigger: "axis",
     axisPointer: {
       type: "shadow",
+      label: {
+        backgroundColor: "#6a7985",
+      },
     },
+    formatter: "{b}:人员密度是 {c}", // 提示框内容，{b} 表示 x 轴数据，{c} 表示 y 轴数据
   },
   grid: {
     left: "3%",
@@ -52,29 +56,43 @@ let option = reactive({
       barWidth: "50%",
       // 设置柱子的样式
       itemStyle: {
-        color:'#187AE4',
+        color: "#187AE4",
         // 设置圆角
         barBorderRadius: [20, 20, 0, 0], // 从左上角开始，顺时针设置四个角的圆角半径
+      },
+      emphasis: {
+        focus: "series",
       },
       data: [10, 52, 200, 334, 390, 330, 220],
     },
   ],
 });
 
-// 设备状态
-const getList = async () => {
-  const res = await deviceList();
+const init = () => {
+  histogramChart.value = echarts.init(document.getElementById("histogram"));
+  option && histogramChart.value.setOption(option);
 };
 
-const init = () => {
-  dscountChart.value = echarts.init(document.getElementById("histogram"));
-  option && dscountChart.value.setOption(option);
+// 电梯人员密度
+const getList = async () => {
+  const res = await elevatorpersonneldensityStatistics();
+  if (res) {
+    option.series[0].data = [...res];
+    histogramChart.value.setOption(option);
+  }
 };
 
 onMounted(() => {
-  getList();
   init();
+  getList();
 });
+
+watch(
+  () => option.series[0].data,
+  () => {
+    histogramChart.value.setOption(option);
+  }
+);
 </script>
 <style scoped>
 .histogram {

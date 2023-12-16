@@ -15,8 +15,8 @@
               v-for="(item, index) in newsdatas"
               :key="index"
             >
-              <div class="flex_item">{{ item.title }}</div>
-              <div class="date">{{ item.date }}</div>
+              <div class="flex_item">{{ item.name }}</div>
+              <div class="date">{{ item.timeStamp }}</div>
               <div class="status">{{ item.status }}</div>
             </div>
           </vue3-seamless-scroll>
@@ -30,7 +30,7 @@
       <chartpanel class="flex-1 chart" title="设备状态">
         <Gauge></Gauge>
       </chartpanel>
-      <chartpanel title="人口密集度" class="flex-1 chart">
+      <chartpanel title="电梯人口密集度" class="flex-1 chart">
         <Histogram style="height: 90%"></Histogram>
       </chartpanel>
       <chartpanel class="flex-1 chart" title="异常人员">
@@ -50,6 +50,7 @@ import VariousPeople from "../views/VariousPeople.vue";
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 import chartpanel from "@/components/chartpanel.vue";
 import { ElMessage } from "element-plus";
+import { keypersonnelStatistics } from "../api/keypersonnel";
 
 let option2 = reactive({
   title: {
@@ -119,80 +120,34 @@ const newsdatas = ref([
   { title: "-", date: "2023-01-01", status: "进小区" },
 ]);
 
-// 数据初始化全国数据
-const initialization = () => {
-  // 如果消息不是 "历下区"，则恢复 option2 到默认值
-
-  // 各类人口占比
-  option2.series[0].data = [
-    { name: "流入人口", value: 2000 },
-    { name: "流出人口", value: 3000 },
-  ];
-
-  // 常住人口统计初始化
-  option3.series[0].data = [820, 932, 901, 934, 1290, 1330, 1320];
-
-  // 流动人口统计初始化
-
-  //社区动态数据初始化
-  newsdatas.value = [
-    { title: "王佳乐", date: "2023-01-01", status: "离开小区" },
-    { title: "李香琴", date: "2023-01-01", status: "进小区" },
-    { title: "王佳乐", date: "2023-01-01", status: "离开小区" },
-    { title: "-", date: "2023-01-01", status: "进小区" },
-    { title: "-", date: "2023-01-01", status: "离开小区" },
-    { title: "-", date: "2023-01-01", status: "进小区" },
-    { title: "刘佳", date: "2023-01-01", status: "离开小区" },
-    { title: "张廷发", date: "2023-01-01", status: "进小区" },
-    { title: "张慢", date: "2023-01-01", status: "离开小区" },
-    { title: "-", date: "2023-01-01", status: "进小区" },
-    { title: "-", date: "2023-01-01", status: "离开小区" },
-    { title: "-", date: "2023-01-01", status: "进小区" },
-  ];
-
-  // 设备状态
+// 小区重点人员
+const getList = async () => {
+  const res = await keypersonnelStatistics();
+  if (res) {
+    let data = [];
+    data = res;
+    data.forEach((item) => {
+      if (item.status === "in") {
+        item.status = "进入小区";
+      } else if (item.status === "out") {
+        item.status = "离开小区";
+      }
+    });
+    newsdatas.value = data;
+  }
 };
 
 // 控制根据地图数据进行改变图标信息
 const handleMessageFromChild = (message) => {
   if (message === "历下区") {
-    // 人口比例
-    option2.title.text = "各类人口占比1";
-    option2.series[0].data = [
-      { name: "流入人口", value: 3000 },
-      { name: "流出人口", value: 3000 },
-    ];
-    // 常住人口统计初始化
-    option3.series[0].data = [1330, 1330, 1330, 1330, 1330, 1330, 1320];
-
-    // 设备状态
-
-    // 流动人口统计初始化
-
-    //社区动态数据初始化
-    newsdatas.value = [
-      { title: "郑光", date: "2023-01-01", status: "进小区" },
-      { title: "刘文", date: "2023-01-01", status: "进小区" },
-      { title: "王佳乐", date: "2023-01-01", status: "离开小区" },
-      { title: "-", date: "2023-01-01", status: "离开小区" },
-      { title: "-", date: "2023-01-01", status: "进小区" },
-      { title: "-", date: "2023-01-01", status: "离开小区" },
-      { title: "孙栋", date: "2023-01-01", status: "进小区" },
-      { title: "李倩倩", date: "2023-01-01", status: "离开小区" },
-      { title: "张慢", date: "2023-01-01", status: "进小区" },
-      { title: "-", date: "2023-01-01", status: "离开小区" },
-      { title: "-", date: "2023-01-01", status: "离开小区" },
-      { title: "-", date: "2023-01-01", status: "进小区" },
-    ];
-  } else if (message === "全国") {
-    initialization();
+    ElMessage.success("现在数据已展示");
   } else {
     ElMessage.warning("没有数据");
   }
 };
 
 onMounted(() => {
-  // getList();
+  getList();
 });
 </script>
 
