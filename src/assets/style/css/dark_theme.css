@@ -14,7 +14,7 @@
 .dark .title {
   height: 6vh;
   position: relative;
-  border-bottom: 0.1vh solid #03a9f48a;
+  border-bottom: 0.3vh solid #03a9f48a;
 }
 
 .dark .title .time_div {

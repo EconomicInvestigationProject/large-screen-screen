@@ -41,7 +41,7 @@ html {
 } */
 
 .chart {
-  border: 0.1vh solid #2196f366;
+  border: 0.3vh solid #2196f366;
   position: relative;
   padding: 0 1vh;
 }

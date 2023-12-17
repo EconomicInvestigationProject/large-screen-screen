@@ -74,6 +74,20 @@ let gaugeData = ref([
 ]);
 
 let option = reactive({
+  tooltip: {
+    show: true,
+    formatter: "{b}: {c}", // {a} 表示系列名，{c} 表示数值
+    backgroundColor: "rgba(50,50,50,0.7)", // 提示框背景色
+    textStyle: {
+      color: "#fff", // 提示框文字颜色
+    },
+  },
+  grid: {
+    left: "3%",
+    right: "4%",
+    bottom: "3%",
+    containLabel: true,
+  },
   series: [
     {
       type: "gauge",
@@ -95,21 +109,6 @@ let option = reactive({
       axisLine: {
         lineStyle: {
           width: 40,
-          // color: [
-          //   [
-          //     1,
-          //     new echarts.graphic.RadialGradient(0.8, 1, 1, [
-          //       {
-          //         offset: 0.1,
-          //         color: "rgba(106, 205, 255, 0.2600)",
-          //       },
-          //       {
-          //         offset: 0.1,
-          //         color: "rgba(106, 205, 255, 0.2600)",
-          //       },
-          //     ]),
-          //   ],
-          // ], // 颜色
         },
       },
       splitLine: {
@@ -169,16 +168,15 @@ const getList = async () => {
 onMounted(() => {
   getList();
   init();
-
-  // 监听数据变化
-  watch(
-    gaugeData.value,
-    (newValue, oldValue) => {
-      console.log(`新的值是：${newValue.name}，旧的值是：${oldValue.name}`);
-    },
-    { deep: true }
-  );
+  // 监听窗口 resize 事件
+  window.addEventListener("resize", () => {
+    console.log("Window gaugeChart");
+    gaugeChart.value.resize();
+  });
 });
+
+// 监听数据变化
+watch(gaugeData.value, (newValue, oldValue) => {}, { deep: true });
 </script>
 <style scoped>
 .gauge {

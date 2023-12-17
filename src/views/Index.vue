@@ -15,7 +15,7 @@
               v-for="(item, index) in newsdatas"
               :key="index"
             >
-              <div class="flex_item">{{ item.name }}</div>
+              <div class="name">{{ item.name }}</div>
               <div class="date">{{ item.timeStamp }}</div>
               <div class="status">{{ item.status }}</div>
             </div>
@@ -34,7 +34,7 @@
         <Histogram style="height: 90%"></Histogram>
       </chartpanel>
       <chartpanel class="flex-1 chart" title="异常人员">
-        <Discount style="height: 90%"></Discount>
+        <Discount style="height: 88%"></Discount>
       </chartpanel>
     </div>
   </div>
@@ -161,13 +161,11 @@ onMounted(() => {
   overflow: hidden;
   margin: 0px;
   padding: 0;
-  /* margin-top: 1vh; */
 }
 
 .flylineDiagram_left,
 .flylineDiagram_content,
 .flylineDiagram_right {
-  /* position: absolute; */
   display: flex;
   flex-direction: column;
 }
@@ -177,10 +175,12 @@ onMounted(() => {
   height: 100%;
   width: 25%;
   padding: 5px;
+  min-width: 500px;
 }
 
 .flylineDiagram_content {
   flex: auto;
+  min-width: 500px;
 }
 
 .flylineDiagram_right {
@@ -188,6 +188,7 @@ onMounted(() => {
   height: 100%;
   width: 25%;
   padding: 5px;
+  min-width: 500px;
 }
 
 .flex-1 {
@@ -214,14 +215,21 @@ onMounted(() => {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+.indexscroll .item .name {
+  width: auto;
+  min-width: 5vw;
+}
+
 .indexscroll .item .date {
-  width: 10vw;
+  width: auto;
+  min-width: 5vw;
 }
 
 .indexscroll .item .status {
-  width: 3vw;
-  /* color: #ff0157; */
+  width: auto;
+  min-width: 5vw;
 }
+
 .titleStyle {
   text-align: center;
   color: antiquewhite;

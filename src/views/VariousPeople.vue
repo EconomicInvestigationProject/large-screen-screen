@@ -4,13 +4,13 @@
     <script setup>
 import * as echarts from "echarts";
 import { onMounted, reactive, ref, defineProps, watch } from "vue";
-import { deviceList } from "../api/device";
+import { proportionvarioustypespeopleStatistics } from "../api/proportionvarioustypespeople";
 
 const variousPeopleChart = ref(null);
 
 let option = reactive({
   title: {
-    text: "人口占比比例",
+    text: "小区各类人员占比",
     textStyle: {
       color: "#fff",
     },
@@ -18,6 +18,12 @@ let option = reactive({
   },
   tooltip: {
     trigger: "item",
+  },
+  grid: {
+    left: "3%",
+    right: "4%",
+    bottom: "3%",
+    containLabel: true,
   },
   legend: {
     top: "5%",
@@ -54,8 +60,8 @@ let option = reactive({
             // var colorList = ["#129DD9", "#187AE4", "#1C65A1"];
             // return colorList[colors.dataIndex];
             var colorList = [
-              { offset: 0, color: "#129DD9" },
-              { offset: 0.5, color: "#187AE4" },
+              { offset: 0, color: "#199DAD" },
+              { offset: 0.5, color: "#187AE8" },
               { offset: 1, color: "#1C65A1" },
             ];
             return new echarts.graphic.LinearGradient(0, 0, 0, 1, colorList);
@@ -73,17 +79,21 @@ let option = reactive({
         show: false,
       },
       data: [
-        { value: 12000, name: "常住人口" },
-        { value: 800, name: "流出人口" },
-        { value: 900, name: "陌生人" },
+        { name: "常住人口", value: "12000" },
+        { name: "流动人口", value: "800" },
+        { name: "陌生人", value: "900" },
       ],
     },
   ],
 });
 
-// 设备状态
+//小区各类人员占比
 const getList = async () => {
-  const res = await deviceList();
+  const res = await proportionvarioustypespeopleStatistics();
+  if (res) {
+    option.series[0].data = res;
+    variousPeopleChart.value.setOption(option);
+  }
 };
 
 const init = () => {
@@ -94,9 +104,21 @@ const init = () => {
 };
 
 onMounted(() => {
-  // getList();
   init();
+  getList();
+  // 监听窗口 resize 事件
+  window.addEventListener("resize", () => {
+    console.log("Window variousPeopleChart");
+    variousPeopleChart.value.resize();
+  });
 });
+
+watch(
+  () => option.series[0].data,
+  () => {
+    variousPeopleChart.value.setOption(option);
+  }
+);
 </script>
     <style scoped>
 .variousPeople {

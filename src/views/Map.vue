@@ -87,6 +87,12 @@ let option = {
       fontFamily: "Microsoft YaHei",
     },
   },
+  grid: {
+    left: "3%",
+    right: "4%",
+    bottom: "3%",
+    containLabel: true,
+  },
   tooltip: {
     trigger: "item",
     formatter: "{b}",
@@ -294,6 +300,12 @@ onMounted(() => {
       changedata(params.name);
       showMap.value = true;
     }
+  });
+
+  // 监听窗口 resize 事件
+  window.addEventListener("resize", () => {
+    console.log("Window myChart");
+    myChart.value.resize();
   });
 });
 </script>

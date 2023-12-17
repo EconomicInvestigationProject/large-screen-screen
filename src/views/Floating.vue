@@ -16,6 +16,12 @@ let option = reactive({
     top: "5%",
     left: "center",
   },
+  grid: {
+    left: "3%",
+    right: "4%",
+    bottom: "3%",
+    containLabel: true,
+  },
   series: [
     {
       name: "Access From",
@@ -65,6 +71,11 @@ const init = () => {
 onMounted(() => {
   // getList();
   init();
+  // 监听窗口 resize 事件
+  window.addEventListener("resize", () => {
+    console.log("Window floatingChart");
+    floatingChart.value.resize();
+  });
 });
 </script>
   <style scoped>

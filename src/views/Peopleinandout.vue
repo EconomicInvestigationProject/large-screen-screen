@@ -4,7 +4,7 @@
 <script setup>
 import * as echarts from "echarts";
 import { onMounted, reactive, ref, defineProps, watch } from "vue";
-import { deviceList } from "../api/device";
+import { peopleinandoutStatistics } from "../api/peopleinandout";
 
 const peopleinandoutChart = ref(null);
 
@@ -19,6 +19,12 @@ let option = reactive({
   tooltip: {
     trigger: "item",
   },
+  grid: {
+    left: "3%",
+    right: "4%",
+    bottom: "3%",
+    containLabel: true,
+  },
   legend: {
     top: "5%",
     left: "center",
@@ -32,7 +38,6 @@ let option = reactive({
   series: [
     {
       type: "pie",
-      // radius: ["40%", "70%"],
       avoidLabelOverlap: false,
       itemStyle: {
         borderRadius: 10,
@@ -41,8 +46,11 @@ let option = reactive({
         color: [],
       },
       label: {
-        show: false,
-        position: "center",
+        normal: {
+          position: "inside", // 在内部显示，outseide 是在外部显示
+          show: true,
+          formatter: "{c}", // formatter 是标签内容的格式器，用于转换格式。支持 字符串和回调函数两种形式。
+        },
         textStyle: {
           // 设置字体样式
           color: "#fff", // 设置字体颜色为白色
@@ -87,11 +95,6 @@ let option = reactive({
   ],
 });
 
-// 搬入搬出人员
-const getList = async () => {
-  const res = await deviceList();
-};
-
 const init = () => {
   peopleinandoutChart.value = echarts.init(
     document.getElementById("peopleinandout")
@@ -99,9 +102,24 @@ const init = () => {
   option && peopleinandoutChart.value.setOption(option);
 };
 
+// 搬入搬出人员统计
+const getList = async () => {
+  const res = await peopleinandoutStatistics();
+  if (res) {
+    option.series[0].data[0].value = res[0].sumPeopleMovedIn;
+    option.series[0].data[1].value = res[0].sumPeopleMovedOut;
+    peopleinandoutChart.value.setOption(option);
+  }
+};
+
 onMounted(() => {
-  // getList();
   init();
+  getList();
+  // 监听窗口 resize 事件
+  window.addEventListener("resize", () => {
+    console.log("Window peopleinandoutChart");
+    peopleinandoutChart.value.resize();
+  });
 });
 
 watch(

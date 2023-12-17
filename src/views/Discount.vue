@@ -6,8 +6,8 @@ import * as echarts from "echarts";
 import { onMounted, reactive, ref, defineProps, watch } from "vue";
 import { abnormalpersonnelStatistics } from "../api/abnormalpersonnel";
 
-var dscountChart;
-var option = {
+const dscountChart = ref(null);
+var option = reactive({
   color: ["#37A2FF"],
   title: {
     text: "异常人员",
@@ -90,11 +90,11 @@ var option = {
       data: [10, 28, 30, 20, 10, 5, 20],
     },
   ],
-};
+});
 
 const init = () => {
-  dscountChart = echarts.init(document.getElementById("dscount"));
-  dscountChart.setOption(option);
+  dscountChart.value = echarts.init(document.getElementById("dscount"));
+  dscountChart.value.setOption(option);
 };
 
 // 异常人员
@@ -102,13 +102,18 @@ const getList = async () => {
   const res = await abnormalpersonnelStatistics();
   if (res) {
     option.series[0].data = [...res];
-    dscountChart.setOption(option);
+    dscountChart.value.setOption(option);
   }
 };
 
 onMounted(() => {
   init();
   getList();
+  // 监听窗口 resize 事件
+  window.addEventListener("resize", () => {
+    console.log("Window dscountChart");
+    dscountChart.value.resize();
+  });
 });
 
 watch(

@@ -3,20 +3,21 @@
 </template>
 <script setup>
 import * as echarts from "echarts";
-import { onMounted, reactive, ref, defineProps, watch } from "vue";
+import { onMounted, reactive, ref, defineProps, watch, markRaw } from "vue";
 import { elevatorpersonneldensityStatistics } from "../api/elevatorpersonneldensity";
 
 const histogramChart = ref(null);
 
 let option = reactive({
   tooltip: {
-    trigger: "axis",
+    trigger: "item",
     axisPointer: {
       type: "shadow",
       label: {
         backgroundColor: "#6a7985",
       },
     },
+    show: true,
     formatter: "{b}:人员密度是 {c}", // 提示框内容，{b} 表示 x 轴数据，{c} 表示 y 轴数据
   },
   grid: {
@@ -69,7 +70,9 @@ let option = reactive({
 });
 
 const init = () => {
-  histogramChart.value = echarts.init(document.getElementById("histogram"));
+  histogramChart.value = markRaw(
+    echarts.init(document.getElementById("histogram"))
+  );
   option && histogramChart.value.setOption(option);
 };
 
@@ -78,19 +81,24 @@ const getList = async () => {
   const res = await elevatorpersonneldensityStatistics();
   if (res) {
     option.series[0].data = [...res];
-    histogramChart.value.setOption(option);
+    histogramChart.value.setOption(option, true); // 添加第二个参数 true 表示合并而不是替换
   }
 };
 
 onMounted(() => {
   init();
   getList();
+  // 监听窗口 resize 事件
+  window.addEventListener("resize", () => {
+    console.log("Window histogramChart");
+    histogramChart.value && histogramChart.value.resize();
+  });
 });
 
 watch(
   () => option.series[0].data,
   () => {
-    histogramChart.value.setOption(option);
+    histogramChart.value.setOption(option, true);
   }
 );
 </script>
