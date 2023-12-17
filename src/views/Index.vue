@@ -5,7 +5,7 @@
         <VariousPeople style="height: 90%"></VariousPeople>
       </chartpanel>
       <chartpanel title="搬入搬出人员出占比" class="flex-1 chart">
-        <v-chart :option="option2" style="height: 90%"></v-chart>
+        <Peopleinandout style="height: 90%"></Peopleinandout>
       </chartpanel>
       <div class="flex-1">
         <chartpanel title="小区重点人员动态">
@@ -47,6 +47,7 @@ import Gauge from "../views/Gauge.vue";
 import Discount from "../views/Discount.vue";
 import Histogram from "../views/Histogram.vue";
 import VariousPeople from "../views/VariousPeople.vue";
+import Peopleinandout from "../views/Peopleinandout.vue";
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 import chartpanel from "@/components/chartpanel.vue";
 import { ElMessage } from "element-plus";

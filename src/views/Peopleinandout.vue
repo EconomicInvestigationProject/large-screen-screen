@@ -1,16 +1,16 @@
 <template>
-  <div class="variousPeople" id="variousPeople"></div>
+  <div class="peopleinandout" id="peopleinandout"></div>
 </template>
-    <script setup>
+<script setup>
 import * as echarts from "echarts";
 import { onMounted, reactive, ref, defineProps, watch } from "vue";
 import { deviceList } from "../api/device";
 
-const variousPeopleChart = ref(null);
+const peopleinandoutChart = ref(null);
 
 let option = reactive({
   title: {
-    text: "人口占比比例",
+    text: "搬入搬出人员占比",
     textStyle: {
       color: "#fff",
     },
@@ -32,7 +32,7 @@ let option = reactive({
   series: [
     {
       type: "pie",
-      radius: ["40%", "70%"],
+      // radius: ["40%", "70%"],
       avoidLabelOverlap: false,
       itemStyle: {
         borderRadius: 10,
@@ -51,14 +51,21 @@ let option = reactive({
       itemStyle: {
         normal: {
           color: function (colors) {
-            // var colorList = ["#129DD9", "#187AE4", "#1C65A1"];
+            // var colorList = ["#129DD9", "#187AE4"];
             // return colorList[colors.dataIndex];
+            // params.dataIndex表示数据项的索引
             var colorList = [
-              { offset: 0, color: "#129DD9" },
-              { offset: 0.5, color: "#187AE4" },
-              { offset: 1, color: "#1C65A1" },
+              { offset: 0, color: "#129DD9" }, // 开始颜色
+              { offset: 1, color: "#187AE4" }, // 结束颜色
             ];
-            return new echarts.graphic.LinearGradient(0, 0, 0, 1, colorList);
+            var linearGradient = new echarts.graphic.LinearGradient(
+              0,
+              0,
+              0,
+              1,
+              colorList
+            );
+            return linearGradient;
           },
         },
       },
@@ -73,33 +80,39 @@ let option = reactive({
         show: false,
       },
       data: [
-        { value: 12000, name: "常住人口" },
-        { value: 800, name: "流出人口" },
-        { value: 900, name: "陌生人" },
+        { value: 12000, name: "搬入人员" },
+        { value: 800, name: "搬出人员" },
       ],
     },
   ],
 });
 
-// 设备状态
+// 搬入搬出人员
 const getList = async () => {
   const res = await deviceList();
 };
 
 const init = () => {
-  variousPeopleChart.value = echarts.init(
-    document.getElementById("variousPeople")
+  peopleinandoutChart.value = echarts.init(
+    document.getElementById("peopleinandout")
   );
-  option && variousPeopleChart.value.setOption(option);
+  option && peopleinandoutChart.value.setOption(option);
 };
 
 onMounted(() => {
   // getList();
   init();
 });
+
+watch(
+  () => option.series[0].data,
+  () => {
+    peopleinandoutChart.value.setOption(option);
+  }
+);
 </script>
-    <style scoped>
-.variousPeople {
+<style scoped>
+.peopleinandout {
   width: 100%;
   height: 100%;
 }

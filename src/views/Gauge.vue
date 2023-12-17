@@ -95,21 +95,21 @@ let option = reactive({
       axisLine: {
         lineStyle: {
           width: 40,
-          color: [
-            [
-              1,
-              new echarts.graphic.RadialGradient(0.8, 1, 1, [
-                {
-                  offset: 0.1,
-                  color: "rgba(106, 205, 255, 0.2600)",
-                },
-                {
-                  offset: 0.1,
-                  color: "rgba(106, 205, 255, 0.2600)",
-                },
-              ]),
-            ],
-          ], // 颜色
+          // color: [
+          //   [
+          //     1,
+          //     new echarts.graphic.RadialGradient(0.8, 1, 1, [
+          //       {
+          //         offset: 0.1,
+          //         color: "rgba(106, 205, 255, 0.2600)",
+          //       },
+          //       {
+          //         offset: 0.1,
+          //         color: "rgba(106, 205, 255, 0.2600)",
+          //       },
+          //     ]),
+          //   ],
+          // ], // 颜色
         },
       },
       splitLine: {
