@@ -1,13 +1,15 @@
 <template>
-  <div @click="back" class="back">返回全国</div>
-  <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
-  <div ref="mapChart" id="mapChart" style="width: 100%; height: 100%"></div>
-  <!-- <BaiduMap
+  <div class="map">
+    <div @click="back" class="back">返回全国</div>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div ref="mapChart" id="mapChart" style="width: 100%; height: 100%"></div>
+    <!-- <BaiduMap
     v-if="showMap"
     :maplng="maplng"
     :maplat="maplat"
     @goback="showMap = $event"
   ></BaiduMap> -->
+  </div>
 </template>
    
 <script setup>
@@ -310,11 +312,24 @@ onMounted(() => {
 });
 </script>
 <style>
+.map {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
 .back {
   width: 80px;
   height: 30px;
   color: #fff;
   margin: 30px;
   font-size: 18px;
+}
+
+/* 当视图宽度小于600像素时应用的样式 */
+@media screen and (max-width: 600px) {
+  .back {
+    margin: 30px 15px;
+  }
 }
 </style>

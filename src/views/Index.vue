@@ -1,40 +1,38 @@
 <template>
   <div class="flylineDiagram">
     <div class="flylineDiagram_left">
-      <chartpanel title="各类人员占比" class="flex-1 chart">
-        <VariousPeople style="height: 90%"></VariousPeople>
+      <chartpanel title="各类人员占比" class="flex_1 chart">
+        <VariousPeople class="variousPeople_view"></VariousPeople>
       </chartpanel>
-      <chartpanel title="搬入搬出人员出占比" class="flex-1 chart">
-        <Peopleinandout style="height: 90%"></Peopleinandout>
+      <chartpanel title="搬入搬出人员出占比" class="flex_1 chart">
+        <Peopleinandout class="peopleinandout_view"></Peopleinandout>
       </chartpanel>
-      <div class="flex-1">
-        <chartpanel title="小区重点人员动态">
-          <vue3-seamless-scroll :list="newsdatas" class="indexscroll">
-            <div
-              class="item flex"
-              v-for="(item, index) in newsdatas"
-              :key="index"
-            >
-              <div class="name">{{ item.name }}</div>
-              <div class="date">{{ item.timeStamp }}</div>
-              <div class="status">{{ item.status }}</div>
-            </div>
-          </vue3-seamless-scroll>
-        </chartpanel>
-      </div>
+      <chartpanel title="小区重点人员动态" class="flex_1 chart indexscroll_chart">
+        <vue3-seamless-scroll :list="newsdatas" class="indexscroll">
+          <div
+            class="item flex"
+            v-for="(item, index) in newsdatas"
+            :key="index"
+          >
+            <div class="name">{{ item.name }}</div>
+            <div class="date">{{ item.timeStamp }}</div>
+            <div class="status">{{ item.status }}</div>
+          </div>
+        </vue3-seamless-scroll>
+      </chartpanel>
     </div>
     <div class="flylineDiagram_content">
-      <Map @sendMessageToParent="handleMessageFromChild"></Map>
+      <Map @sendMessageToParent="handleMessageFromChild" class="map_view"></Map>
     </div>
     <div class="flylineDiagram_right">
-      <chartpanel class="flex-1 chart" title="设备状态">
-        <Gauge></Gauge>
+      <chartpanel class="flex_1 chart" title="设备状态">
+        <Gauge class="gauge_views"></Gauge>
       </chartpanel>
-      <chartpanel title="电梯人口密集度" class="flex-1 chart">
-        <Histogram style="height: 90%"></Histogram>
+      <chartpanel class="flex_1 chart" title="电梯人口密集度">
+        <Histogram class="histogram_view"></Histogram>
       </chartpanel>
-      <chartpanel class="flex-1 chart" title="异常人员">
-        <Discount style="height: 88%"></Discount>
+      <chartpanel class="flex_1 chart" title="异常人员">
+        <Discount class="discount_view"></Discount>
       </chartpanel>
     </div>
   </div>
@@ -175,12 +173,10 @@ onMounted(() => {
   height: 100%;
   width: 25%;
   padding: 5px;
-  min-width: 500px;
 }
 
 .flylineDiagram_content {
   flex: auto;
-  min-width: 500px;
 }
 
 .flylineDiagram_right {
@@ -188,12 +184,26 @@ onMounted(() => {
   height: 100%;
   width: 25%;
   padding: 5px;
-  min-width: 500px;
 }
-
-.flex-1 {
+.flex_1 {
   flex: 1;
   margin: 5px 0;
+}
+
+.variousPeople_view {
+  height: 90%;
+}
+
+.peopleinandout_view {
+  height: 90%;
+}
+
+.histogram_view {
+  height: 90%;
+}
+
+.discount_view {
+  height: 88%;
 }
 
 .indexscroll {
@@ -242,5 +252,64 @@ onMounted(() => {
   font-size: 20px;
   width: 100%;
   height: 90%;
+}
+
+/* 当视图宽度小于600像素时应用的样式 */
+@media screen and (max-width: 600px) {
+  /* 在这里添加你希望在小屏幕上应用的样式和布局 */
+  .flylineDiagram {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    height: 92.5vh;
+    width: 100vw;
+    overflow: hidden;
+    overflow-y: scroll;
+    margin: 0px;
+    padding: 0;
+  }
+
+  .flex_1 {
+    margin: 5px;
+  }
+
+  .chart {
+    min-height: 320px;
+  }
+
+
+  .flylineDiagram_left {
+    display: flex;
+    height: auto;
+    padding: 5px;
+    width: 100%;
+    padding: 0px;
+  }
+
+  .flylineDiagram_content {
+    min-height: 400px;
+    width: 100%;
+    padding: 0px;
+  }
+
+  .flylineDiagram_content .back{
+    margin: 10px;
+  }
+
+  .flylineDiagram_right {
+    width: 100%;
+    padding: 0px;
+  }
+
+  .indexscroll {
+    height: 30vh;
+  }
+
+  .histogram_view {
+    height: 90%;
+  }
+  .discount_view {
+    height: 90%;
+  }
 }
 </style>

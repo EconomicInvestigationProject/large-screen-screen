@@ -28,7 +28,7 @@
       </div>
       <div class="flex flex_item" style="width: 10vw">
         <div class="time_div flex_item flex">
-          <div class="tools flex flex_item" style="">
+          <div class="tools flex flex_item">
             <div class="flex_item flex_item_left">
               <div class="tool_item" @click="screen">
                 <el-icon>
@@ -55,7 +55,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, reactive, defineEmits } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { useStore } from 'vuex';
+import { useStore } from "vuex";
 const emit = defineEmits(["showSettingDialog"]);
 const router = useRouter();
 const store = useStore();
@@ -118,8 +118,6 @@ const exit = () => {
   router.push("/login");
 };
 
-
-
 const curpage = ref("index");
 const turnPage = (path) => {
   router.push(path);
@@ -148,5 +146,15 @@ onBeforeUnmount(() => {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+/* 当视图宽度小于600像素时应用的样式 */
+@media screen and (max-width: 600px) {
+  .dark .title .time {
+    display: none;
+  }
+  .flex_item_left {
+    display: none;
+  }
 }
 </style>
