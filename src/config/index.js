@@ -17,7 +17,7 @@ const EnvConfig = {
   },
   prod: {
     //生产环境
-    baseApi: "//futurefe.com/api",
+    baseApi: "/api",
     mockApi:
       "https://www.fastmock.site/mock/b6c70fa8747a78b3dfd8acdde935d3f3/api"
   }
