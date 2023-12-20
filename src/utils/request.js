@@ -21,8 +21,8 @@ const service = axios.create({
 // 请求拦截
 service.interceptors.request.use((req) => {
   const headers = req.headers;
-  const { token = "" } = storage.getItem("userInfo") || {};
-  if (!headers.Authorization) headers.Authorization = "Bearer " + token;
+  // const { token = "" } = storage.getItem("userInfo") || {};
+  // if (!headers.Authorization) headers.Authorization = "Bearer " + token;
   return req;
 });
 
