@@ -115,7 +115,8 @@ const exit = () => {
   // 设置localStorage数据为空
   store.commit("saveUserInfo", "");
   // 清空当前数据
-  router.push("/login");
+  // router.push("/login");
+  window.location.href = "http://218.56.104.54:8085/#/logout";
 };
 
 const curpage = ref("index");
