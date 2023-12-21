@@ -36,7 +36,9 @@ service.interceptors.response.use((res) => {
     ElMessage.error(TOKEN_INVALID);
     // 跳转到登录页面
     setTimeout(() => {
-      router.push("/login");
+      // router.push("/login");
+      sessionStorage.clear();
+      window.location.replace("http://218.56.104.54:8085/logout");
     }, 1500);
     // 向控制台抛出异常
     return Promise.reject(TOKEN_INVALID);

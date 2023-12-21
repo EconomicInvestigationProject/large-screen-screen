@@ -7,7 +7,10 @@
       <chartpanel title="搬入搬出人员出占比" class="flex_1 chart">
         <Peopleinandout class="peopleinandout_view"></Peopleinandout>
       </chartpanel>
-      <chartpanel title="小区重点人员动态" class="flex_1 chart indexscroll_chart">
+      <chartpanel
+        title="小区重点人员动态"
+        class="flex_1 chart indexscroll_chart"
+      >
         <vue3-seamless-scroll :list="newsdatas" class="indexscroll">
           <div
             class="item flex"
@@ -140,6 +143,8 @@ const getList = async () => {
 const handleMessageFromChild = (message) => {
   if (message === "历下区") {
     ElMessage.success("现在数据已展示");
+  } else if (message === "全国") {
+    return;
   } else {
     ElMessage.warning("没有数据");
   }
@@ -277,7 +282,6 @@ onMounted(() => {
     min-height: 320px;
   }
 
-
   .flylineDiagram_left {
     display: flex;
     height: auto;
@@ -292,7 +296,7 @@ onMounted(() => {
     padding: 0px;
   }
 
-  .flylineDiagram_content .back{
+  .flylineDiagram_content .back {
     margin: 10px;
   }
 
