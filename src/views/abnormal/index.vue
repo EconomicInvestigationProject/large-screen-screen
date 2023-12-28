@@ -15,8 +15,14 @@
         <el-table-column fixed prop="timeStamp" label="时间" />
         <el-table-column prop="name" label="姓名" />
         <el-table-column fixed="right" label="操作" width="120">
-          <template #default>
-            <el-button link type="primary" size="small">删除</el-button>
+          <template #default="scope">
+            <el-button
+              link
+              type="primary"
+              @click="deleteAbnormal(scope.row)"
+              size="small"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -27,7 +33,8 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { keypersonnelStatistics } from "../../api/keypersonnel";
+import { keypersonnelStatistics, deleteRecord } from "../../api/keypersonnel";
+import { ElMessage } from "element-plus";
 const router = useRouter();
 const back = () => {
   console.log(11);
@@ -50,6 +57,17 @@ const getList = async () => {
     tableData.value = data;
   }
 };
+
+// 删除小区重点人员
+const deleteAbnormal = async (item) => {
+  const res = await deleteRecord({ idCard: item.idCard });
+  if (res === "删除成功") {
+    ElMessage.success(res);
+  }else{
+    ElMessage.info('操作失败')
+  }
+};
+
 onMounted(() => {
   getList();
 });

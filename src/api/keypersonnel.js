@@ -15,3 +15,16 @@ export const keypersonnelStatistics = () => {
     mock: false
   });
 };
+
+
+/**
+ * 指定删除小区重点人员
+ */
+export const deleteRecord = (params) => {
+  return request({
+    url: "/keypersonnel/deleteRecord",
+    method: "post",
+    data: params,
+    mock: false
+  });
+};
