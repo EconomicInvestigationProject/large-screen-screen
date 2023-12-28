@@ -2,10 +2,10 @@
   <div class="flylineDiagram">
     <div class="flylineDiagram_left">
       <chartpanel title="各类人员占比" class="flex_1 chart">
-        <VariousPeople class="variousPeople_view"></VariousPeople>
+        <variousPeople class="variousPeople_view"></variousPeople>
       </chartpanel>
       <chartpanel title="搬入搬出人员出占比" class="flex_1 chart">
-        <Peopleinandout class="peopleinandout_view"></Peopleinandout>
+        <peopleinandout class="peopleinandout_view"></peopleinandout>
       </chartpanel>
       <chartpanel
         title="小区重点人员动态"
@@ -25,17 +25,17 @@
       </chartpanel>
     </div>
     <div class="flylineDiagram_content">
-      <Map @sendMessageToParent="handleMessageFromChild" class="map_view"></Map>
+      <MapComponent @sendMessageToParent="handleMessageFromChild"></MapComponent>
     </div>
     <div class="flylineDiagram_right">
       <chartpanel class="flex_1 chart" title="设备状态">
-        <Gauge class="gauge_views"></Gauge>
+        <gauge class="gauge_views"></gauge>
       </chartpanel>
       <chartpanel class="flex_1 chart" title="电梯人口密集度">
-        <Histogram class="histogram_view"></Histogram>
+        <histogram class="histogram_view"></histogram>
       </chartpanel>
       <chartpanel class="flex_1 chart" title="异常人员">
-        <Discount class="discount_view"></Discount>
+        <discount class="discount_view"></discount>
       </chartpanel>
     </div>
   </div>
@@ -43,12 +43,12 @@
 
 <script  setup>
 import { onMounted, reactive, ref } from "vue";
-import Map from "../views/Map.vue";
-import Gauge from "../views/Gauge.vue";
-import Discount from "../views/Discount.vue";
-import Histogram from "../views/Histogram.vue";
-import VariousPeople from "../views/VariousPeople.vue";
-import Peopleinandout from "../views/Peopleinandout.vue";
+import MapComponent from './map.vue';
+import gauge from "./gauge.vue";
+import discount from "./discount.vue";
+import histogram from "./histogram.vue";
+import variousPeople from "./variousPeople.vue";
+import peopleinandout from "./peopleinandout.vue";
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 import chartpanel from "@/components/chartpanel.vue";
 import { ElMessage } from "element-plus";

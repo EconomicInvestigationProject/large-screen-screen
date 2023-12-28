@@ -17,12 +17,6 @@
   border-bottom: 0.3vh solid #03a9f48a;
 }
 
-.dark .title .time_div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-width: 10vw;
-}
 
 .dark .title .time {
   font-size: 1.4rem;
@@ -46,33 +40,7 @@
   color: transparent;
 }
 
-.dark .title .menus {
-  display: flex;
-  height: 6vh;
-}
-.dark .title .menus_div {
-  height: 6vh;
-  width: 35vw;
-}
-.dark .title .menus .menu_item {
-  height: 3vh;
-  line-height: 3vh;
-  font-size: 1.4rem;
-  margin: 0 auto;
-  width: 90%;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 3px;
-  margin-top: 1.5vh;
-  cursor: pointer;
-}
 
-.dark .title .menus .menu_item:hover {
-  background: #2196f3;
-}
-
-.dark .title .menus .menu_item_selected {
-  background: #2196f3;
-}
 
 .dark .title .tools {
   height: 6vh;
