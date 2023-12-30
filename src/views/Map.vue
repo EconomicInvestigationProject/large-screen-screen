@@ -1,6 +1,6 @@
 <template>
   <div class="map">
-    <div @click="back" class="back">返回全国</div>
+    <div @click="back" class="back">全国</div>
     <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
     <div ref="mapChart" id="mapChart" style="width: 100%; height: 100%"></div>
     <!-- <BaiduMap
@@ -104,11 +104,6 @@ let option = {
     orient: "vertical",
     left: "right",
     top: "center",
-    feature: {
-      dataView: { readOnly: false },
-      restore: {},
-      saveAsImage: {},
-    },
     iconStyle: {
       normal: {
         color: "#fff",
