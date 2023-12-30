@@ -64,7 +64,7 @@ let option = reactive({
       emphasis: {
         focus: "series",
       },
-      data: [10, 52, 200, 334, 390, 330, 220],
+      data: [0, 0, 0, 0, 0, 0, 0],
     },
   ],
 });
@@ -80,7 +80,7 @@ const init = () => {
 const getList = async () => {
   const res = await elevatorpersonneldensityStatistics();
   if (res) {
-    option.series[0].data = [...res];
+    option.series[0].data = [...res] || [0, 0, 0, 0, 0, 0, 0];
     histogramChart.value.setOption(option, true); // 添加第二个参数 true 表示合并而不是替换
   }
 };

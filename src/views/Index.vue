@@ -1,40 +1,41 @@
 <template>
   <div class="flylineDiagram">
     <div class="flylineDiagram_left">
-      <chartpanel title="各类人员占比" class="flex-1 chart">
-        <VariousPeople style="height: 90%"></VariousPeople>
+      <chartpanel title="各类人员占比" class="flex_1 chart">
+        <variousPeople class="variousPeople_view"></variousPeople>
       </chartpanel>
-      <chartpanel title="搬入搬出人员出占比" class="flex-1 chart">
-        <Peopleinandout style="height: 90%"></Peopleinandout>
+      <chartpanel title="搬入搬出人员出占比" class="flex_1 chart">
+        <peopleinandout class="peopleinandout_view"></peopleinandout>
       </chartpanel>
-      <div class="flex-1">
-        <chartpanel title="小区重点人员动态">
-          <vue3-seamless-scroll :list="newsdatas" class="indexscroll">
-            <div
-              class="item flex"
-              v-for="(item, index) in newsdatas"
-              :key="index"
-            >
-              <div class="name">{{ item.name }}</div>
-              <div class="date">{{ item.timeStamp }}</div>
-              <div class="status">{{ item.status }}</div>
-            </div>
-          </vue3-seamless-scroll>
-        </chartpanel>
-      </div>
+      <chartpanel
+        title="小区重点人员动态"
+        class="flex_1 chart indexscroll_chart"
+      >
+        <vue3-seamless-scroll :list="newsdatas" class="indexscroll">
+          <div
+            class="item flex"
+            v-for="(item, index) in newsdatas"
+            :key="index"
+          >
+            <div class="name">{{ item.name }}</div>
+            <div class="date">{{ item.timeStamp }}</div>
+            <div class="status">{{ item.status }}</div>
+          </div>
+        </vue3-seamless-scroll>
+      </chartpanel>
     </div>
     <div class="flylineDiagram_content">
-      <Map @sendMessageToParent="handleMessageFromChild"></Map>
+      <MapComponent @sendMessageToParent="handleMessageFromChild"></MapComponent>
     </div>
     <div class="flylineDiagram_right">
-      <chartpanel class="flex-1 chart" title="设备状态">
-        <Gauge></Gauge>
+      <chartpanel class="flex_1 chart" title="设备状态">
+        <gauge class="gauge_views"></gauge>
       </chartpanel>
-      <chartpanel title="电梯人口密集度" class="flex-1 chart">
-        <Histogram style="height: 90%"></Histogram>
+      <chartpanel class="flex_1 chart" title="电梯人口密集度">
+        <histogram class="histogram_view"></histogram>
       </chartpanel>
-      <chartpanel class="flex-1 chart" title="异常人员">
-        <Discount style="height: 88%"></Discount>
+      <chartpanel class="flex_1 chart" title="异常人员">
+        <discount class="discount_view"></discount>
       </chartpanel>
     </div>
   </div>
@@ -42,12 +43,12 @@
 
 <script  setup>
 import { onMounted, reactive, ref } from "vue";
-import Map from "../views/Map.vue";
-import Gauge from "../views/Gauge.vue";
-import Discount from "../views/Discount.vue";
-import Histogram from "../views/Histogram.vue";
-import VariousPeople from "../views/VariousPeople.vue";
-import Peopleinandout from "../views/Peopleinandout.vue";
+import MapComponent from './map.vue';
+import gauge from "./gauge.vue";
+import discount from "./discount.vue";
+import histogram from "./histogram.vue";
+import variousPeople from "./variousPeople.vue";
+import peopleinandout from "./peopleinandout.vue";
 import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 import chartpanel from "@/components/chartpanel.vue";
 import { ElMessage } from "element-plus";
@@ -142,6 +143,8 @@ const getList = async () => {
 const handleMessageFromChild = (message) => {
   if (message === "历下区") {
     ElMessage.success("现在数据已展示");
+  } else if (message === "全国") {
+    return;
   } else {
     ElMessage.warning("没有数据");
   }
@@ -175,12 +178,10 @@ onMounted(() => {
   height: 100%;
   width: 25%;
   padding: 5px;
-  min-width: 500px;
 }
 
 .flylineDiagram_content {
   flex: auto;
-  min-width: 500px;
 }
 
 .flylineDiagram_right {
@@ -188,12 +189,26 @@ onMounted(() => {
   height: 100%;
   width: 25%;
   padding: 5px;
-  min-width: 500px;
 }
-
-.flex-1 {
+.flex_1 {
   flex: 1;
   margin: 5px 0;
+}
+
+.variousPeople_view {
+  height: 90%;
+}
+
+.peopleinandout_view {
+  height: 90%;
+}
+
+.histogram_view {
+  height: 90%;
+}
+
+.discount_view {
+  height: 88%;
 }
 
 .indexscroll {
@@ -242,5 +257,63 @@ onMounted(() => {
   font-size: 20px;
   width: 100%;
   height: 90%;
+}
+
+/* 当视图宽度小于600像素时应用的样式 */
+@media screen and (max-width: 600px) {
+  /* 在这里添加你希望在小屏幕上应用的样式和布局 */
+  .flylineDiagram {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    height: 92.5vh;
+    width: 100vw;
+    overflow: hidden;
+    overflow-y: scroll;
+    margin: 0px;
+    padding: 0;
+  }
+
+  .flex_1 {
+    margin: 5px;
+  }
+
+  .chart {
+    min-height: 320px;
+  }
+
+  .flylineDiagram_left {
+    display: flex;
+    height: auto;
+    padding: 5px;
+    width: 100%;
+    padding: 0px;
+  }
+
+  .flylineDiagram_content {
+    min-height: 400px;
+    width: 100%;
+    padding: 0px;
+  }
+
+  .flylineDiagram_content .back {
+    margin: 10px;
+  }
+
+  .flylineDiagram_right {
+    width: 100%;
+    padding: 0px;
+  }
+
+  .indexscroll {
+    height: 30vh;
+  }
+
+  .histogram_view {
+    height: 90%;
+  }
+  .discount_view {
+    height: 90%;
+  }
 }
 </style>

@@ -62,6 +62,7 @@ let option = reactive({
             var colorList = [
               { offset: 0, color: "#199DAD" },
               { offset: 0.5, color: "#187AE8" },
+              { offset: 0.8, color: "#187AE9" },
               { offset: 1, color: "#1C65A1" },
             ];
             return new echarts.graphic.LinearGradient(0, 0, 0, 1, colorList);
@@ -79,9 +80,10 @@ let option = reactive({
         show: false,
       },
       data: [
-        { name: "常住人口", value: "12000" },
-        { name: "流动人口", value: "800" },
-        { name: "陌生人", value: "900" },
+        { name: "实有人口", value: "1000" },
+        { name: "搬入人口", value: "800" },
+        { name: "搬出人口", value: "100" },
+        { name: "陌生人口", value: "100" },
       ],
     },
   ],

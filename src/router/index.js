@@ -7,28 +7,33 @@ const routes = [
     meta: {
       title: "首页"
     },
-    component: () => import("../views/Home.vue"),
+    component: () => import("../views/home.vue"),
     redirect: "/Index",
     children: [
       {
         name: "Index",
         path: "/Index",
-        component: () => import("@/views/Index.vue")
+        component: () => import("@/views/index.vue")
       },
       {
         name: "Device",
         path: "/Device",
-        component: () => import("@/views/Device.vue")
+        component: () => import("@/views/device.vue")
       },
       {
         name: "Map",
         path: "/Map",
-        component: () => import("@/views/Map.vue")
+        component: () => import("@/views/map.vue")
       },
       {
         name: "VariousPeople",
         path: "/VariousPeople",
-        component: () => import("@/views/VariousPeople.vue")
+        component: () => import("@/views/variousPeople.vue")
+      },
+      {
+        name: "Abnormal",
+        path: "/Abnormal",
+        component: () => import("@/views/abnormal/index.vue")
       }
     ]
   },
@@ -38,7 +43,7 @@ const routes = [
     meta: {
       title: "登录页"
     },
-    component: () => import("@/views/Login.vue")
+    component: () => import("@/views/login.vue")
   }
 ];
 const router = createRouter({
