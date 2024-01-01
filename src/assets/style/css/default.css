@@ -36,31 +36,10 @@ html {
   flex: auto;
 }
 
-
 .chart {
   border: 0.3vh solid #2196f366;
   position: relative;
   padding: 0 1vh;
-}
-
-.chart .chart_title {
-  font-size: 1.8rem;
-  font-weight: bold;
-  line-height: 3vh;
-  height: 3vh;
-  background: linear-gradient(
-    to left,
-    #03a9f4,
-    #2196f3,
-    #00bcd4,
-    #2196f3,
-    #3fb579,
-    #2196f3,
-    #189cdb,
-    #1ec5cd
-  );
-  -webkit-background-clip: text;
-  color: transparent;
 }
 
 .chart .border_line {

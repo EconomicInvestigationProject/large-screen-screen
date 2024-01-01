@@ -82,6 +82,7 @@ let option = reactive({
       color: "#fff", // 提示框文字颜色
     },
   },
+  dataZoom: [],
   grid: {
     left: "3%",
     right: "4%",

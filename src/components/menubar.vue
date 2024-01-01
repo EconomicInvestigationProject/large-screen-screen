@@ -45,7 +45,7 @@ const showSettingDialog = () => {
 
 // 跳转到管理页面
 const goaAbnormal = () => {
-  router.push('/Abnormal')
+  router.push("/Abnormal");
 };
 
 //全屏
