@@ -163,6 +163,7 @@ const renderMap = (map, data, parentName, flag) => {
         borderColor: "color", // Change to the desired shade of blue
         emphasis: {
           label: {
+            color: "#fff",
             areaColor: "darkorange",
           },
         },
@@ -200,10 +201,6 @@ const renderMap = (map, data, parentName, flag) => {
 
 // 初始化地图
 const initChart = async () => {
-  // 如果已经存在实例，先销毁
-  if (myChart.value) {
-    myChart.value.dispose();
-  }
   // 基于准备好的dom，初始化echarts实例
   myChart.value = echarts.init(document.getElementById("mapChart"));
   let { data } = await axios.get("/map/china.json");
@@ -271,9 +268,11 @@ onMounted(() => {
         //     output: "json",
         //   },
         // });
-        maplng.value = lng;
-        maplat.value = lat;
-        showMap.value = true;
+        // maplng.value = lng;
+        // maplat.value = lat;
+        // showMap.value = true;
+        changedata(params.name);
+        return;
       } else {
         //显示县级地图
         let { data } = await axios.get(
@@ -308,7 +307,7 @@ onMounted(() => {
       // maplng.value = lng;
       // maplat.value = lat;
       changedata(params.name);
-      showMap.value = true;
+      // showMap.value = true;
     }
   });
 
