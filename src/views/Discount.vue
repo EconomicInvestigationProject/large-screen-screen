@@ -30,7 +30,7 @@ var option = reactive({
   },
   toolbox: {
     feature: {
-      saveAsImage: {},
+      // saveAsImage: {},
     },
   },
   grid: {
