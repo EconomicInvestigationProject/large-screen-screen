@@ -3,7 +3,7 @@
 </template>
 <script setup>
 import * as echarts from "echarts";
-import { onMounted, reactive, ref, defineProps, watch } from "vue";
+import { onMounted, reactive, ref, watch, onBeforeUnmount } from "vue";
 import { peopleinandoutStatistics } from "../api/peopleinandout";
 
 const peopleinandoutChart = ref(null);
@@ -46,35 +46,35 @@ let option = reactive({
         color: [],
       },
       label: {
-        normal: {
-          position: "inside", // 在内部显示，outseide 是在外部显示
-          show: true,
-          formatter: "{c}", // formatter 是标签内容的格式器，用于转换格式。支持 字符串和回调函数两种形式。
-        },
-        textStyle: {
-          // 设置字体样式
-          color: "#fff", // 设置字体颜色为白色
-        },
+        // normal: {
+        position: "inside", // 在内部显示，outseide 是在外部显示
+        show: true,
+        formatter: "{c}", // formatter 是标签内容的格式器，用于转换格式。支持 字符串和回调函数两种形式。
+        // },
+        // textStyle: {
+        // 设置字体样式
+        color: "#fff", // 设置字体颜色为白色
+        // },
       },
       itemStyle: {
-        normal: {
-          color: function (colors) {
-            // var colorList = ["#129DD9", "#187AE4"];
-            // return colorList[colors.dataIndex];
-            // params.dataIndex表示数据项的索引
-            var colorList = [
-              { offset: 0, color: "#129DD9" }, // 开始颜色
-              { offset: 1, color: "#187AE4" }, // 结束颜色
-            ];
-            var linearGradient = new echarts.graphic.LinearGradient(
-              0,
-              0,
-              0,
-              1,
-              colorList
-            );
-            return linearGradient;
-          },
+        // normal: {
+        color: function (colors) {
+          // var colorList = ["#129DD9", "#187AE4"];
+          // return colorList[colors.dataIndex];
+          // params.dataIndex表示数据项的索引
+          var colorList = [
+            { offset: 0, color: "#129DD9" }, // 开始颜色
+            { offset: 1, color: "#187AE4" }, // 结束颜色
+          ];
+          var linearGradient = new echarts.graphic.LinearGradient(
+            0,
+            0,
+            0,
+            1,
+            colorList
+          );
+          return linearGradient;
+          // },
         },
       },
       emphasis: {
@@ -95,7 +95,12 @@ let option = reactive({
   ],
 });
 
+// 初始化图表数据
 const init = () => {
+  // 如果已经存在实例，先销毁
+  if (peopleinandoutChart.value) {
+    peopleinandoutChart.value.dispose();
+  }
   peopleinandoutChart.value = echarts.init(
     document.getElementById("peopleinandout")
   );
@@ -112,22 +117,34 @@ const getList = async () => {
   }
 };
 
+// resize 事件监听窗口变化，图标自适应
+const peopleinandoutChartResize = () => {
+  console.log("Window peopleinandoutChart");
+  peopleinandoutChart.value.resize();
+};
+
 onMounted(() => {
   init();
   getList();
   // 监听窗口 resize 事件
-  window.addEventListener("resize", () => {
-    console.log("Window peopleinandoutChart");
-    peopleinandoutChart.value.resize();
-  });
+  window.addEventListener("resize", peopleinandoutChartResize);
 });
 
+// 监听图标数据变化
 watch(
   () => option.series[0].data,
   () => {
     peopleinandoutChart.value.setOption(option);
   }
 );
+
+// 组件卸载时，移除监听事件并卸载图表
+onBeforeUnmount(() => {
+  if (peopleinandoutChart.value) {
+    peopleinandoutChart.value.dispose();
+  }
+  window.removeEventListener("resize", peopleinandoutChartResize);
+});
 </script>
 <style scoped>
 .peopleinandout {

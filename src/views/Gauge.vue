@@ -10,7 +10,7 @@
 </template>
 <script setup>
 import * as echarts from "echarts";
-import { onMounted, reactive, ref, defineProps, watch } from "vue";
+import { onMounted, reactive, ref, watch, onBeforeUnmount } from "vue";
 import { deviceList } from "../api/device";
 
 const gaugeChart = ref(null);
@@ -143,6 +143,10 @@ let option = reactive({
 });
 
 const init = () => {
+  // 如果已经存在实例，先销毁
+  if (gaugeChart.value) {
+    gaugeChart.value.dispose();
+  }
   // 基于准备好的dom，初始化echarts实例
   gaugeChart.value = echarts.init(document.getElementById("gauge_chart"));
   option && gaugeChart.value.setOption(option);
@@ -166,18 +170,29 @@ const getList = async () => {
   });
 };
 
+// resize 事件监听窗口变化，图标自适应
+const gaugeChartResize = () => {
+  console.log("Window gaugeChart");
+  gaugeChart.value.resize();
+};
+
 onMounted(() => {
-  getList();
   init();
+  getList();
   // 监听窗口 resize 事件
-  window.addEventListener("resize", () => {
-    console.log("Window gaugeChart");
-    gaugeChart.value.resize();
-  });
+  window.addEventListener("resize", gaugeChartResize);
 });
 
 // 监听数据变化
 watch(gaugeData.value, (newValue, oldValue) => {}, { deep: true });
+
+// 组件卸载时，移除监听事件并卸载图表
+onBeforeUnmount(() => {
+  if (gaugeChart.value) {
+    gaugeChart.value.dispose();
+  }
+  window.removeEventListener("resize", gaugeChartResize);
+});
 </script>
 <style scoped>
 .gauge {

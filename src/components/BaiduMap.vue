@@ -11,7 +11,6 @@ const goback = ()=>{
   emits('goback',false)
 }
 onMounted(() => {
-  // console.log(props.maplng, props.maplat);
   // 创建地图实例
   map.value = new BMap.Map("container");
   // 创建点坐标

@@ -2,6 +2,8 @@
 
 .dark {
   background: #060e3f;
+  /* background: url(../../images/bg2.jpg); */
+  background-size: 100% 100%;
   color: #fff;
 }
 

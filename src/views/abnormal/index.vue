@@ -9,7 +9,7 @@
         <span class="abnormal_content_top_span">重点人员管理</span>
       </div>
       <div class="abnormal_content_button">
-        <el-button type="Default">重点人员添加</el-button>
+        <el-button type="default">重点人员添加</el-button>
       </div>
       <el-table :data="tableData" class="abnormal_content_table">
         <el-table-column fixed prop="timeStamp" label="时间" />
@@ -37,7 +37,6 @@ import { keypersonnelStatistics, deleteRecord } from "../../api/keypersonnel";
 import { ElMessage } from "element-plus";
 const router = useRouter();
 const back = () => {
-  console.log(11);
   router.push("/index");
 };
 const tableData = ref([]);

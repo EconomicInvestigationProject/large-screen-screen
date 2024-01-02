@@ -1,20 +1,28 @@
 <template>
   <div class="map">
     <div @click="back" class="back">全国</div>
-    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
-    <div ref="mapChart" id="mapChart" style="width: 100%; height: 100%"></div>
     <!-- <BaiduMap
     v-if="showMap"
     :maplng="maplng"
     :maplat="maplat"
     @goback="showMap = $event"
   ></BaiduMap> -->
+    <div class="map1"></div>
+    <div class="map2"></div>
+    <div class="map3"></div>
+    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+    <div
+      ref="mapChart"
+      class="mapChart"
+      id="mapChart"
+      style="width: 100%; height: 100%"
+    ></div>
   </div>
 </template>
    
 <script setup>
 import * as echarts from "echarts";
-import { onMounted, defineEmits } from "vue";
+import { onMounted, defineEmits, onBeforeUnmount } from "vue";
 import { ref } from "vue";
 import { provinces } from "../utils/provincesmap";
 import { cityMap } from "../utils/citymap";
@@ -73,19 +81,20 @@ const mapChart = ref(null);
 
 //初始化绘制全国地图配置
 let option = {
-  backgroundColor: "#060E3F",
+  backgroundColor: "rgba(0,0,0,0)",
   title: {
-    left: "center",
+    top: 20,
+    right: 20,
     textStyle: {
       color: "#fff",
       fontSize: 16,
-      fontWeight: "normal",
+      fontWeight: "bold", // 使用 "bold" 表示字体加粗
       fontFamily: "Microsoft YaHei",
     },
     subtextStyle: {
-      color: "#ccc",
-      fontSize: 13,
-      fontWeight: "normal",
+      color: "#fff",
+      fontSize: 16,
+      fontWeight: "bold", // 使用 "bold" 表示字体加粗
       fontFamily: "Microsoft YaHei",
     },
   },
@@ -105,9 +114,7 @@ let option = {
     left: "right",
     top: "center",
     iconStyle: {
-      normal: {
-        color: "#fff",
-      },
+      color: "#fff",
     },
   },
   animationDuration: 1000,
@@ -140,28 +147,24 @@ const renderMap = (map, data, parentName, flag) => {
         show: false,
       },
       label: {
-        normal: {
-          show: true,
-          textStyle: {
-            color: "#999",
-            fontSize: 13,
-          },
-        },
+        show: true,
+        color: "#999",
+        fontSize: 13,
         emphasis: {
-          show: true,
-          textStyle: {
+          label: {
             color: "#fff",
             fontSize: 13,
+            show: true,
           },
         },
       },
       itemStyle: {
-        normal: {
-          areaColor: "#3352c7", //背景色
-          borderColor: "color", // Change to the desired shade of blue
-        },
+        areaColor: "#3352c7", //背景色
+        borderColor: "color", // Change to the desired shade of blue
         emphasis: {
-          areaColor: "darkorange",
+          label: {
+            areaColor: "darkorange",
+          },
         },
       },
       data: data,
@@ -197,6 +200,10 @@ const renderMap = (map, data, parentName, flag) => {
 
 // 初始化地图
 const initChart = async () => {
+  // 如果已经存在实例，先销毁
+  if (myChart.value) {
+    myChart.value.dispose();
+  }
   // 基于准备好的dom，初始化echarts实例
   myChart.value = echarts.init(document.getElementById("mapChart"));
   let { data } = await axios.get("/map/china.json");
@@ -217,6 +224,12 @@ const initChart = async () => {
 
 const changedata = (name) => {
   emit("sendMessageToParent", name);
+};
+
+// resize 事件监听窗口变化，图标自适应
+const myChartResize = () => {
+  console.log("Window myChart");
+  myChart.value.resize();
 };
 
 onMounted(() => {
@@ -300,27 +313,105 @@ onMounted(() => {
   });
 
   // 监听窗口 resize 事件
-  window.addEventListener("resize", () => {
-    console.log("Window myChart");
-    myChart.value.resize();
-  });
+  window.addEventListener("resize", myChartResize);
+});
+
+// 组件卸载时，移除监听事件并卸载图表
+onBeforeUnmount(() => {
+  if (myChart.value) {
+    myChart.value.dispose();
+  }
+  window.removeEventListener("resize", myChartResize);
 });
 </script>
-<style>
+<style lang="scss">
+.back {
+  position: fixed;
+  width: 80px;
+  height: 30px;
+  color: #fff;
+  font-weight: bold;
+  margin: 30px;
+  font-size: 18px;
+  z-index: 999999999;
+}
+
 .map {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
-}
-.back {
-  width: 80px;
-  height: 30px;
-  color: #fff;
-  margin: 30px;
-  font-size: 18px;
-}
 
+  .map1 {
+    width: 90%;
+    height: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: url(../assets/images/map/map.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.3;
+  }
+
+  .map2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
+    background: url(../assets/images/map/lbx.png);
+    animation: rotate1 15s linear infinite;
+    opacity: 0.6;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .map3 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: url(../assets/images/map/jt.png);
+    animation: rotate2 10s linear infinite;
+    opacity: 0.6;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .mapChart {
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  @keyframes rotate1 {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  @keyframes rotate2 {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(-360deg);
+    }
+  }
+}
 /* 当视图宽度小于600像素时应用的样式 */
 @media screen and (max-width: 600px) {
   .back {

@@ -3,7 +3,7 @@
 </template>
 <script setup>
 import * as echarts from "echarts";
-import { onMounted, reactive, ref, defineProps, watch, markRaw } from "vue";
+import { onMounted, reactive, ref, watch, markRaw, onBeforeUnmount } from "vue";
 import { elevatorpersonneldensityStatistics } from "../api/elevatorpersonneldensity";
 
 const histogramChart = ref(null);
@@ -34,9 +34,9 @@ let option = reactive({
         alignWithLabel: true,
       },
       axisLabel: {
-        textStyle: {
-          color: "white", // 设置字体颜色为白色
-        },
+        // textStyle: {
+        color: "white", // 设置字体颜色为白色
+        // },
       },
     },
   ],
@@ -44,9 +44,9 @@ let option = reactive({
     {
       type: "value",
       axisLabel: {
-        textStyle: {
-          color: "white", // 设置字体颜色为白色
-        },
+        // textStyle: {
+        color: "white", // 设置字体颜色为白色
+        // },
       },
     },
   ],
@@ -59,7 +59,8 @@ let option = reactive({
       itemStyle: {
         color: "#187AE4",
         // 设置圆角
-        barBorderRadius: [20, 20, 0, 0], // 从左上角开始，顺时针设置四个角的圆角半径
+        borderRadius: [20, 20, 0, 0],
+        // barBorderRadius: [20, 20, 0, 0], // 从左上角开始，顺时针设置四个角的圆角半径
       },
       emphasis: {
         focus: "series",
@@ -69,7 +70,12 @@ let option = reactive({
   ],
 });
 
+// 初始化图表数据
 const init = () => {
+  // 如果已经存在实例，先销毁
+  if (histogramChart.value) {
+    histogramChart.value.dispose();
+  }
   histogramChart.value = markRaw(
     echarts.init(document.getElementById("histogram"))
   );
@@ -85,22 +91,34 @@ const getList = async () => {
   }
 };
 
+// resize 事件监听窗口变化，图标自适应
+const histogramChartResize = () => {
+  console.log("Window histogramChart");
+  histogramChart.value && histogramChart.value.resize();
+};
+
 onMounted(() => {
   init();
   getList();
   // 监听窗口 resize 事件
-  window.addEventListener("resize", () => {
-    console.log("Window histogramChart");
-    histogramChart.value && histogramChart.value.resize();
-  });
+  window.addEventListener("resize", histogramChartResize);
 });
 
+// 监听数据变化
 watch(
   () => option.series[0].data,
   () => {
     histogramChart.value.setOption(option, true);
   }
 );
+
+// 组件卸载时，移除监听事件并卸载图表
+onBeforeUnmount(() => {
+  if (histogramChart.value) {
+    histogramChart.value.dispose();
+  }
+  window.removeEventListener("resize", histogramChartResize);
+});
 </script>
 <style scoped>
 .histogram {
