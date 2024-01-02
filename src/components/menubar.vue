@@ -5,12 +5,12 @@
     </div>
     <div class="flex_auto flex-title">智慧小区平台</div>
     <div class="tools flex flex_item flex_item_right">
-      <div class="flex_item_right_w">
+      <!-- <div class="flex_item_right_w">
         <div class="tool_item" @click="goaAbnormal">
           <el-icon><Menu /></el-icon>
           <span>管理</span>
         </div>
-      </div>
+      </div> -->
       <div class="flex_item_right_w">
         <div class="tool_item" @click="screen">
           <el-icon>
