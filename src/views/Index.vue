@@ -25,7 +25,9 @@
       </chartpanel>
     </div>
     <div class="flylineDiagram_content">
-      <MapComponent @sendMessageToParent="handleMessageFromChild"></MapComponent>
+      <MapComponent
+        @sendMessageToParent="handleMessageFromChild"
+      ></MapComponent>
     </div>
     <div class="flylineDiagram_right">
       <chartpanel class="flex_1 chart" title="设备状态">
@@ -43,7 +45,7 @@
 
 <script  setup>
 import { onMounted, reactive, ref } from "vue";
-import MapComponent from './map.vue';
+import MapComponent from "./map.vue";
 import gauge from "./gauge.vue";
 import discount from "./discount.vue";
 import histogram from "./histogram.vue";
@@ -272,6 +274,13 @@ onMounted(() => {
     overflow-y: scroll;
     margin: 0px;
     padding: 0;
+    /* 隐藏默认的滚动条样式 */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  .flylineDiagram::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
   }
 
   .flex_1 {

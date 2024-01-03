@@ -5,13 +5,13 @@
     </div>
     <div class="flex_auto flex-title">智慧小区平台</div>
     <div class="tools flex flex_item flex_item_right">
-      <!-- <div class="flex_item_right_w">
+      <!-- <div class="flex_item_right_w flex_item_right_menu">
         <div class="tool_item" @click="goaAbnormal">
           <el-icon><Menu /></el-icon>
           <span>管理</span>
         </div>
       </div> -->
-      <div class="flex_item_right_w">
+      <div class="flex_item_right_w flex_item_right_screen">
         <div class="tool_item" @click="screen">
           <el-icon>
             <full-screen />
@@ -19,7 +19,7 @@
           <span>{{ screenText }}</span>
         </div>
       </div>
-      <div class="flex_item_right_w">
+      <div class="flex_item_right_w flex_item_right_exit">
         <div class="tool_item" @click="exit">
           <el-icon>
             <switch-button />
@@ -111,6 +111,7 @@ onBeforeUnmount(() => {
   background-repeat: no-repeat;
 }
 
+
 .menubar_left {
   display: flex;
   flex-direction: column;
@@ -136,14 +137,20 @@ onBeforeUnmount(() => {
 
 /* 当视图宽度小于600像素时应用的样式 */
 @media screen and (max-width: 630px) {
-  .menubar_left {
-    display: none;
-  }
   .menubar_left_time {
     display: none;
   }
   .flex_item_right {
+    width: 2vw;
+  }
+  .flex_item_right_screen {
     display: none;
+  }
+  .flex_item_right_menu {
+    display: none;
+  }
+  .flex_item_right_exit {
+    width: 100%;
   }
 }
 </style>
