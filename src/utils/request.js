@@ -21,8 +21,8 @@ const service = axios.create({
 // 请求拦截
 service.interceptors.request.use((req) => {
   const headers = req.headers;
-  // const { token = "" } = storage.getItem("userInfo") || {};
-  // if (!headers.Authorization) headers.Authorization = "Bearer " + token;
+  const { token = "" } = storage.getItem("userInfo") || {};
+  if (!headers.Authorization) headers.Authorization = "Bearer " + token;
   return req;
 });
 
@@ -36,9 +36,9 @@ service.interceptors.response.use((res) => {
     ElMessage.error(TOKEN_INVALID);
     // 跳转到登录页面
     setTimeout(() => {
-      // router.push("/login");
-      sessionStorage.clear();
-      window.location.replace("http://218.56.104.54:8085/logout");
+      router.push("/login");
+      // sessionStorage.clear();
+      // window.location.replace("http://218.56.104.54:8085/logout");
     }, 1500);
     // 向控制台抛出异常
     return Promise.reject(TOKEN_INVALID);

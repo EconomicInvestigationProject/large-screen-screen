@@ -156,7 +156,7 @@ onMounted(() => {
 </script>
 
 
-<style scoped>
+<style lang="scss" scoped>
 .flylineDiagram {
   display: flex;
   flex-direction: row;
@@ -260,7 +260,7 @@ onMounted(() => {
 }
 
 /* 当视图宽度小于600像素时应用的样式 */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 630px) {
   /* 在这里添加你希望在小屏幕上应用的样式和布局 */
   .flylineDiagram {
     display: flex;

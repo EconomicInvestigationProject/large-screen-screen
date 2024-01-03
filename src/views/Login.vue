@@ -4,11 +4,11 @@
       <el-form ref="userFrom" :model="user" status-icon :rules="rules">
         <div class="title">智慧小区平台</div>
         <el-form-item prop="userName">
-          <el-input prefix-icon="el-icon-user" v-model="user.userName" />
+          <el-input prefix-icon="User" v-model="user.userName" />
         </el-form-item>
         <el-form-item prop="userPwd">
           <el-input
-            prefix-icon="el-icon-view"
+            prefix-icon="lock"
             show-password
             v-model="user.userPwd"
           />

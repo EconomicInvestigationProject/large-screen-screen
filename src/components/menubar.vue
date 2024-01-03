@@ -84,9 +84,9 @@ const exit = () => {
   // 设置localStorage数据为空
   store.commit("saveUserInfo", "");
   // 清空当前数据
-  // router.push("/login");
-  sessionStorage.clear();
-  window.location.replace("http://218.56.104.54:8085/logout");
+  router.push("/login");
+  // sessionStorage.clear();
+  // window.location.replace("http://218.56.104.54:8085/logout");
 };
 
 //定时器
@@ -135,7 +135,10 @@ onBeforeUnmount(() => {
 }
 
 /* 当视图宽度小于600像素时应用的样式 */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 630px) {
+  .menubar_left {
+    display: none;
+  }
   .menubar_left_time {
     display: none;
   }

@@ -325,7 +325,7 @@ onBeforeUnmount(() => {
 </script>
 <style lang="scss">
 .back {
-  position: fixed;
+  position: absolute;
   width: 80px;
   height: 30px;
   color: #fff;
