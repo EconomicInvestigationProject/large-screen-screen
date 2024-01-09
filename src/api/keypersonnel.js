@@ -16,13 +16,25 @@ export const keypersonnelStatistics = () => {
   });
 };
 
-
 /**
  * 指定删除小区重点人员
  */
 export const deleteRecord = (params) => {
   return request({
     url: "/keypersonnel/deleteRecord",
+    method: "post",
+    data: params,
+    mock: false
+  });
+};
+
+/**
+ * 新增重点人员
+ */
+
+export const addRecord = () => {
+  return request({
+    url: "/keypersonnel/addRecord",
     method: "post",
     data: params,
     mock: false

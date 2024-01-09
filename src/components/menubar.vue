@@ -5,12 +5,12 @@
     </div>
     <div class="flex_auto flex-title">智慧小区平台</div>
     <div class="tools flex flex_item flex_item_right">
-      <!-- <div class="flex_item_right_w flex_item_right_menu">
-        <div class="tool_item" @click="goaAbnormal">
+      <div class="flex_item_right_w flex_item_right_menu">
+        <div class="tool_item" @click="goManagementCenter">
           <el-icon><Menu /></el-icon>
           <span>管理</span>
         </div>
-      </div> -->
+      </div>
       <div class="flex_item_right_w flex_item_right_screen">
         <div class="tool_item" @click="screen">
           <el-icon>
@@ -44,8 +44,8 @@ const showSettingDialog = () => {
 };
 
 // 跳转到管理页面
-const goaAbnormal = () => {
-  router.push("/Abnormal");
+const goManagementCenter = () => {
+  router.push("/ManagementCenter");
 };
 
 //全屏
@@ -110,7 +110,6 @@ onBeforeUnmount(() => {
   background-position: center;
   background-repeat: no-repeat;
 }
-
 
 .menubar_left {
   display: flex;
