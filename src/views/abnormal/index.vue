@@ -35,23 +35,24 @@
   </div>
   <div id="my-dialog">
     <el-dialog v-model="dialogTableVisible" title="添加重点人员">
-      <el-form :model="abnormalForm" label-width="120px">
-        <el-form-item label="姓名" class="label-style">
+      <el-form
+        ref="abnormalFormRef"
+        :rules="abnormalFormRules"
+        :model="abnormalForm"
+        label-width="120px"
+      >
+        <el-form-item label="姓名" prop="name">
           <el-input v-model="abnormalForm.name" />
         </el-form-item>
-        <el-form-item
-          label="身份证件号"
-          style="color: #fff"
-          class="label-style"
-        >
+        <el-form-item label="身份证件号" style="color: #fff" prop="idCard">
           <el-input v-model="abnormalForm.idCard" />
         </el-form-item>
-        <el-form-item label="在小区状态" class="label-style">
+        <el-form-item label="在小区状态" prop="status">
           <el-switch v-model="abnormalForm.status" />
         </el-form-item>
         <el-form-item>
-          <el-button @click="onSubmit">提交</el-button>
-          <el-button @click="onCancel">取消</el-button>
+          <el-button @click="onSubmit(abnormalFormRef)">提交</el-button>
+          <el-button @click="onCancel(abnormalFormRef)">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -66,12 +67,18 @@ import {
   deleteRecord,
   addRecord,
 } from "../../api/keypersonnel";
+import { reactive } from "vue";
 import { ElMessage } from "element-plus";
 const router = useRouter();
 const back = () => {
   router.push("/ManagementCenter");
 };
+
+// 控制节点
+const abnormalFormRef = ref(null);
+// 重点人员列表
 const tableData = ref([]);
+
 // 小区重点人员
 const getList = async () => {
   const res = await keypersonnelStatistics();
@@ -92,30 +99,66 @@ const getList = async () => {
 // 删除小区重点人员
 const deleteAbnormal = async (item) => {
   const res = await deleteRecord({ idCard: item.idCard });
-  if (res === "删除成功") {
-    ElMessage.success(res);
-  } else {
-    ElMessage.info("操作失败");
+  try {
+    if (res === "删除成功") {
+      ElMessage.success(res);
+      getList();
+    } else {
+      ElMessage.info("操作失败");
+    }
+  } catch (error) {
+    ElMessage.info(error);
   }
 };
 
-import { reactive } from "vue";
-
-const dialogTableVisible = ref(true);
-
+// 控制弹窗是否显示
+const dialogTableVisible = ref(false);
+// 定义表单结构
 const abnormalForm = reactive({
   name: "",
   idCard: "",
   status: false,
 });
 
-const onSubmit = async () => {
-  const res = await addRecord();
-  console.log(res, "res");
-  console.log("submit!");
+// 重点人员提交校验
+const abnormalFormRules = reactive({
+  name: [{ required: true, message: "请输入人员姓名", trigger: "blur" }],
+  idCard: [
+    { required: true, message: "请输入身份证件号码", trigger: "blur" },
+    {
+      pattern: /^\d{17}(\d|x)$/i,
+      message: "身份证号格式不正确",
+      trigger: "blur",
+    },
+  ],
+});
+
+//新增重点人员功能
+const onSubmit = (abnormalFormRef) => {
+  abnormalFormRef.validate(async (valid) => {
+    if (valid) {
+      // 表单校验通过，可以执行提交等操作
+      if (abnormalForm) {
+        const res = await addRecord(abnormalForm);
+        if (res === "添加成功") {
+          abnormalForm.name = "";
+          abnormalForm.idCard = "";
+          abnormalForm.status = false;
+          dialogTableVisible.value = false;
+          ElMessage.success(res);
+        }
+      }
+    } else {
+      ElMessage.error("表单填写有误");
+    }
+  });
 };
 
-const onCancel = () => {
+const onCancel = (abnormalFormRef) => {
+  abnormalFormRef.resetFields();
+  abnormalForm.name = "";
+  abnormalForm.idCard = "";
+  abnormalForm.status = false;
   dialogTableVisible.value = false;
 };
 
@@ -262,10 +305,6 @@ onMounted(() => {
   text-align: center;
   // box-shadow: 0 0 1.5vw #fff inset;
   box-shadow: 0 0 1.5vw rgb(57, 140, 255) inset;
-  background: linear-gradient(#409efc, #409efc) left top,
-    linear-gradient(#409efc, #409efc) left top,
-    linear-gradient(#409efc, #409efc) right top,
-    linear-gradient(#409efc, #409efc) right top;
   background-repeat: no-repeat;
   background-size: 2px 20px, 20px 2px;
 }
@@ -275,10 +314,6 @@ onMounted(() => {
   color: #fff;
   background: rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 1.5vw rgb(57, 140, 255) inset;
-  background: linear-gradient(#409efc, #409efc) left bottom,
-    linear-gradient(#409efc, #409efc) left bottom,
-    linear-gradient(#409efc, #409efc) right bottom,
-    linear-gradient(#409efc, #409efc) right bottom;
   background-repeat: no-repeat;
   background-size: 2px 20px, 20px 2px;
 }

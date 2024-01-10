@@ -20,8 +20,6 @@
   <script setup>
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { keypersonnelStatistics, deleteRecord } from "../../api/keypersonnel";
-import { ElMessage } from "element-plus";
 const router = useRouter();
 const back = () => {
   router.push("/index");

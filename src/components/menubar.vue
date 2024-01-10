@@ -3,7 +3,7 @@
     <div class="flex menubar_left">
       <span class="menubar_left_time">{{ time }}</span>
     </div>
-    <div class="flex_auto flex-title">智慧小区平台</div>
+    <div class="flex_auto flex-title">电子网格员系统</div>
     <div class="tools flex flex_item flex_item_right">
       <div class="flex_item_right_w flex_item_right_menu">
         <div class="tool_item" @click="goManagementCenter">

@@ -31,8 +31,7 @@ export const deleteRecord = (params) => {
 /**
  * 新增重点人员
  */
-
-export const addRecord = () => {
+export const addRecord = (params) => {
   return request({
     url: "/keypersonnel/addRecord",
     method: "post",
