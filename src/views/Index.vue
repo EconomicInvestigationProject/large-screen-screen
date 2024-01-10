@@ -8,7 +8,7 @@
         <peopleinandout class="peopleinandout_view"></peopleinandout>
       </chartpanel>
       <chartpanel
-        title="小区重点人员动态"
+        title="重点人员动态"
         class="flex_1 chart indexscroll_chart"
       >
         <vue3-seamless-scroll :list="newsdatas" class="indexscroll">
