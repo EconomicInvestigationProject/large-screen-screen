@@ -2,7 +2,7 @@
   <div class="login-wrapper">
     <div class="modal">
       <el-form ref="userFrom" :model="user" status-icon :rules="rules">
-        <div class="title">智慧小区平台</div>
+        <div class="title">电子网格员系统</div>
         <el-form-item prop="userName">
           <el-input prefix-icon="User" v-model="user.userName" />
         </el-form-item>

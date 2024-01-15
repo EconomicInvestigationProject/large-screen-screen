@@ -1,6 +1,6 @@
 <template>
   <div class="map">
-    <div @click="back" class="back">全国</div>
+    <!-- <div @click="back" class="back">全国</div> -->
     <!-- <BaiduMap
     v-if="showMap"
     :maplng="maplng"
@@ -203,18 +203,31 @@ const renderMap = (map, data, parentName, flag) => {
 const initChart = async () => {
   // 基于准备好的dom，初始化echarts实例
   myChart.value = echarts.init(document.getElementById("mapChart"));
-  let { data } = await axios.get("/map/china.json");
+  //全国数据
+  // let { data } = await axios.get("/map/china.json");
+  // let d = [];
+  // for (var i = 0; i < data.features.length; i++) {
+  //   d.push({
+  //     name: data.features[i].properties.name,
+  //   });
+  // }
+  // mapdata = d;
+  //注册地图
+  // echarts.registerMap("china", data);
+  //绘制地图
+  // renderMap("china", d);
+
+  // 济南市初始化数据
+  let { data } = await axios.get("/map/city/" + cityMap['济南市'] + ".json");
   let d = [];
   for (var i = 0; i < data.features.length; i++) {
     d.push({
       name: data.features[i].properties.name,
     });
   }
-  mapdata = d;
-  //注册地图
-  echarts.registerMap("china", data);
-  //绘制地图
-  renderMap("china", d);
+  echarts.registerMap("jinan", data);
+  renderMap("jinan", d);
+
   // 使用刚指定的配置项和数据显示图表。
   myChart.value.setOption(option);
 };
