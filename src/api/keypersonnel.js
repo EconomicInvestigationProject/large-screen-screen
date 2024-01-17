@@ -39,3 +39,16 @@ export const addRecord = (params) => {
     mock: false
   });
 };
+
+/**
+ * 按条件实现分页查询
+ */
+export const getKeypersonnelPage = (params) => {
+  return request({
+    url: "/keypersonnel/page",
+    method: "get",
+    data: params,
+    mock: false
+  });
+};
+

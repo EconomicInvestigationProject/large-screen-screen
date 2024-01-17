@@ -31,13 +31,16 @@
             start-placeholder="开始日期"
             :picker-options="pickerOptions"
             end-placeholder="结束日期"
+            format="YYYY-MM-DD"
+            value-format="YYYY-MM-DD"
             style="width: 100%"
-            :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]"
+            @change="handleDateChange"
           />
         </div>
         <el-button
           color="#fff"
           class="abnormal_content_button_search abnormal_content_button_item"
+          @click="getPageData"
         >
           搜索
         </el-button>
@@ -57,16 +60,21 @@
       >
         <el-table-column prop="name" label="照片">
           <template #default="scope">
-            <el-avatar
-              :size="60"
-              src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F2b7fed7b-e4a5-4298-8566-bd8e39783d2e%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1707885752&t=92601607edb5402bbd1e743d440ad946"
-            />
+            <el-avatar :size="60" :src="scope.row.facePath" />
           </template>
         </el-table-column>
         <el-table-column prop="faceId" label="FaceId" min-width="150" />
-        <el-table-column prop="name" label="类型" />
-        <el-table-column prop="name" label="位置" />
-        <el-table-column prop="name" label="类别" />
+        <el-table-column prop="userKeyType" label="类型">
+          <template #default="scope">
+            {{ getAbnormalType(scope.row.userKeyType) }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="community" label="位置" />
+        <el-table-column prop="userType" label="类别">
+          <template #default="scope">
+            {{ getPopulationType(scope.row.userType) }}</template
+          >
+        </el-table-column>
         <el-table-column prop="timeStamp" label="时间" />
         <el-table-column prop="name" label="姓名">
           <template #default="scope">
@@ -89,6 +97,15 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination
+        background
+        :current-page="currentPage"
+        :page-size="pageSize"
+        :page-count="pageCount"
+        :pager-count="pagerCount"
+        layout="prev, pager, next"
+        :total="total"
+      />
     </div>
   </div>
   <div id="my-dialog">
@@ -124,7 +141,9 @@ import {
   keypersonnelStatistics,
   deleteRecord,
   addRecord,
+  getKeypersonnelPage,
 } from "../../api/keypersonnel";
+import { getAbnormalType, getPopulationType } from "../../utils/typeConversion";
 import { ElMessage } from "element-plus";
 const router = useRouter();
 const back = () => {
@@ -139,14 +158,16 @@ const tableData = ref([]);
 const switchType = ref(false);
 // 人员类型
 const personnelType = ref("");
+// 查询日期
 const date = ref("");
+// 设置对应的日期查询样式
 const pickerOptions = reactive({
   disabledDate(time) {
-    return time.getTime() < Date.now() - 8.64e7;
+    return time.getTime() < Date.now();
   },
   styles: {
     color: "#fff", // 设置日期文字颜色为白色
-    backgroundColor: "#333", // 设置日期选择器面板背景颜色为深灰色
+    backgroundColor: "#fff", // 设置日期选择器面板背景颜色为深灰色
   },
 });
 
@@ -155,6 +176,10 @@ const abnormalTypeArray = ref([
   {
     label: "全部",
     value: "",
+  },
+  {
+    label: "非重点人员",
+    value: "0",
   },
   {
     label: "涉恐人员",
@@ -184,24 +209,63 @@ const abnormalTypeArray = ref([
     label: "重点上访人员",
     value: "7",
   },
+  {
+    label: "标记人员",
+    value: "8",
+  },
 ]);
 
-// 小区重点人员
-const getList = async () => {
-  const res = await keypersonnelStatistics();
-  if (res) {
-    let data = [];
-    data = res;
-    data.forEach((item) => {
-      if (item.status === "in") {
-        item.status = "进入小区";
-      } else if (item.status === "out") {
-        item.status = "离开小区";
-      }
-    });
-    tableData.value = data;
+//实现分页查询
+const currentPage = ref(1);
+const pageSize = ref(10); //每页显示条目个数
+const pageNumber = ref(1); //当前页数
+const pagerCount = ref(10); //设置最大页码按钮数。 页码按钮的数量，当总页数超过该值时会折叠
+const pageCount = ref(); //总页数
+const total = ref(10); //总条数
+
+const getPageData = async () => {
+  let startDate = "";
+  let endDate = "";
+  if (date.value && date.value.length > 0) {
+    startDate = date && date.value[0];
+    endDate = date && date.value[1];
+  } else {
+    startDate = "";
+    endDate = "";
   }
+  const params = {
+    pageSize: pageSize.value,
+    pageNumber: pageNumber.value,
+    startDate: startDate,
+    endDate: endDate,
+    userKeyType: personnelType.value,
+  };
+  const res = await getKeypersonnelPage(params);
+  // currentPage.value = res.currentPage
+  // total.value = res.total
+  let data = res.data;
+  data.forEach((item) => {
+    item.facePath = "http://218.56.104.54:9001" + item.facePath;
+  });
+  tableData.value = data;
 };
+
+// 小区重点人员
+// const getList = async () => {
+//   const res = await keypersonnelStatistics();
+//   if (res) {
+//     let data = [];
+//     data = res;
+//     data.forEach((item) => {
+//       if (item.status === "in") {
+//         item.status = "进入小区";
+//       } else if (item.status === "out") {
+//         item.status = "离开小区";
+//       }
+//     });
+//     tableData.value = data;
+//   }
+// };
 
 // 删除小区重点人员
 const deleteAbnormal = async (item) => {
@@ -270,7 +334,7 @@ const onCancel = (abnormalFormRef) => {
 };
 
 onMounted(() => {
-  getList();
+  // getList();
 });
 </script>
 
@@ -507,5 +571,10 @@ v-deep .el-table::-webkit-scrollbar-track {
 
 .el-dialog .el-form .el-form-item :deep(.el-input__wrapper) {
   background-color: transparent !important;
+}
+
+.el-pagination {
+  margin-top: 20px;
+  background-color: #010936;
 }
 </style>
