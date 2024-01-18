@@ -34,6 +34,11 @@ const routes = [
         name: "Abnormal",
         path: "/Abnormal",
         component: () => import("@/views/abnormal/index.vue")
+      },
+      {
+        name: "AbnormalDetail",
+        path: "/Abnormal/abnormalDetail",
+        component: () => import("@/views/abnormal/abnormalDetail/index.vue")
       }
     ]
   },
