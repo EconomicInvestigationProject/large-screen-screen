@@ -39,6 +39,7 @@ let option = reactive({
     {
       type: "pie",
       avoidLabelOverlap: false,
+      radius: '90', // 或者使用数字，如 radius: 100
       itemStyle: {
         borderRadius: 10,
         borderColor: "#060E3F",
