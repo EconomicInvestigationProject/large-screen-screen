@@ -62,30 +62,30 @@
             <el-avatar :size="60" :src="scope.row.facePath" />
           </template>
         </el-table-column>
-        <el-table-column prop="faceId" label="FaceId" min-width="150" />
+        <el-table-column prop="faceId" label="FaceId" min-width="120" />
         <el-table-column prop="userKeyType" label="类型">
           <template #default="scope">
             {{ getAbnormalType(scope.row.userKeyType) }}
           </template>
         </el-table-column>
-        <el-table-column prop="community" label="位置" />
+        <el-table-column prop="community" label="位置" min-width="120" />
         <el-table-column prop="userType" label="类别">
           <template #default="scope">
             {{ getPopulationType(scope.row.userType) }}</template
           >
         </el-table-column>
-        <el-table-column prop="timeStamp" label="时间" />
+        <el-table-column prop="timeStamp" label="时间" min-width="120"/>
         <el-table-column prop="name" label="姓名">
           <template #default="scope">
             {{ (switchType ? scope.row.name : "***") || "" }}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="身份证号" min-width="150">
+        <el-table-column prop="name" label="身份证号" min-width="120">
           <template #default="scope">
             {{ (switchType ? scope.row.idCard : "***") || "" }}
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" fixed="right" min-width="120">
           <template #default="scope">
             <el-button link type="primary" @click="deleteAbnormal(scope.row)"
               >删除</el-button

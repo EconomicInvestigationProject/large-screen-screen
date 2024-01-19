@@ -57,13 +57,13 @@
             {{ getAbnormalType(scope.row.userKeyType) }}
           </template>
         </el-table-column>
-        <el-table-column prop="community" label="位置" />
+        <el-table-column prop="community" label="位置" min-width="120" />
         <el-table-column prop="userType" label="类别">
           <template #default="scope">
             {{ getPopulationType(scope.row.userType) }}</template
           >
         </el-table-column>
-        <el-table-column prop="timeStamp" label="时间" />
+        <el-table-column prop="timeStamp" label="时间" min-width="120" />
       </el-table>
       <el-pagination
         class="custom-pagination"
@@ -254,7 +254,7 @@ onMounted(() => {
   flex-wrap: wrap; /* 允许自动换行 */
   flex-direction: row;
   width: 60%;
-  margin: 2rem 0 5rem 0;
+  margin: 2rem 0;
 }
 
 .abnormal_content_button_item {
