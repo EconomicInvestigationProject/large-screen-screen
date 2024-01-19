@@ -124,12 +124,8 @@ let option = {
 
 const markers = [
   {
-    name: "济南",
-    value: [117, 36.65, 10],
-  },
-  {
-    name: "聊城",
-    value: [115.97, 36.45, 10],
+    name: "贤文花园",
+    value: [117.124099, 36.693762, 10],
   },
 ];
 
@@ -171,18 +167,22 @@ const renderMap = (map, data, parentName, flag) => {
       data: data,
     },
     {
-      // Add a new series for markers
-      type: "scatter",
+      show: true,
+      rippleEffect: {
+        // 涟漪特效相关配置。
+        scale: 4, // 控制涟漪大小
+      },
+      type: "effectScatter",
       coordinateSystem: "geo",
       data: markers.map((marker) => ({
         name: marker.name,
         value: marker.value,
-        symbol: "pin", // You can use other symbols for markers
-        symbolSize: 20, // Adjust the size of the marker symbol
+        symbol: "pin",
+        symbolSize: 20,
         label: {
           show: true,
-          position: "right", // Adjust the position of the label
-          formatter: "{b}", // Label format
+          position: "right",
+          formatter: "{b}",
         },
       })),
     },
@@ -218,7 +218,7 @@ const initChart = async () => {
   // renderMap("china", d);
 
   // 济南市初始化数据
-  let { data } = await axios.get("/map/city/" + cityMap['济南市'] + ".json");
+  let { data } = await axios.get("/map/city/" + cityMap["济南市"] + ".json");
   let d = [];
   for (var i = 0; i < data.features.length; i++) {
     d.push({
