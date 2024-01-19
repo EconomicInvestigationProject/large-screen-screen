@@ -41,7 +41,7 @@ export const addRecord = (params) => {
 };
 
 /**
- * 按条件实现分页查询
+ * 按条件实现重点人员分页查询
  */
 export const getKeypersonnelPage = (params) => {
   return request({
@@ -52,3 +52,15 @@ export const getKeypersonnelPage = (params) => {
   });
 };
 
+
+/**
+ * 按条件实现重点人员个人分页查询
+ */
+export const getPersonalPage = (params) => {
+  return request({
+    url: "/keypersonnel/personalPage",
+    method: "get",
+    data: params,
+    mock: false
+  });
+};

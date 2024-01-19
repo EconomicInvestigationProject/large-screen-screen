@@ -64,16 +64,6 @@
           >
         </el-table-column>
         <el-table-column prop="timeStamp" label="时间" />
-        <!-- <el-table-column prop="name" label="姓名">
-          <template #default="scope">
-            {{ (switchType ? scope.row.name : "***") || "" }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" label="身份证号" min-width="150">
-          <template #default="scope">
-            {{ (switchType ? scope.row.idCard : "***") || "" }}
-          </template>
-        </el-table-column> -->
       </el-table>
       <el-pagination
         class="custom-pagination"
@@ -91,12 +81,7 @@
   <script setup>
 import { onMounted, ref, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import {
-  keypersonnelStatistics,
-  deleteRecord,
-  addRecord,
-  getKeypersonnelPage,
-} from "../../../api/keypersonnel";
+import { getPersonalPage } from "../../../api/keypersonnel";
 import {
   getAbnormalType,
   getPopulationType,
@@ -107,15 +92,15 @@ const route = useRoute();
 const back = () => {
   router.back();
 };
-
+// 个人身份证号
+const idCard = ref("");
 // 头像
 const avatar = ref("");
 // 名字
 const name = ref("");
 // 重点人员列表
 const tableData = ref([]);
-// 是否显示敏感信息
-const switchType = ref(false);
+
 // 查询日期
 const date = ref([]);
 
@@ -148,6 +133,7 @@ const pageSize = ref(10); //每页显示条目个数
 const pageCount = ref(1); //总页数
 const total = ref(10); //总条数
 
+// 初始化分页
 const getPageData = async () => {
   let startDate = "";
   let endDate = "";
@@ -159,23 +145,30 @@ const getPageData = async () => {
     endDate = "";
   }
   const params = {
+    idCard: idCard.value,
     pageSize: pageSize.value,
     currentPage: currentPage.value,
     startDate: startDate,
     endDate: endDate,
   };
-  const res = await getKeypersonnelPage(params);
-
-  let data = res.data;
-  data.forEach((item) => {
-    item.facePath = "http://218.56.104.54:9001" + item.facePath;
-  });
-  currentPage.value = res.currentPage;
-  total.value = parseInt(res.total);
-  pageCount.value = parseInt(res.pageCount);
-  tableData.value = data;
+  try {
+    const res = await getPersonalPage(params);
+    if (res && res.data) {
+      let data = res.data;
+      data.forEach((item) => {
+        item.facePath = "http://218.56.104.54:9001" + item.facePath;
+      });
+      currentPage.value = res.currentPage;
+      total.value = parseInt(res.total);
+      pageCount.value = parseInt(res.pageCount);
+      tableData.value = data;
+    }
+  } catch (error) {
+    ElMessage.info(error);
+  }
 };
 
+//分页查询
 const handleCurrentChange = async (item) => {
   currentPage.value = item;
   let startDate = "";
@@ -188,32 +181,23 @@ const handleCurrentChange = async (item) => {
     endDate = "";
   }
   const params = {
+    idCard: idCard.value,
     pageSize: pageSize.value,
     currentPage: currentPage.value,
     startDate: startDate,
     endDate: endDate,
   };
-  const res = await getKeypersonnelPage(params);
-
-  let data = res.data;
-  data.forEach((item) => {
-    item.facePath = "http://218.56.104.54:9001" + item.facePath;
-  });
-  currentPage.value = res.currentPage;
-  total.value = parseInt(res.total);
-  pageCount.value = parseInt(res.pageCount);
-  tableData.value = data;
-};
-
-// 删除小区重点人员
-const deleteAbnormal = async (item) => {
-  const res = await deleteRecord({ idCard: item.idCard });
   try {
-    if (res === "删除成功") {
-      ElMessage.success(res);
-      getList();
-    } else {
-      ElMessage.info("操作失败");
+    const res = await getPersonalPage(params);
+    if (res && res.data) {
+      let data = res.data;
+      data.forEach((item) => {
+        item.facePath = "http://218.56.104.54:9001" + item.facePath;
+      });
+      currentPage.value = res.currentPage;
+      total.value = parseInt(res.total);
+      pageCount.value = parseInt(res.pageCount);
+      tableData.value = data;
     }
   } catch (error) {
     ElMessage.info(error);
@@ -222,9 +206,10 @@ const deleteAbnormal = async (item) => {
 
 onMounted(() => {
   const data = route.query && JSON.parse(route.query.data);
-  avatar.value = data.facePath;
-  name.value = data.name;
-  // getList();
+  idCard.value = data && data.idCard;
+  avatar.value = data && data.facePath;
+  name.value = data && data.name;
+  getPageData();
 });
 </script>
   
@@ -377,90 +362,9 @@ v-deep .el-table::-webkit-scrollbar-track {
   background-color: #fff;
 }
 
-// 设置弹窗的样式
-:deep(.my-dialog) {
-  background-color: transparent;
-}
-
-// 使用深度是选择器也生效了
-:deep(.el-dialog) {
-  background: rgba(0, 0, 0, 0.2) !important;
-  border: rgb(57, 140, 255) 1px solid;
-  backdrop-filter: blur(3px);
-}
-
-.el-dialog__header,
-:deep(.el-dialog__title) {
-  color: #fff;
-}
-
-:deep(.el-form-item__label) {
-  color: #fff;
-}
-.el-dialog__headerbtn {
-  color: #fff;
-}
-
-.el-dialog .el-button {
-  background-color: rgba(0, 0, 0, 0); /* 设置背景色为透明 */
-  color: #ffffff; /* 可选：设置文本颜色 */
-}
-
-.el-dialog .el-button:hover {
-  border: 1px solid #409efc; /* 设置悬停时的背景色为淡淡的透明色 */
-  color: #409efc; /* 可选：设置文本颜色 */
-}
-
-:deep(.el-dialog__title) {
-  color: rgb(255, 255, 255);
-  font-weight: 900;
-}
-
-:deep(.el-dialog__header) {
-  color: #fff;
-  text-align: center;
-  box-shadow: 0 0 1.5vw rgb(57, 140, 255) inset;
-  background-repeat: no-repeat;
-  margin-right: 0 !important;
-}
-
-.el-dialog__header .el-dialog__headerbtn :deep(.el-dialog__close) {
-  color: #fff !important;
-}
-
-:deep(.el-dialog__body) {
-  padding: 20px;
-  color: #fff;
-  box-shadow: 0 0 1.5vw rgb(57, 140, 255) inset;
-  background-repeat: no-repeat;
-}
-
 :deep(.el-form-item__content) {
   background-repeat: no-repeat;
   border-radius: 10px;
-}
-
-:deep(.planTitle) {
-  padding: 0 0 0 20px;
-  color: #8ae3e9;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-:deep(.planContent) {
-  color: #e6feff;
-  font-size: 16px;
-}
-
-:deep(.el-dialog) :deep(.el-button--primary) {
-  color: #fff;
-  border-color: rgb(57, 140, 255);
-  position: absolute;
-  margin-left: 374px;
-}
-
-.el-dialog .el-form .el-form-item :deep(.el-input__wrapper) {
-  background-color: transparent !important;
 }
 
 :deep(.el-pagination) {
@@ -497,7 +401,7 @@ v-deep .el-table::-webkit-scrollbar-track {
   color: var(--el-pagination-hover-color);
 }
 
-.abnormal_content_detail_avatar{
+.abnormal_content_detail_avatar {
   border: 1px solid #fff;
 }
 

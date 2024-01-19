@@ -295,16 +295,21 @@ const getPageData = async () => {
     endDate: endDate,
     userKeyType: personnelType.value,
   };
-  const res = await getKeypersonnelPage(params);
-
-  let data = res.data;
-  data.forEach((item) => {
-    item.facePath = "http://218.56.104.54:9001" + item.facePath;
-  });
-  currentPage.value = res.currentPage;
-  total.value = parseInt(res.total);
-  pageCount.value = parseInt(res.pageCount);
-  tableData.value = data;
+  try {
+    const res = await getKeypersonnelPage(params);
+    if (res && res.data) {
+      let data = res.data;
+      data.forEach((item) => {
+        item.facePath = "http://218.56.104.54:9001" + item.facePath;
+      });
+      tableData.value = data;
+      currentPage.value = res.currentPage;
+      total.value = parseInt(res.total);
+      pageCount.value = parseInt(res.pageCount);
+    }
+  } catch (error) {
+    ElMessage.info(error);
+  }
 };
 
 const handleCurrentChange = async (item) => {
@@ -325,16 +330,21 @@ const handleCurrentChange = async (item) => {
     endDate: endDate,
     userKeyType: personnelType.value,
   };
-  const res = await getKeypersonnelPage(params);
-
-  let data = res.data;
-  data.forEach((item) => {
-    item.facePath = "http://218.56.104.54:9001" + item.facePath;
-  });
-  currentPage.value = res.currentPage;
-  total.value = parseInt(res.total);
-  pageCount.value = parseInt(res.pageCount);
-  tableData.value = data;
+  try {
+    const res = await getKeypersonnelPage(params);
+    if (res && res.data) {
+      let data = res.data;
+      data.forEach((item) => {
+        item.facePath = "http://218.56.104.54:9001" + item.facePath;
+      });
+      tableData.value = data;
+      currentPage.value = res.currentPage;
+      total.value = parseInt(res.total);
+      pageCount.value = parseInt(res.pageCount);
+    }
+  } catch (error) {
+    ElMessage.info(error);
+  }
 };
 
 // 删除小区重点人员
@@ -360,7 +370,6 @@ const goAbnormalDeatil = (item) => {
       data: JSON.stringify(item),
     },
   });
-  console.log("item", item);
 };
 
 // 控制弹窗是否显示
