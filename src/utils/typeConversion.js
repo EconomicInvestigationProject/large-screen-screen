@@ -11,7 +11,7 @@ export const abnormalTypeArray = ref([
     value: 1
   },
   {
-    label: "社稳人员",
+    label: "涉稳人员",
     value: 2
   },
   {

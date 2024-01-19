@@ -206,7 +206,7 @@ const abnormalTypeArray = ref([
     value: "1",
   },
   {
-    label: "社稳人员",
+    label: "涉稳人员",
     value: "2",
   },
   {
@@ -242,7 +242,7 @@ const abnormalTypeArray2 = ref([
     value: "1",
   },
   {
-    label: "社稳人员",
+    label: "涉稳人员",
     value: "2",
   },
   {
