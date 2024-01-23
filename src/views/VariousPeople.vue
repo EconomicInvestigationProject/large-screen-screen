@@ -59,13 +59,6 @@ let option = reactive({
         color: function (colors) {
           var colorList = ["#129DD9", "#187AE4", "#1C65A1","#1C6588"];
           return colorList[colors.dataIndex];
-          // var colorList = [
-          //   { offset: 0, color: "#199DAD" },
-          //   { offset: 0.5, color: "#187AE8" },
-          //   { offset: 0.8, color: "#187AE9" },
-          //   { offset: 1, color: "#1C65A1" },
-          // ];
-          // return new echarts.graphic.LinearGradient(0, 0, 0, 1, colorList);
         },
         // },
       },
