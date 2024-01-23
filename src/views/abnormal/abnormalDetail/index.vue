@@ -57,7 +57,9 @@
             {{ getAbnormalType(scope.row.userKeyType) }}
           </template>
         </el-table-column>
-        <el-table-column prop="community" label="位置" min-width="120" />
+        <el-table-column prop="community" label="社区" min-width="120" />
+        <el-table-column prop="building" label="楼号-单元" min-width="120" />
+        <el-table-column prop="floor" label="楼层" min-width="120" />
         <el-table-column prop="userType" label="类别">
           <template #default="scope">
             {{ getPopulationType(scope.row.userType) }}</template
