@@ -82,7 +82,7 @@
             {{ (switchType ? scope.row.name : "***") || "" }}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="身份证号" min-width="120">
+        <el-table-column prop="idCard" label="身份证号" min-width="120">
           <template #default="scope">
             {{ (switchType ? scope.row.idCard : "***") || "" }}
           </template>
@@ -352,16 +352,12 @@ const handleCurrentChange = async (item) => {
 // 删除小区重点人员
 const deleteAbnormal = async (item) => {
   const res = await deleteRecord({ idCard: item.idCard });
-  try {
     if (res === "删除成功") {
       ElMessage.success(res);
       getList();
     } else {
       ElMessage.info("操作失败");
     }
-  } catch (error) {
-    ElMessage.info(error);
-  }
 };
 
 // 查看详情
@@ -388,11 +384,11 @@ const abnormalFormRules = reactive({
   name: [{ required: true, message: "请输入人员姓名", trigger: "blur" }],
   idCard: [
     { required: true, message: "请输入身份证件号码", trigger: "blur" },
-    {
-      pattern: /^\d{17}(\d|x)$/i,
-      message: "身份证号格式不正确",
-      trigger: "blur",
-    },
+    // {
+    //   pattern: /^\d{17}(\d|x)$/i,
+    //   message: "身份证号格式不正确",
+    //   trigger: "blur",
+    // },
   ],
   userKeyType: [{ required: true, message: "请选择人员类型", trigger: "blur" }],
 });
