@@ -57,7 +57,7 @@ let option = reactive({
       itemStyle: {
         // normal: {
         color: function (colors) {
-          var colorList = ["#129DD9", "#187AE4", "#1C65A1","#1C6588"];
+          var colorList = ["#129DD9", "#187AE4", "#1C4587","#1C6588"];
           return colorList[colors.dataIndex];
         },
         // },
