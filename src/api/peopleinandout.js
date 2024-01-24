@@ -1,7 +1,7 @@
 import request from "../utils/request.js";
 
 /*
- **小区人员搬入搬出统计
+ **所有小区人员搬入搬出统计接口
  */
 
 export const peopleinandoutStatistics = () => {

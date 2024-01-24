@@ -13,6 +13,10 @@
         <el-icon size="50" class="icon_img"><UserFilled /></el-icon>
         <span class="icon_name">重点人员</span>
       </div>
+      <div class="managementCenter_content_item" @click="goMoveOut">
+        <el-icon size="50" class="icon_img"><Van /></el-icon>
+        <span class="icon_name">搬入搬出分析</span>
+      </div>
     </div>
   </div>
 </template>
@@ -29,6 +33,11 @@ const back = () => {
 const goAbnormal = () => {
   router.push("/Abnormal");
 };
+
+// 搬入搬出管理
+const goMoveOut =()=>{
+  router.push("/MoveInOut");
+}
 
 onMounted(() => {});
 </script>
@@ -48,7 +57,7 @@ onMounted(() => {});
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0 10rem;
+  margin: 0 2rem;
   font-size: 2rem;
   height: 5rem;
 }

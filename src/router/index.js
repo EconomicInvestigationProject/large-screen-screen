@@ -39,7 +39,12 @@ const routes = [
         name: "AbnormalDetail",
         path: "/Abnormal/abnormalDetail",
         component: () => import("@/views/abnormal/abnormalDetail/index.vue")
-      }
+      },
+      {
+        name: "MoveInOut",
+        path: "/MoveInOut",
+        component: () => import("@/views/moveInOut/index.vue")
+      },
     ]
   },
   {
