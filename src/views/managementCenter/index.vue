@@ -5,10 +5,10 @@
       <span class="managementCenter_back_title">管理中心</span>
     </div>
     <div class="managementCenter_content">
-      <!-- <div class="managementCenter_content_item">
+      <div class="managementCenter_content_item">
         <el-icon size="50" class="icon_img"><OfficeBuilding /></el-icon>
         <span class="icon_name">社区人分析</span>
-      </div> -->
+      </div>
       <div class="managementCenter_content_item" @click="goAbnormal">
         <el-icon size="50" class="icon_img"><UserFilled /></el-icon>
         <span class="icon_name">重点人员</span>
