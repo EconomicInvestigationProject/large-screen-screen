@@ -443,7 +443,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 1rem 10rem;
+  margin: 0 2rem;
   font-size: 2rem;
   height: 5rem;
 }

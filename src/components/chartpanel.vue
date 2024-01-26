@@ -31,7 +31,7 @@ const props = defineProps({
   // 定义一个名为myMethod的prop，用于接收父组件传递的方法
   myMethod: {
     type: Function,
-    required: true,
+    required: false,
   },
 });
 
@@ -97,6 +97,11 @@ const callMyMethod = () => {
 
   .chart_right {
     font-size: 1.2rem;
+    width: 50px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .chart_content {

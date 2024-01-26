@@ -14,21 +14,13 @@
       </chartpanel>
       <chartpanel
         title="重点人员动态"
-        class="flex_1 chart indexscroll_chart"
+        class="flex_1 chart"
         rightTitle="详情"
         :my-method="keypersonneClick"
       >
-        <vue3-seamless-scroll :list="newsdatas" class="indexscroll">
-          <div
-            class="item flex"
-            v-for="(item, index) in newsdatas"
-            :key="index"
-          >
-            <div class="name">{{ item.name }}</div>
-            <div class="date">{{ item.timeStamp }}</div>
-            <div class="status">{{ item.status }}</div>
-          </div>
-        </vue3-seamless-scroll>
+        <keyPersonnelDiscount
+          class="keyPersonnelDiscount_view"
+        ></keyPersonnelDiscount>
       </chartpanel>
     </div>
     <div class="flylineDiagram_content">
@@ -53,34 +45,18 @@
 <script  setup>
 import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-import MapComponent from "./map.vue";
-import gauge from "./gauge.vue";
-import discount from "./discount.vue";
-import histogram from "./histogram.vue";
-import variousPeople from "./variousPeople.vue";
-import peopleinandout from "./peopleinandout.vue";
-import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
+import MapComponent from "./Map.vue";
+import gauge from "./Gauge.vue";
+import discount from "./Discount.vue";
+import keyPersonnelDiscount from "./KeyPersonnelDiscount.vue";
+import histogram from "./Histogram.vue";
+import variousPeople from "./VariousPeople.vue";
+import peopleinandout from "./Peopleinandout.vue";
 import chartpanel from "@/components/chartpanel.vue";
 import { ElMessage } from "element-plus";
-import { keypersonnelStatistics } from "../api/keypersonnel";
+
 // 实例化路由
 const router = useRouter();
-
-//社区动态数据
-const newsdatas = ref([
-  { title: "王佳乐", date: "2023-01-01", status: "进小区" },
-  { title: "李香琴", date: "2023-01-01", status: "进小区" },
-  { title: "王佳乐", date: "2023-01-01", status: "离开小区" },
-  { title: "-", date: "2023-01-01", status: "进小区" },
-  { title: "-", date: "2023-01-01", status: "离开小区" },
-  { title: "-", date: "2023-01-01", status: "进小区" },
-  { title: "刘佳", date: "2023-01-01", status: "进小区" },
-  { title: "张廷发", date: "2023-01-01", status: "离开小区" },
-  { title: "张慢", date: "2023-01-01", status: "进小区" },
-  { title: "-", date: "2023-01-01", status: "进小区" },
-  { title: "-", date: "2023-01-01", status: "离开小区" },
-  { title: "-", date: "2023-01-01", status: "进小区" },
-]);
 
 // 搬入搬离管理页面
 const peopleinandoutClick = () => {
@@ -90,23 +66,6 @@ const peopleinandoutClick = () => {
 // 重点人管理页面
 const keypersonneClick = () => {
   router.push({ name: "Abnormal" });
-};
-
-// 小区重点人员
-const getList = async () => {
-  const res = await keypersonnelStatistics();
-  if (res) {
-    let data = [];
-    data = res;
-    data.forEach((item) => {
-      if (item.status === "in") {
-        item.status = "进入小区";
-      } else if (item.status === "out") {
-        item.status = "离开小区";
-      }
-    });
-    newsdatas.value = data;
-  }
 };
 
 // 控制根据地图数据进行改变图标信息
@@ -120,9 +79,7 @@ const handleMessageFromChild = (message) => {
   }
 };
 
-onMounted(() => {
-  getList();
-});
+onMounted(() => {});
 </script>
 
 
@@ -179,40 +136,6 @@ onMounted(() => {
 
 .discount_view {
   height: 88%;
-}
-
-.indexscroll {
-  height: 25vh;
-  width: 100%;
-  overflow: hidden;
-}
-
-.indexscroll .item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1vh 0.8vh;
-  font-size: 1.4rem;
-  border-radius: 0.5vh;
-}
-
-.indexscroll .item:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.indexscroll .item .name {
-  width: auto;
-  min-width: 5vw;
-}
-
-.indexscroll .item .date {
-  width: auto;
-  min-width: 5vw;
-}
-
-.indexscroll .item .status {
-  width: auto;
-  min-width: 5vw;
 }
 
 .titleStyle {
@@ -280,10 +203,6 @@ onMounted(() => {
   .flylineDiagram_right {
     width: 100%;
     padding: 0px;
-  }
-
-  .indexscroll {
-    height: 30vh;
   }
 
   .histogram_view {

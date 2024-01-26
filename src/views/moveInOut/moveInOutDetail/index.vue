@@ -50,6 +50,11 @@
         height="500px"
         class="moveInOutDetail_content_table"
       >
+        <el-table-column prop="name" label="照片">
+          <template #default="scope">
+            <el-avatar :size="60" :src="scope.row.facePath" />
+          </template>
+        </el-table-column>
         <el-table-column prop="faceId" label="FaceId" min-width="150" />
         <el-table-column prop="userKeyType" label="类型">
           <template #default="scope">
@@ -83,7 +88,7 @@
 <script setup>
 import { onMounted, ref, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { getPersonalPage } from "../../../api/keypersonnel";
+import { getPersonalPage } from "../../../api/moveInout";
 import {
   getAbnormalType,
   getPopulationType,
@@ -211,7 +216,7 @@ onMounted(() => {
   idCard.value = data && data.idCard;
   avatar.value = data && data.facePath;
   name.value = data && data.name;
-  // getPageData();
+  getPageData();
 });
 </script>
     
@@ -230,7 +235,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 1rem 10rem;
+  margin: 0 2rem;
   font-size: 2rem;
   height: 5rem;
 }
