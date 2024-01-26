@@ -1,2 +1,4 @@
 # smart-community-screen
-智慧社区大屏
+社区网格员智慧社区大屏系统
+
+
