@@ -7,12 +7,13 @@
       </div>
       <div class="moveInOut_top_right">
         <el-select
-          v-model="personnelType"
+          v-model="community"
           placeholder="请选择小区"
           style="width: 240px"
+          @change="handleSelectChange"
         >
           <el-option
-            v-for="item in abnormalTypeArray"
+            v-for="item in communityTypeArray"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -24,11 +25,11 @@
       <div class="moveInOut_content_top">
         <div class="moveInOut_content_top_left">
           <span class="moveInOut_content_top_right_span">搬入总数</span>
-          <span>500</span>
+          <span>{{ TotalMovedInCount }}</span>
         </div>
         <div class="moveInOut_content_top_right">
           <span class="moveInOut_content_top_right_span">搬离总数</span>
-          <span>20</span>
+          <span>{{ TotalMovedOutCount }}</span>
         </div>
       </div>
       <div class="moveInOut_content_button">
@@ -38,12 +39,12 @@
           人员查询:
         </div>
         <el-select
-          v-model="personnelType"
+          v-model="moveType"
           placeholder="请选择类型"
           style="width: 240px"
         >
           <el-option
-            v-for="item in abnormalTypeArray"
+            v-for="item in moveTypeArray"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -117,7 +118,7 @@
     <script setup>
 import { onMounted, ref, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { getPersonalPage } from "../../api/keypersonnel";
+import { getTotal, getMoveInoutPage } from "../../api/moveInout";
 import { getAbnormalType, getPopulationType } from "../../utils/typeConversion";
 import { ElMessage } from "element-plus";
 const router = useRouter();
@@ -125,48 +126,55 @@ const route = useRoute();
 const back = () => {
   router.back();
 };
-// 个人身份证号
-const idCard = ref("");
-// 头像
-const avatar = ref("");
-// 名字
-const name = ref("");
-// 重点人员列表
-const tableData = ref([]);
 
-// 各类人员
-const abnormalTypeArray2 = ref([
+// 选中小区
+const community = ref("");
+// 小区列表
+const communityTypeArray = ref([
   {
-    label: "涉恐人员",
-    value: "1",
+    label: "全部",
+    value: "",
   },
   {
-    label: "涉稳人员",
-    value: "2",
+    label: "贤文花园新南区",
+    value: "贤文花园新南区",
   },
   {
-    label: "重大刑事犯罪前科人员",
-    value: "3",
+    label: "金龙怡心苑",
+    value: "金龙怡心苑",
+  },
+]);
+const TotalMovedInCount = ref("0");
+const TotalMovedOutCount = ref("0");
+
+// 根据不同小区显示不同数据
+const handleSelectChange = async () => {
+  let params = { community: community.value };
+  const res = await getTotal(params);
+  if (res) {
+    TotalMovedInCount.value = res.TotalMovedInCount;
+    TotalMovedOutCount.value = res.TotalMovedOutCount;
+    getPageData();
+  }
+};
+
+// 人员列表
+const tableData = ref([]);
+//搬入搬离类型
+const moveType = ref("");
+// 搬入搬离类型
+const moveTypeArray = ref([
+  {
+    label: "全部",
+    value: "",
   },
   {
-    label: "涉毒人员",
-    value: "4",
+    label: "搬入",
+    value: "搬入",
   },
   {
-    label: "在逃人员",
-    value: "5",
-  },
-  {
-    label: "肇事肇祸精神病人",
-    value: "6",
-  },
-  {
-    label: "重点上访人员",
-    value: "7",
-  },
-  {
-    label: "标记人员",
-    value: "8",
+    label: "搬离",
+    value: "搬离",
   },
 ]);
 
@@ -214,14 +222,15 @@ const getPageData = async () => {
     endDate = "";
   }
   const params = {
-    idCard: idCard.value,
+    community: community.value,
+    moveType: moveType.value,
     pageSize: pageSize.value,
     currentPage: currentPage.value,
     startDate: startDate,
     endDate: endDate,
   };
   try {
-    const res = await getPersonalPage(params);
+    const res = await getMoveInoutPage(params);
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
@@ -250,14 +259,15 @@ const handleCurrentChange = async (item) => {
     endDate = "";
   }
   const params = {
-    idCard: idCard.value,
+    community: community.value,
+    moveType: moveType.value,
     pageSize: pageSize.value,
     currentPage: currentPage.value,
     startDate: startDate,
     endDate: endDate,
   };
   try {
-    const res = await getPersonalPage(params);
+    const res = await getMoveInoutPage(params);
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
@@ -274,11 +284,8 @@ const handleCurrentChange = async (item) => {
 };
 
 onMounted(() => {
-  // const data = route.query && JSON.parse(route.query.data);
-  // idCard.value = data && data.idCard;
-  // avatar.value = data && data.facePath;
-  // name.value = data && data.name;
-  // getPageData();
+  handleSelectChange();
+  getPageData();
 });
 </script>
     
