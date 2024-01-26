@@ -4,12 +4,19 @@
       <chartpanel title="各类人员占比" class="flex_1 chart">
         <variousPeople class="variousPeople_view"></variousPeople>
       </chartpanel>
-      <chartpanel title="搬入搬出人员出占比" class="flex_1 chart">
+      <chartpanel
+        title="搬入搬出人员出占比"
+        class="flex_1 chart"
+        rightTitle="详情"
+        :my-method="peopleinandoutClick"
+      >
         <peopleinandout class="peopleinandout_view"></peopleinandout>
       </chartpanel>
       <chartpanel
         title="重点人员动态"
         class="flex_1 chart indexscroll_chart"
+        rightTitle="详情"
+        :my-method="keypersonneClick"
       >
         <vue3-seamless-scroll :list="newsdatas" class="indexscroll">
           <div
@@ -45,6 +52,7 @@
 
 <script  setup>
 import { onMounted, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 import MapComponent from "./map.vue";
 import gauge from "./gauge.vue";
 import discount from "./discount.vue";
@@ -55,58 +63,8 @@ import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 import chartpanel from "@/components/chartpanel.vue";
 import { ElMessage } from "element-plus";
 import { keypersonnelStatistics } from "../api/keypersonnel";
-
-let option2 = reactive({
-  title: {
-    text: "各类人口占比",
-    textStyle: {
-      color: "#fff",
-    },
-    show: false,
-  },
-  series: [
-    {
-      type: "pie",
-      label: {
-        color: "#fff",
-        fontStyle: "normal",
-        fontWeight: "bolder",
-      },
-      data: [
-        { name: "流入人口", value: 2000 },
-        { name: "流出人口", value: 3000 },
-      ],
-      insideLabel: {
-        show: true,
-      },
-    },
-  ],
-});
-
-let option3 = reactive({
-  title: {
-    text: "常住人口统计",
-    textStyle: {
-      color: "#fff",
-    },
-    show: false,
-  },
-  xAxis: {
-    type: "category",
-    boundaryGap: false,
-    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-  },
-  yAxis: {
-    type: "value",
-  },
-  series: [
-    {
-      data: [820, 932, 901, 934, 1290, 1330, 1320],
-      type: "line",
-      areaStyle: {},
-    },
-  ],
-});
+// 实例化路由
+const router = useRouter();
 
 //社区动态数据
 const newsdatas = ref([
@@ -123,6 +81,16 @@ const newsdatas = ref([
   { title: "-", date: "2023-01-01", status: "离开小区" },
   { title: "-", date: "2023-01-01", status: "进小区" },
 ]);
+
+// 搬入搬离管理页面
+const peopleinandoutClick = () => {
+  router.push({ name: "MoveInOut" });
+};
+
+// 重点人管理页面
+const keypersonneClick = () => {
+  router.push({ name: "Abnormal" });
+};
 
 // 小区重点人员
 const getList = async () => {
