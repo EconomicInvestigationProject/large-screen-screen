@@ -45,6 +45,11 @@ const routes = [
         path: "/MoveInOut",
         component: () => import("@/views/moveInOut/index.vue")
       },
+      {
+        name: "moveInOutDetail",
+        path: "/moveInOutDetail",
+        component: () => import("@/views/moveInOut/moveInOutDetail/index.vue")
+      },
     ]
   },
   {

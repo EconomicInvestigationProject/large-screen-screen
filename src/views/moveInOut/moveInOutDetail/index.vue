@@ -1,57 +1,28 @@
 <template>
-  <div class="moveInOut">
-    <div class="moveInOut_top">
-      <div class="moveInOut_top_left">
-        <el-icon size="20" @click="back"><CaretLeft /></el-icon>
-        <span class="moveInOut_top_left_span">新入/搬离</span>
-      </div>
-      <div class="moveInOut_top_right">
-        <el-select
-          v-model="community"
-          placeholder="请选择小区"
-          style="width: 240px"
-          @change="handleSelectChange"
-        >
-          <el-option
-            v-for="item in communityTypeArray"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </div>
+  <div class="moveInOutDetail">
+    <div class="moveInOutDetail_back">
+      <el-icon size="20" @click="back"><CaretLeft /></el-icon>
+      <span class="moveInOutDetail_back_span">人员详情</span>
     </div>
-    <div class="moveInOut_content">
-      <div class="moveInOut_content_top">
-        <div class="moveInOut_content_top_left">
-          <span class="moveInOut_content_top_right_span">搬入总数</span>
-          <span>{{ TotalMovedInCount }}</span>
-        </div>
-        <div class="moveInOut_content_top_right">
-          <span class="moveInOut_content_top_right_span">搬离总数</span>
-          <span>{{ TotalMovedOutCount }}</span>
+    <div class="moveInOutDetail_content">
+      <div class="moveInOutDetail_content_detail">
+        <el-avatar
+          class="moveInOutDetail_content_detail_avatar"
+          :size="80"
+          :src="avatar"
+        />
+        <div class="moveInOutDetail_content_detail_name">
+          {{ name || "匿名" }}
         </div>
       </div>
-      <div class="moveInOut_content_button">
+      <div class="moveInOutDetail_content_button">
         <div
-          class="moveInOut_content_button_item moveInOut_content_button_trajectory"
+          class="moveInOutDetail_content_button_item moveInOutDetail_content_button_trajectory"
         >
-          人员查询:
+          人员轨迹:
         </div>
-        <el-select
-          v-model="moveType"
-          placeholder="请选择类型"
-          style="width: 240px"
-        >
-          <el-option
-            v-for="item in moveTypeArray"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
         <div
-          class="moveInOut_content_button_date moveInOut_content_button_item"
+          class="moveInOutDetail_content_button_date moveInOutDetail_content_button_item"
         >
           <el-date-picker
             v-model="date"
@@ -66,7 +37,7 @@
         </div>
         <el-button
           color="#fff"
-          class="moveInOut_content_button_search moveInOut_content_button_item"
+          class="moveInOutDetail_content_button_search moveInOutDetail_content_button_item"
           @click="getPageData"
         >
           搜索
@@ -76,8 +47,8 @@
         :data="tableData"
         :header-cell-style="{ textAlign: 'center' }"
         :cell-style="{ textAlign: 'center' }"
-        height="400px"
-        class="moveInOut_content_table"
+        height="500px"
+        class="moveInOutDetail_content_table"
       >
         <el-table-column prop="name" label="照片">
           <template #default="scope">
@@ -101,13 +72,6 @@
         <el-table-column prop="timeStamp" label="时间" min-width="120" />
         <el-table-column prop="name" label="姓名" min-width="120" />
         <el-table-column prop="idCard" label="身份证" min-width="120" />
-        <el-table-column label="操作" min-width="120">
-          <template #default="scope">
-            <el-button link type="primary" @click="goMoveInOutDetail(scope.row)"
-              >详情</el-button
-            >
-          </template>
-        </el-table-column>
       </el-table>
       <el-pagination
         class="custom-pagination"
@@ -121,69 +85,28 @@
     </div>
   </div>
 </template>
-    
-    <script setup>
+<script setup>
 import { onMounted, ref, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { getTotal, getMoveInoutPage } from "../../api/moveInout";
-import { getAbnormalType, getPopulationType } from "../../utils/typeConversion";
+import { getPersonalPage } from "../../../api/moveInout";
+import {
+  getAbnormalType,
+  getPopulationType,
+} from "../../../utils/typeConversion";
 import { ElMessage } from "element-plus";
 const router = useRouter();
 const route = useRoute();
 const back = () => {
   router.back();
 };
-
-// 选中小区
-const community = ref("");
-// 小区列表
-const communityTypeArray = ref([
-  {
-    label: "全部",
-    value: "",
-  },
-  {
-    label: "贤文花园新南区",
-    value: "贤文花园新南区",
-  },
-  {
-    label: "金龙怡心苑",
-    value: "金龙怡心苑",
-  },
-]);
-const TotalMovedInCount = ref("0");
-const TotalMovedOutCount = ref("0");
-
-// 根据不同小区显示不同数据
-const handleSelectChange = async () => {
-  let params = { community: community.value };
-  const res = await getTotal(params);
-  if (res) {
-    TotalMovedInCount.value = res.TotalMovedInCount;
-    TotalMovedOutCount.value = res.TotalMovedOutCount;
-    getPageData();
-  }
-};
-
-// 人员列表
+// 个人身份证号
+const idCard = ref("");
+// 头像
+const avatar = ref("");
+// 名字
+const name = ref("");
+// 重点人员列表
 const tableData = ref([]);
-//搬入搬离类型
-const moveType = ref("");
-// 搬入搬离类型
-const moveTypeArray = ref([
-  {
-    label: "全部",
-    value: "",
-  },
-  {
-    label: "搬入",
-    value: "搬入",
-  },
-  {
-    label: "搬离",
-    value: "搬离",
-  },
-]);
 
 // 查询日期
 const date = ref([]);
@@ -229,15 +152,14 @@ const getPageData = async () => {
     endDate = "";
   }
   const params = {
-    community: community.value,
-    moveType: moveType.value,
+    idCard: idCard.value,
     pageSize: pageSize.value,
     currentPage: currentPage.value,
     startDate: startDate,
     endDate: endDate,
   };
   try {
-    const res = await getMoveInoutPage(params);
+    const res = await getPersonalPage(params);
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
@@ -266,15 +188,14 @@ const handleCurrentChange = async (item) => {
     endDate = "";
   }
   const params = {
-    community: community.value,
-    moveType: moveType.value,
+    idCard: idCard.value,
     pageSize: pageSize.value,
     currentPage: currentPage.value,
     startDate: startDate,
     endDate: endDate,
   };
   try {
-    const res = await getMoveInoutPage(params);
+    const res = await getPersonalPage(params);
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
@@ -290,23 +211,17 @@ const handleCurrentChange = async (item) => {
   }
 };
 
-const goMoveInOutDetail = (item) => {
-  router.push({
-    name: "moveInOutDetail",
-    query: {
-      data: JSON.stringify(item),
-    },
-  });
-};
-
 onMounted(() => {
-  handleSelectChange();
+  const data = route.query && JSON.parse(route.query.data);
+  idCard.value = data && data.idCard;
+  avatar.value = data && data.facePath;
+  name.value = data && data.name;
   getPageData();
 });
 </script>
     
     <style lang="scss" scoped>
-.moveInOut {
+.moveInOutDetail {
   display: flex;
   flex-direction: column;
   height: 92.5vh;
@@ -316,34 +231,24 @@ onMounted(() => {
   padding: 0;
 }
 
-.moveInOut_top {
+.moveInOutDetail_back {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  margin: 0 2rem;
   font-size: 2rem;
   height: 5rem;
-  margin: 0 2rem;
 }
 
-.moveInOut_top_left {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.moveInOut_top_left_span {
-  margin-left: 10px;
-}
-
-.moveInOut_top_span {
+.moveInOutDetail_back_span {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-left: 1rem;
 }
 
-.moveInOut_content {
+.moveInOutDetail_content {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -351,92 +256,64 @@ onMounted(() => {
   justify-content: center;
 }
 
-.moveInOut_content_top {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
-.moveInOut_content_top_left,
-.moveInOut_content_top_right {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 40px;
-  border: 2px solid #fff;
-  margin: 2rem 0 4rem 0;
-}
-
-.el-select :deep(.el-input__wrapper) {
-  background-color: transparent !important;
-  color: #fff !important;
-}
-
-:deep(.el-input__inner) {
-  color: #fff;
-}
-
-.moveInOut_content_button {
+.moveInOutDetail_content_button {
   display: flex;
   flex-wrap: wrap; /* 允许自动换行 */
   flex-direction: row;
   width: 60%;
-  margin: 3rem 0 2rem 0;
+  margin: 2rem 0;
 }
 
-.moveInOut_content_button_item {
+.moveInOutDetail_content_button_item {
   margin-right: 20px;
   margin-bottom: 10px;
 }
 
 /* 当视图宽度小于600像素时应用的样式 */
 @media screen and (max-width: 630px) {
-  .moveInOut_content_button {
+  .moveInOutDetail_content_button {
     min-width: auto;
   }
-  .moveInOut_content_button_item {
+  .moveInOutDetail_content_button_item {
     margin: 10px 0;
   }
 }
 
-.moveInOut_content_button_switch :deep(.el-switch__label) {
+.moveInOutDetail_content_button_switch :deep(.el-switch__label) {
   min-width: 120px;
   color: #fff !important;
 }
 
-.moveInOut_content_button :deep(.el-input__wrapper) {
+.moveInOutDetail_content_button :deep(.el-input__wrapper) {
   background-color: transparent !important;
   color: #fff !important;
 }
 
-.moveInOut_content_button :deep(.el-input__inner) {
+.moveInOutDetail_content_button :deep(.el-input__inner) {
   color: #fff;
 }
 
-.moveInOut_content_button_date {
-  margin-left: 10px;
+.moveInOutDetail_content_button_date {
   width: 300px;
 }
 
-.moveInOut_content_button_search {
+.moveInOutDetail_content_button_search {
   margin-left: 10px;
 }
 
 /* 使用类名或者标签选择器来选中 el-button 元素 */
-.moveInOut_content_button .el-button {
+.moveInOutDetail_content_button .el-button {
   background-color: rgba(0, 0, 0, 0); /* 设置背景色为透明 */
   color: #ffffff; /* 可选：设置文本颜色 */
 }
 
 /* 如果想要在按钮悬停时有一些效果，可以添加 hover 样式 */
-.moveInOut_content_button .el-button:hover {
+.moveInOutDetail_content_button .el-button:hover {
   border: 1px solid #409efc; /* 设置悬停时的背景色为淡淡的透明色 */
   color: #409efc; /* 可选：设置文本颜色 */
 }
 
-.moveInOut_content_table {
+.moveInOutDetail_content_table {
   width: 60%;
   --el-table-border-color: rgba(222, 253, 255, 0.16);
 }
@@ -531,7 +408,22 @@ v-deep .el-table::-webkit-scrollbar-track {
   color: var(--el-pagination-hover-color);
 }
 
-.moveInOut_content_button_trajectory {
+.moveInOutDetail_content_detail_avatar {
+  border: 1px solid #fff;
+}
+
+.moveInOutDetail_content_detail_name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.moveInOutDetail_content_button_trajectory {
   display: flex;
   flex-direction: column;
   align-items: center;

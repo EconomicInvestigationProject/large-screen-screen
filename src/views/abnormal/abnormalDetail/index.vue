@@ -158,7 +158,7 @@ const getPageData = async () => {
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
-        item.facePath = "http://218.56.104.54:9001" + item.facePath;
+        item.facePath = item.facePath || "";
       });
       currentPage.value = res.currentPage;
       total.value = parseInt(res.total);
@@ -194,7 +194,7 @@ const handleCurrentChange = async (item) => {
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
-        item.facePath = "http://218.56.104.54:9001" + item.facePath;
+        item.facePath = item.facePath || "";
       });
       currentPage.value = res.currentPage;
       total.value = parseInt(res.total);
@@ -230,7 +230,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 1rem 10rem;
+  margin: 0rem 2rem;
   font-size: 2rem;
   height: 5rem;
 }

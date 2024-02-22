@@ -33,7 +33,7 @@ export const getMoveInoutPage = (params) => {
  */
 export const getPersonalPage = (params) => {
   return request({
-    url: "/keypersonnel/personalPage",
+    url: "/moveInout/personalPage",
     method: "get",
     data: params,
     mock: false

@@ -76,7 +76,7 @@
             {{ getPopulationType(scope.row.userType) }}</template
           >
         </el-table-column>
-        <el-table-column prop="timeStamp" label="时间" min-width="120"/>
+        <el-table-column prop="timeStamp" label="时间" min-width="120" />
         <el-table-column prop="name" label="姓名">
           <template #default="scope">
             {{ (switchType ? scope.row.name : "***") || "" }}
@@ -87,7 +87,7 @@
             {{ (switchType ? scope.row.idCard : "***") || "" }}
           </template>
         </el-table-column>
-        <el-table-column label="操作"  min-width="120">
+        <el-table-column label="操作" min-width="120">
           <template #default="scope">
             <el-button link type="primary" @click="deleteAbnormal(scope.row)"
               >删除</el-button
@@ -160,7 +160,7 @@ import { getAbnormalType, getPopulationType } from "../../utils/typeConversion";
 import { ElMessage } from "element-plus";
 const router = useRouter();
 const back = () => {
-  router.push("/ManagementCenter");
+  router.back();
 };
 
 // 控制节点
@@ -302,7 +302,7 @@ const getPageData = async () => {
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
-        item.facePath = "http://218.56.104.54:9001" + item.facePath;
+        item.facePath = item.facePath || "";
       });
       tableData.value = data;
       currentPage.value = res.currentPage;
@@ -337,7 +337,7 @@ const handleCurrentChange = async (item) => {
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
-        item.facePath = "http://218.56.104.54:9001" + item.facePath;
+        item.facePath = item.facePath || "";
       });
       tableData.value = data;
       currentPage.value = res.currentPage;
@@ -352,12 +352,12 @@ const handleCurrentChange = async (item) => {
 // 删除小区重点人员
 const deleteAbnormal = async (item) => {
   const res = await deleteRecord({ idCard: item.idCard });
-    if (res === "删除成功") {
-      ElMessage.success(res);
-      getList();
-    } else {
-      ElMessage.info("操作失败");
-    }
+  if (res === "删除成功") {
+    ElMessage.success(res);
+    getList();
+  } else {
+    ElMessage.info("操作失败");
+  }
 };
 
 // 查看详情
@@ -443,7 +443,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 1rem 10rem;
+  margin: 0 2rem;
   font-size: 2rem;
   height: 5rem;
 }

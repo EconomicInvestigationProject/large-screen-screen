@@ -1,7 +1,17 @@
 <template>
   <div class="chart" :style="chartStyles">
-    <div class="chart_title" :style="customStyles" v-if="title">
-      {{ title }}
+    <div class="chart_top">
+      <div class="chart_title" :style="customStyles" v-if="title">
+        {{ title }}
+      </div>
+      <div
+        class="chart_right"
+        :style="customStyles"
+        v-if="rightTitle"
+        @click="callMyMethod"
+      >
+        {{ rightTitle }}
+      </div>
     </div>
     <div class="chart_content">
       <slot></slot>
@@ -15,9 +25,20 @@ import { ref, reactive, defineEmits, defineProps } from "vue";
 //外部参数
 const props = defineProps({
   title: String,
+  rightTitle: String,
   chartStyles: Object,
   customStyles: Object,
+  // 定义一个名为myMethod的prop，用于接收父组件传递的方法
+  myMethod: {
+    type: Function,
+    required: false,
+  },
 });
+
+const callMyMethod = () => {
+  // 调用父组件传递过来的方法
+  props.myMethod();
+};
 </script>
 <style lang="scss" scoped>
 .chart {
@@ -48,7 +69,10 @@ const props = defineProps({
     border-right: 2px solid #02a6b5;
   }
 
-  .chart_title {
+  .chart_top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     font-size: 1.8rem;
     font-weight: bold;
     line-height: 3vh;
@@ -67,6 +91,17 @@ const props = defineProps({
     margin: 0 1rem;
     -webkit-background-clip: text;
     color: transparent;
+  }
+  .chart_title {
+  }
+
+  .chart_right {
+    font-size: 1.2rem;
+    width: 50px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .chart_content {
