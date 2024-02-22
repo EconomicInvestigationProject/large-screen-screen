@@ -39,6 +39,7 @@ let option = reactive({
     {
       type: "pie",
       avoidLabelOverlap: false,
+      radius: '80', // 或者使用数字，如 radius: 100
       itemStyle: {
         borderRadius: 10,
         borderColor: "#060E3F",
@@ -59,22 +60,8 @@ let option = reactive({
       itemStyle: {
         // normal: {
         color: function (colors) {
-          // var colorList = ["#129DD9", "#187AE4"];
-          // return colorList[colors.dataIndex];
-          // params.dataIndex表示数据项的索引
-          var colorList = [
-            { offset: 0, color: "#129DD9" }, // 开始颜色
-            { offset: 1, color: "#187AE4" }, // 结束颜色
-          ];
-          var linearGradient = new echarts.graphic.LinearGradient(
-            0,
-            0,
-            0,
-            1,
-            colorList
-          );
-          return linearGradient;
-          // },
+          var colorList = ["#129DD9", "#187AE4"];
+          return colorList[colors.dataIndex];
         },
       },
       emphasis: {

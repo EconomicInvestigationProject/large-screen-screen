@@ -1,6 +1,6 @@
 <template>
   <div class="map">
-    <div @click="back" class="back">全国</div>
+    <!-- <div @click="back" class="back">全国</div> -->
     <!-- <BaiduMap
     v-if="showMap"
     :maplng="maplng"
@@ -124,12 +124,8 @@ let option = {
 
 const markers = [
   {
-    name: "济南",
-    value: [117, 36.65, 10],
-  },
-  {
-    name: "聊城",
-    value: [115.97, 36.45, 10],
+    name: "贤文花园",
+    value: [117.124099, 36.693762, 10],
   },
 ];
 
@@ -171,18 +167,22 @@ const renderMap = (map, data, parentName, flag) => {
       data: data,
     },
     {
-      // Add a new series for markers
-      type: "scatter",
+      show: true,
+      rippleEffect: {
+        // 涟漪特效相关配置。
+        scale: 4, // 控制涟漪大小
+      },
+      type: "effectScatter",
       coordinateSystem: "geo",
       data: markers.map((marker) => ({
         name: marker.name,
         value: marker.value,
-        symbol: "pin", // You can use other symbols for markers
-        symbolSize: 20, // Adjust the size of the marker symbol
+        symbol: "pin",
+        symbolSize: 20,
         label: {
           show: true,
-          position: "right", // Adjust the position of the label
-          formatter: "{b}", // Label format
+          position: "right",
+          formatter: "{b}",
         },
       })),
     },
@@ -203,18 +203,31 @@ const renderMap = (map, data, parentName, flag) => {
 const initChart = async () => {
   // 基于准备好的dom，初始化echarts实例
   myChart.value = echarts.init(document.getElementById("mapChart"));
-  let { data } = await axios.get("/map/china.json");
+  //全国数据
+  // let { data } = await axios.get("/map/china.json");
+  // let d = [];
+  // for (var i = 0; i < data.features.length; i++) {
+  //   d.push({
+  //     name: data.features[i].properties.name,
+  //   });
+  // }
+  // mapdata = d;
+  //注册地图
+  // echarts.registerMap("china", data);
+  //绘制地图
+  // renderMap("china", d);
+
+  // 济南市初始化数据
+  let { data } = await axios.get("/map/city/" + cityMap["济南市"] + ".json");
   let d = [];
   for (var i = 0; i < data.features.length; i++) {
     d.push({
       name: data.features[i].properties.name,
     });
   }
-  mapdata = d;
-  //注册地图
-  echarts.registerMap("china", data);
-  //绘制地图
-  renderMap("china", d);
+  echarts.registerMap("jinan", data);
+  renderMap("jinan", d);
+
   // 使用刚指定的配置项和数据显示图表。
   myChart.value.setOption(option);
 };

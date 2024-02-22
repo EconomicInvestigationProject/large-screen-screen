@@ -26,10 +26,30 @@ const routes = [
         component: () => import("@/views/variousPeople.vue")
       },
       {
+        name: "ManagementCenter",
+        path: "/ManagementCenter",
+        component: () => import("@/views/managementCenter/index.vue")
+      },
+      {
         name: "Abnormal",
         path: "/Abnormal",
         component: () => import("@/views/abnormal/index.vue")
-      }
+      },
+      {
+        name: "AbnormalDetail",
+        path: "/Abnormal/abnormalDetail",
+        component: () => import("@/views/abnormal/abnormalDetail/index.vue")
+      },
+      {
+        name: "MoveInOut",
+        path: "/MoveInOut",
+        component: () => import("@/views/moveInOut/index.vue")
+      },
+      {
+        name: "moveInOutDetail",
+        path: "/moveInOutDetail",
+        component: () => import("@/views/moveInOut/moveInOutDetail/index.vue")
+      },
     ]
   },
   {

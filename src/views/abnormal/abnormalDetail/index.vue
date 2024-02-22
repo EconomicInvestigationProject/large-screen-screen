@@ -2,28 +2,23 @@
   <div class="abnormal">
     <div class="abnormal_back">
       <el-icon size="20" @click="back"><CaretLeft /></el-icon>
-      <span class="abnormal_back_span">重点人员管理</span>
+      <span class="abnormal_back_span">人员详情</span>
     </div>
     <div class="abnormal_content">
-      <div class="abnormal_content_button">
-        <el-switch
-          v-model="switchType"
-          inactive-text="是否隐藏敏感信息"
-          class="abnormal_content_button_switch abnormal_content_button_item"
+      <div class="abnormal_content_detail">
+        <el-avatar
+          class="abnormal_content_detail_avatar"
+          :size="80"
+          :src="avatar"
         />
-        <el-select
-          v-model="personnelType"
-          class="abnormal_content_button_select abnormal_content_button_item"
-          popper-class="abnormal_content_button_select"
-          style="width: 240px"
+        <div class="abnormal_content_detail_name">{{ name || "匿名" }}</div>
+      </div>
+      <div class="abnormal_content_button">
+        <div
+          class="abnormal_content_button_item abnormal_content_button_trajectory"
         >
-          <el-option
-            v-for="item in abnormalTypeArray"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
+          人员轨迹:
+        </div>
         <div class="abnormal_content_button_date abnormal_content_button_item">
           <el-date-picker
             v-model="date"
@@ -43,12 +38,6 @@
         >
           搜索
         </el-button>
-        <el-button
-          type="default"
-          @click="dialogTableVisible = true"
-          class="abnormal_content_button_item"
-          >标记重点人员</el-button
-        >
       </div>
       <el-table
         :data="tableData"
@@ -62,7 +51,7 @@
             <el-avatar :size="60" :src="scope.row.facePath" />
           </template>
         </el-table-column>
-        <el-table-column prop="faceId" label="FaceId" min-width="120" />
+        <el-table-column prop="faceId" label="FaceId" min-width="150" />
         <el-table-column prop="userKeyType" label="类型">
           <template #default="scope">
             {{ getAbnormalType(scope.row.userKeyType) }}
@@ -77,26 +66,6 @@
           >
         </el-table-column>
         <el-table-column prop="timeStamp" label="时间" min-width="120" />
-        <el-table-column prop="name" label="姓名">
-          <template #default="scope">
-            {{ (switchType ? scope.row.name : "***") || "" }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="idCard" label="身份证号" min-width="120">
-          <template #default="scope">
-            {{ (switchType ? scope.row.idCard : "***") || "" }}
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" min-width="120">
-          <template #default="scope">
-            <el-button link type="primary" @click="deleteAbnormal(scope.row)"
-              >删除</el-button
-            >
-            <el-button link type="primary" @click="goAbnormalDeatil(scope.row)"
-              >详情</el-button
-            >
-          </template>
-        </el-table-column>
       </el-table>
       <el-pagination
         class="custom-pagination"
@@ -109,68 +78,31 @@
       />
     </div>
   </div>
-  <div id="my-dialog">
-    <el-dialog v-model="dialogTableVisible" title="标记重点人员">
-      <el-form
-        ref="abnormalFormRef"
-        :rules="abnormalFormRules"
-        :model="abnormalForm"
-        label-width="120px"
-      >
-        <el-form-item label="姓名" prop="name">
-          <el-input v-model="abnormalForm.name" />
-        </el-form-item>
-        <el-form-item label="身份证件号" style="color: #fff" prop="idCard">
-          <el-input v-model="abnormalForm.idCard" />
-        </el-form-item>
-        <el-form-item label="人员类型" prop="userKeyType">
-          <el-select
-            v-model="abnormalForm.userKeyType"
-            class="abnormal_content_button_select abnormal_content_button_item"
-            popper-class="abnormal_content_button_select"
-            style="width: 240px"
-          >
-            <el-option
-              v-for="item in abnormalTypeArray2"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button @click="onSubmit(abnormalFormRef)">提交</el-button>
-          <el-button @click="onCancel(abnormalFormRef)">取消</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-  </div>
 </template>
-
-<script setup>
+  
+  <script setup>
 import { onMounted, ref, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
+import { getPersonalPage } from "../../../api/keypersonnel";
 import {
-  keypersonnelStatistics,
-  deleteRecord,
-  addRecord,
-  getKeypersonnelPage,
-} from "../../api/keypersonnel";
-import { getAbnormalType, getPopulationType } from "../../utils/typeConversion";
+  getAbnormalType,
+  getPopulationType,
+} from "../../../utils/typeConversion";
 import { ElMessage } from "element-plus";
 const router = useRouter();
+const route = useRoute();
 const back = () => {
   router.back();
 };
-
-// 控制节点
-const abnormalFormRef = ref(null);
+// 个人身份证号
+const idCard = ref("");
+// 头像
+const avatar = ref("");
+// 名字
+const name = ref("");
 // 重点人员列表
 const tableData = ref([]);
-// 是否显示敏感信息
-const switchType = ref(false);
-// 人员类型
-const personnelType = ref("");
+
 // 查询日期
 const date = ref([]);
 
@@ -197,89 +129,13 @@ const pickerOptions = reactive({
   },
 });
 
-// 各类人员
-const abnormalTypeArray = ref([
-  {
-    label: "全部",
-    value: "",
-  },
-  {
-    label: "涉恐人员",
-    value: "1",
-  },
-  {
-    label: "涉稳人员",
-    value: "2",
-  },
-  {
-    label: "重大刑事犯罪前科人员",
-    value: "3",
-  },
-  {
-    label: "涉毒人员",
-    value: "4",
-  },
-  {
-    label: "在逃人员",
-    value: "5",
-  },
-  {
-    label: "肇事肇祸精神病人",
-    value: "6",
-  },
-  {
-    label: "重点上访人员",
-    value: "7",
-  },
-  {
-    label: "标记人员",
-    value: "8",
-  },
-]);
-
-// 各类人员
-const abnormalTypeArray2 = ref([
-  {
-    label: "涉恐人员",
-    value: "1",
-  },
-  {
-    label: "涉稳人员",
-    value: "2",
-  },
-  {
-    label: "重大刑事犯罪前科人员",
-    value: "3",
-  },
-  {
-    label: "涉毒人员",
-    value: "4",
-  },
-  {
-    label: "在逃人员",
-    value: "5",
-  },
-  {
-    label: "肇事肇祸精神病人",
-    value: "6",
-  },
-  {
-    label: "重点上访人员",
-    value: "7",
-  },
-  {
-    label: "标记人员",
-    value: "8",
-  },
-]);
-
 //实现分页查询
 const currentPage = ref(1); //当前页数
 const pageSize = ref(10); //每页显示条目个数
 const pageCount = ref(1); //总页数
 const total = ref(10); //总条数
 
-// 初始化数据
+// 初始化分页
 const getPageData = async () => {
   let startDate = "";
   let endDate = "";
@@ -291,29 +147,30 @@ const getPageData = async () => {
     endDate = "";
   }
   const params = {
+    idCard: idCard.value,
     pageSize: pageSize.value,
     currentPage: currentPage.value,
     startDate: startDate,
     endDate: endDate,
-    userKeyType: personnelType.value,
   };
   try {
-    const res = await getKeypersonnelPage(params);
+    const res = await getPersonalPage(params);
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
         item.facePath = item.facePath || "";
       });
-      tableData.value = data;
       currentPage.value = res.currentPage;
       total.value = parseInt(res.total);
       pageCount.value = parseInt(res.pageCount);
+      tableData.value = data;
     }
   } catch (error) {
     ElMessage.info(error);
   }
 };
 
+//分页查询
 const handleCurrentChange = async (item) => {
   currentPage.value = item;
   let startDate = "";
@@ -326,109 +183,39 @@ const handleCurrentChange = async (item) => {
     endDate = "";
   }
   const params = {
+    idCard: idCard.value,
     pageSize: pageSize.value,
     currentPage: currentPage.value,
     startDate: startDate,
     endDate: endDate,
-    userKeyType: personnelType.value,
   };
   try {
-    const res = await getKeypersonnelPage(params);
+    const res = await getPersonalPage(params);
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
         item.facePath = item.facePath || "";
       });
-      tableData.value = data;
       currentPage.value = res.currentPage;
       total.value = parseInt(res.total);
       pageCount.value = parseInt(res.pageCount);
+      tableData.value = data;
     }
   } catch (error) {
     ElMessage.info(error);
   }
 };
 
-// 删除小区重点人员
-const deleteAbnormal = async (item) => {
-  const res = await deleteRecord({ idCard: item.idCard });
-  if (res === "删除成功") {
-    ElMessage.success(res);
-    getList();
-  } else {
-    ElMessage.info("操作失败");
-  }
-};
-
-// 查看详情
-const goAbnormalDeatil = (item) => {
-  router.push({
-    name: "AbnormalDetail",
-    query: {
-      data: JSON.stringify(item),
-    },
-  });
-};
-
-// 控制弹窗是否显示
-const dialogTableVisible = ref(false);
-// 定义表单结构
-const abnormalForm = reactive({
-  name: "",
-  idCard: "",
-  userKeyType: "",
-});
-
-// 重点人员提交校验
-const abnormalFormRules = reactive({
-  name: [{ required: true, message: "请输入人员姓名", trigger: "blur" }],
-  idCard: [
-    { required: true, message: "请输入身份证件号码", trigger: "blur" },
-    // {
-    //   pattern: /^\d{17}(\d|x)$/i,
-    //   message: "身份证号格式不正确",
-    //   trigger: "blur",
-    // },
-  ],
-  userKeyType: [{ required: true, message: "请选择人员类型", trigger: "blur" }],
-});
-
-//新增重点人员功能
-const onSubmit = (abnormalFormRef) => {
-  abnormalFormRef.validate(async (valid) => {
-    if (valid) {
-      // 表单校验通过，可以执行提交等操作
-      if (abnormalForm) {
-        const res = await addRecord(abnormalForm);
-        if (res === "添加成功") {
-          abnormalForm.name = "";
-          abnormalForm.idCard = "";
-          abnormalForm.userKeyType = "";
-          dialogTableVisible.value = false;
-          ElMessage.success(res);
-        }
-      }
-    } else {
-      ElMessage.error("表单填写有误");
-    }
-  });
-};
-
-// 取消提交重点人员
-const onCancel = (abnormalFormRef) => {
-  abnormalFormRef.resetFields();
-  abnormalForm.name = "";
-  abnormalForm.idCard = "";
-  abnormalForm.userKeyType = "";
-  dialogTableVisible.value = false;
-};
-
 onMounted(() => {
+  const data = route.query && JSON.parse(route.query.data);
+  idCard.value = data && data.idCard;
+  avatar.value = data && data.facePath;
+  name.value = data && data.name;
   getPageData();
 });
 </script>
-
-<style lang="scss" scoped>
+  
+  <style lang="scss" scoped>
 .abnormal {
   display: flex;
   flex-direction: column;
@@ -443,7 +230,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0 2rem;
+  margin: 0rem 2rem;
   font-size: 2rem;
   height: 5rem;
 }
@@ -469,7 +256,7 @@ onMounted(() => {
   flex-wrap: wrap; /* 允许自动换行 */
   flex-direction: row;
   width: 60%;
-  margin: 2rem 0 5rem 0;
+  margin: 2rem 0;
 }
 
 .abnormal_content_button_item {
@@ -577,90 +364,9 @@ v-deep .el-table::-webkit-scrollbar-track {
   background-color: #fff;
 }
 
-// 设置弹窗的样式
-:deep(.my-dialog) {
-  background-color: transparent;
-}
-
-// 使用深度是选择器也生效了
-:deep(.el-dialog) {
-  background: rgba(0, 0, 0, 0.2) !important;
-  border: rgb(57, 140, 255) 1px solid;
-  backdrop-filter: blur(3px);
-}
-
-.el-dialog__header,
-:deep(.el-dialog__title) {
-  color: #fff;
-}
-
-:deep(.el-form-item__label) {
-  color: #fff;
-}
-.el-dialog__headerbtn {
-  color: #fff;
-}
-
-.el-dialog .el-button {
-  background-color: rgba(0, 0, 0, 0); /* 设置背景色为透明 */
-  color: #ffffff; /* 可选：设置文本颜色 */
-}
-
-.el-dialog .el-button:hover {
-  border: 1px solid #409efc; /* 设置悬停时的背景色为淡淡的透明色 */
-  color: #409efc; /* 可选：设置文本颜色 */
-}
-
-:deep(.el-dialog__title) {
-  color: rgb(255, 255, 255);
-  font-weight: 900;
-}
-
-:deep(.el-dialog__header) {
-  color: #fff;
-  text-align: center;
-  box-shadow: 0 0 1.5vw rgb(57, 140, 255) inset;
-  background-repeat: no-repeat;
-  margin-right: 0 !important;
-}
-
-.el-dialog__header .el-dialog__headerbtn :deep(.el-dialog__close) {
-  color: #fff !important;
-}
-
-:deep(.el-dialog__body) {
-  padding: 20px;
-  color: #fff;
-  box-shadow: 0 0 1.5vw rgb(57, 140, 255) inset;
-  background-repeat: no-repeat;
-}
-
 :deep(.el-form-item__content) {
   background-repeat: no-repeat;
   border-radius: 10px;
-}
-
-:deep(.planTitle) {
-  padding: 0 0 0 20px;
-  color: #8ae3e9;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-:deep(.planContent) {
-  color: #e6feff;
-  font-size: 16px;
-}
-
-:deep(.el-dialog) :deep(.el-button--primary) {
-  color: #fff;
-  border-color: rgb(57, 140, 255);
-  position: absolute;
-  margin-left: 374px;
-}
-
-.el-dialog .el-form .el-form-item :deep(.el-input__wrapper) {
-  background-color: transparent !important;
 }
 
 :deep(.el-pagination) {
@@ -695,5 +401,29 @@ v-deep .el-table::-webkit-scrollbar-track {
 
 :deep(.el-pagination) .el-pager li.is-active {
   color: var(--el-pagination-hover-color);
+}
+
+.abnormal_content_detail_avatar {
+  border: 1px solid #fff;
+}
+
+.abnormal_content_detail_name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.abnormal_content_button_trajectory {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
 }
 </style>
