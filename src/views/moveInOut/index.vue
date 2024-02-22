@@ -241,7 +241,7 @@ const getPageData = async () => {
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
-        item.facePath = "http://218.56.104.54:9001" + item.facePath;
+        item.facePath = item.facePath || "";
       });
       currentPage.value = res.currentPage;
       total.value = parseInt(res.total);
@@ -278,7 +278,7 @@ const handleCurrentChange = async (item) => {
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
-        item.facePath = "http://218.56.104.54:9001" + item.facePath;
+        item.facePath = item.facePath || "";
       });
       currentPage.value = res.currentPage;
       total.value = parseInt(res.total);

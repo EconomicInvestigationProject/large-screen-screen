@@ -302,7 +302,7 @@ const getPageData = async () => {
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
-        item.facePath = "http://218.56.104.54:9001" + item.facePath;
+        item.facePath = item.facePath || "";
       });
       tableData.value = data;
       currentPage.value = res.currentPage;
@@ -337,7 +337,7 @@ const handleCurrentChange = async (item) => {
     if (res && res.data) {
       let data = res.data;
       data.forEach((item) => {
-        item.facePath = "http://218.56.104.54:9001" + item.facePath;
+        item.facePath = item.facePath || "";
       });
       tableData.value = data;
       currentPage.value = res.currentPage;
